@@ -1,0 +1,187 @@
+\documentclass[french]{report}
+ 
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{babel}
+\usepackage{hyperref}
+\usepackage[a4paper, margin=3cm]{geometry}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[bottom]{footmisc}
+\usepackage{gensymb}
+
+\setlength{\parindent}{0em}
+\setlength{\parskip}{1em}
+
+\begin{document}
+
+\title{Serado Annonces}
+\author{David Alvarez Restrepo <\href{mailto:devdav@pm.me}{devdav@pm.me}>}
+\maketitle
+
+\chapter{Analyse}
+
+\section{Définition des besoins}
+Deux acteurs utiliserons le système:
+\begin{itemize}
+    \item Directeur de Serado
+    \item Possesseurs de l'application mobile \og Serado Annonce\fg{}
+\end{itemize}
+
+Le directeur de Serado pourra insérer des annonces, afin que ces dernières
+soient consultable à partir de l'application mobile. Il pourra également insérer
+d'autres informations (informations générales) avec des liens (par exemple. référence vers un article), qui
+n'ont pas de rapport avec les annonces.
+
+Les utilisateurs de l'application mobile pourront consulter les annonces ainsi que
+consulter les informations générales. Les missions les plus proches apparaîtront
+en premier dans la liste. Ils pourront aussi trier les annonces selon leur
+ancienneté. Il n'y aura qu'une seule liste, les annonces temporaires et fixes étant
+mélangées. Sur la liste qui affichera les annonces, il n'y aura peu d'informations.
+Lorsque l'utilisateur clique sur une annonce, il aura une vue détaillée de cette
+dernière.
+
+L'application devra aussi contenir une partie qui référencera les sites suivants:
+\begin{itemize}
+    \item employee-de-maison.ch
+    \item Pôle-Formation
+    \item Hotellerie-Restauration
+\end{itemize}
+\vspace{1em}
+Enfin, l'application devra être disponible sur iPhone et sur Android.
+
+\section{Charte graphique}
+À part le logo qui pourra être réutilisé pour les applications mobiles, il n'y a
+aucune contraintes.
+
+\section{Analyse du système}
+Cette section décrit plus en détail et schématiquement ce qui a été dit dans la
+section précédente.
+
+Le diagramme de cas d'utilisations permet d'avoir un aperçu des acteurs et de leurs actions au sein du
+système.
+
+Il y a deux acteurs: le \textbf{directeur} et les \textbf{employés}. Le \textbf{directeur}
+peut déjà \textbf{insérer/modifier/supprimer une annonce} à partir de
+\textit{WordPress} (Ce qui est déjà existant avant l'analyse est entouré d'un
+rectangle gris). En ce qui concerne le cas d'utilisation
+\textbf{insérer/modifier/supprimer une info générale}, Le mieux sera de l'intégrer
+à \textit{WordPress}. Si nous n'y parvenons pas, soit un autre système
+sera créé, soit cette fonctionnalité sera mise de côté.
+
+L'\textbf{employé} pourra consulter les \textbf{annonces} (ainsi que les détails de ces dernières)
+et consulter les \textbf{informations générales} et leurs détails. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{../diags/serado_uc.pdf}
+    \caption{Diagramme de cas d'utilisation}
+    \label{use_case_diagram}
+\end{figure}
+
+\subsection{Analyse de l'existant}
+
+Le cas d'utilisation \textbf{Insérer/modifier/supprimer} existe déjà et il est
+effectué à partir de \textit{WordPress}. Vu qu'il existe, inutile de créer un autre
+système qui effectuera la même chose. L'idéal est d'utiliser ce qui existe déjà. Il
+va donc falloir trouver un moyen de récupérer ces informations afin de les afficher
+dans l'application mobile.
+
+\textbf{Remarque:} ces informations peuvent être visualisées à la page 
+\url{https://serado.ch/offres-demploi/}
+
+Il y a deux moyens pour récupérer ces informations:
+\begin{enumerate}
+    \item Étudier \textit{WordPress} afin de voir comment mettre en place une
+    API\footnote{Application Programming Interface} qui servent les entités
+    \textbf{offres d'emploi} au format JSON.
+    \item Analyser le contenu de l'URL \url{https://serado.ch/offres-demploi/} afin
+    de créer un objet JSON à partir du contenu de ce lien.
+\end{enumerate}
+\vspace{1em}
+
+Puisque la personne qui gère \textit{WordPress} est absente cette semaine
+(11.11.2019), nous partirons plutôt sur la méthode n\degree2.
+
+Ensuite, puisque on utilise \textit{WordPress} pour insérer les offres d'emploi,
+l'idéal serait de aussi l'utiliser pour insérer les informations générales.
+Autrement il faudrait créer un autre sytème entier uniquement pour cela, ce qui n'est
+pas rentable. Cette fonctionnalité pourra être effectuée à partir de la deuxième semaine
+(18.11.2019) du projet, lorsque la personne qui gère \textit{WordPress} sera disponible.
+
+Pour résumer, il faudrait utiliser \textit{WordPress} pour le cas d'utilisation
+\textbf{Insérer/modifier/supprimer une info générale} et voir s'il est possible de
+créer une API qui renvoie uniquement les données demandées (et non pas toute la
+page HTML).
+
+
+\section{Choix des technologies}
+
+\subsection{Langage de programmation / Framework}
+Le but est de livrer une application mobile qui soit compatible avec \textit{iOS}
+et \textit{Android}. On va donc utiliser un langage qui permet la programmation
+d'application \textit{cross-platform}. J'en connais deux:
+\begin{itemize}
+    \item \textit{React Native}
+    \item \textit{Ionic}
+\end{itemize}
+Je choisis \textbf{\textit{Ionic}} pour les raisons suivantes:
+\begin{enumerate}
+    \item Pas besoin d'avoir une application native (60 FPS\footnote{Frame Per Second}),
+    une \textit{WebView} à 30 FPS est suffisant.
+    \item \textit{Ionic} est basé sur \textit{Angular}, que je trouve plus \og
+    propre \fg{} que \textit{React Native}.
+    \item \textit{Ionic} offre aussi une application pour \textit{Windows Phone} (même si
+    cela représente moins de 1\% du marché).
+    \item Le projet \textit{Ionic} pourra être adapté très facilement afin de créer
+    un site web mobile, et ainsi toucher même les personnes n'ayant pas l'application
+    installée.
+\end{enumerate}
+\vspace{1em}
+
+En ce qui concerne l'\textbf{interface administrateur}, nous continuerons d'utiliser
+\textit{WordPress}.
+
+
+\subsection{API tierces}
+Afin d'afficher une \textit{map} (carte), l'API de google sera utilisée:
+\url{https://developers.google.com/maps/documentation/javascript/tutorial}. Afin de
+pouvoir l'utiliser, il faudra rentrer un numéro de carte de crédit. L'utilisation
+de l'API est gratuite: \url{https://cloud.google.com/maps-platform/pricing/sheet/}. 
+
+
+\subsection{Déploiement}
+
+Le framework \textit{Ionic} permettra de créer les exécutables (\verb|.apk| et
+\verb|.app|). Il faudra ensuite les mettre dans leur store respectif 
+\textit{Play Store} et \textit{App Store} afin que les futurs utilisateurs puissent
+la télécharger. Pour ce faire, voici la procédure:
+\begin{description}
+    \item[Play Store] Créer un compte \textit{Android Developer} (25\$, à vie), puis poster
+    l'exécutable (\verb|.apk|) et attendre que \textit{Google} valide l'application.
+    Procédure: \url{https://ionicframework.com/docs/publishing/play-store}.
+    \item[App Store] Créer un compte \textit{Apple Developer Program} (100\$/année),
+    puis suivre la procédure: \url{https://ionicframework.com/docs/publishing/app-store}.
+\end{description}
+
+
+\section{Permissions}
+L'application demandera à l'utilisateur de le localiser afin de:
+\begin{enumerate}
+    \item Trier les annonces en fonction de la distance
+    \item Afficher l'utilisateur sur une carte. La carte sera affichée dans chaque
+    annonce détaillée. Ceci permettra de voir la distance entre l'utilisateur et le
+    lieu de l'emploi en un clin d'\oe il
+\end{enumerate}
+
+
+\chapter{Conception}
+Dans ce chapitre, les cas d'utilisation seront décrit plus en détail (fiches
+descriptives). Il comprendra aussi les maquettes UI\footnote{User Interface}.
+
+\section{Fiches descriptives}
+
+
+
+\end{document}
+
