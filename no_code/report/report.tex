@@ -185,10 +185,37 @@ cas d'utilisation. Elles sont au format \textit{Markdown} (à ouvrir directement
 \textit{GitHub} ou bien dans le programme \textit{Typora }). Chaque fiche descriptive
 a une référence vers un ou plusieurs écrans présents dans les maquettes.
 
-\section{Maquettes}
+\section{Navigation}
+La navigation se fera à l'aide d'un \textit{drawer}. Ceci permet de ne pas surcharger
+toutes les pages avec un \textit{bottom navigation} par exemple.
 
-Le fichier \verb|pdf| contenant toutes les maquettes se trouve dans 
-\verb|no_code/mocks/serado.pdf|. Le voici:
+Les pages suivantes seront accessibles à partir du \textit{ďrawer}:
+\begin{itemize}
+    \item Liste des annonces
+    \item Liste des information générales
+    \item List des partenaires
+\end{itemize}
+\vspace{1em}
+
+\textbf{L'application affichera l'écran "Liste des annonces" par défaut.}
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{.4\textwidth}
+        \centering
+        \includegraphics[width=0.7\linewidth]{../imgs/drawer-closed}
+        \caption{Drawer fermé}
+    \end{minipage}
+    \begin{minipage}{0.4\textwidth}
+        \centering
+        \includegraphics[width=0.7\linewidth]{../imgs/drawer-opened}
+        \caption{Drawer ouvert}
+    \end{minipage}
+\end{figure}
+
+\section{Maquettes}
+Les maquettes sont des fichiers au format \verb|pdf| dans le dossier
+\verb|no_code/mocks/|.
 
 \begin{figure}[H]
     \centering
