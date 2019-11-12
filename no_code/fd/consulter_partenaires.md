@@ -4,14 +4,14 @@
 | - | - |
 |Auteur|D. Alvarez|
 |Date|12.11.2019|
-|Acteur concerné|Utilisateur de l'app, base de données|
-|Description|L'utilisateur consulte une annonce en particulier|
-|Préconditions|Consulter la liste des annonces|
+|Acteur concerné|Utilisateur de l'app|
+|Description|L'utilisateur consulte la page **Partenaires**|
+|Préconditions|-|
 
 ## Scénario nominal
 | Étape | Utilisateur | Système |
 |-------|-------------|---------|
-| 1.    |             | Récupère les informations de l'annonce et les affiche |
+| 1.    |             | Affiche les infos concernant les partenaires |
 
 Fin du cas d'utilisation
 
@@ -22,8 +22,8 @@ Débute après le point 1 du scénario nominal
 
 | Étape | Utilisateur | Système |
 |-------|-------------|---------|
-| 1.    | Clique soit sur l'adresse email, soit sur le n° de téléphone ||
-| 2.    |             | Lance l'application email ou téléphone en remplissant le destinataire soit avec l'adresse email, soit avec le n° de téléphone |
+| 1.    | Clique soit sur le lien d'un partenaire ||
+| 2.    |             | Ouvre le site du partenaire dans le navigateur |
 
 Fin du cas d'utilisation
 
@@ -36,5 +36,5 @@ Fin du cas d'utilisation
 Fin du cas d'utilisation
 
 ## Maquettes
-**2a**
+**4a**
 
