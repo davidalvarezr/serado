@@ -30,5 +30,5 @@ Débute après le point 1 du scénario nominal
 Fin du cas d'utilisation
 
 ## Maquettes
-**5a**
+**5a**, **5b** et **5c**
 
