@@ -241,5 +241,40 @@ Les maquettes sont des fichiers au format \verb|pdf| dans le dossier
 Il est préférable d'ouvrir directement le fichier \verb|pdf| afin de mieux voir
 chacun des écrans.
 
+\section{Traitement des listes}
+Vu que le nombre maximal d'objet dans une liste est d'environ 50 (50 annonces).
+Nous pouvons récupérer directement tous les éléments de la liste à partir de la base
+de données. Pas besoin de s'embêter avec un système de pagination.
+
+Les listes (\textbf{annonces} \& \textbf{infos générales}) seront rafraîchie dans 
+les cas de figure suivants:
+\begin{itemize}
+    \item \textit{Pull to refresh}\footnote{\textit{Swipe} vers le bas lorsque l'on
+    se trouve en haut d'une liste}.
+    \item Lorsque l'écran se charge pour la première fois.
+    \item Lorsque une page s'affiche, alors que cela fait plus de 5 minutes qu'elle
+    avait charger ses données.
+    seulement si cela fait plus 
+\end{itemize}
+
+\section{État global de l'application}
+Nous utiliserons \textit{@ngrx/store} (\url{https://ngrx.io/guide/store}) afin de gérer l'état global de l'application.
+
+Les éléments suivants devront être stockés:
+\begin{itemize}
+    \item \textbf{Liste des annonces}
+    \item Heure du dernier chargement de la \textbf{liste des annonces}
+    \item \textbf{Liste des informations générales}
+    \item Heure du dernier chargement de la \textbf{liste des infos générales}
+\end{itemize}
+
+\section{Paramètres de l'application}
+Il n'y aura qu'un seul paramètre:
+\begin{itemize}
+    \item Activer/désactiver la localisation
+\end{itemize}
+Ceci permettra à l'utilisateur qui avec refuser l'accès à sa localisation de
+l'autoriser plus tard s'il le souhaite.
+
 \end{document}
 
