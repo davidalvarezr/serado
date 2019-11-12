@@ -4,7 +4,7 @@
 | - | - |
 |Auteur|D. Alvarez|
 |Date|11.11.2019|
-|Acteur concerné|Utilisateur de l'app|
+|Acteurs concernés|Utilisateur de l'app, base de données|
 |Description|L'utilisateur consulte la liste des annonces|
 |Préconditions|Aucune|
 
