@@ -4,7 +4,7 @@
 | - | - |
 |Auteur|D. Alvarez|
 |Date|11.11.2019|
-|Acteur concerné|Utilisateur de l'app|
+|Acteurs concernés|Utilisateur de l'app, base de données|
 |Description|L'utilisateur consulte la liste des annonces|
 |Préconditions|Aucune|
 
@@ -63,4 +63,7 @@ Débute après le point **5b** ou **7b** du **scénario nominal** ou le point **
 | Étape | Utilisateur | Système |
 |-------|-------------|---------|
 | 1.    |             | --> **scenario nominal** point **10**
+
+## Maquettes
+**1a**, **1b** et **1c**
 
