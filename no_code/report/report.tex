@@ -257,6 +257,10 @@ les cas de figure suivants:
     seulement si cela fait plus 
 \end{itemize}
 
+\section{Traitement de la position}
+La position de l'utilisateur sera rafraîchie à chaque fois que la liste \textbf{annonces}
+sera rafraîchie, si l'application a l'autorisation de localiser l'utilisateur.
+
 \section{État global de l'application}
 Nous utiliserons \textit{@ngrx/store} (\url{https://ngrx.io/guide/store}) afin de 
 gérer l'état global de l'application.
@@ -267,6 +271,20 @@ Les éléments suivants devront être stockés:
     \item Heure du dernier chargement de la \textbf{liste des annonces}
     \item \textbf{Liste des informations générales}
     \item Heure du dernier chargement de la \textbf{liste des infos générales}
+    \item La position GPS de l'utilisateur
+\end{itemize}
+
+\subsection{Actions}
+Afin de modifier l'état global de l'application, nous allons devoir \textit{dispatcher}
+des actions. Les voici:
+\begin{itemize}
+    \item \verb|LOAD_ADS|
+    \item \verb|LOAD_ADS_SUCCESS|
+    \item \verb|LOAD_ADS_FAILURE|
+    \item \verb|LOAD_INFOS|
+    \item \verb|LOAD_INFOS_SUCCESS|
+    \item \verb|LOAD_INFOS_FAILURE|
+    \item \verb|SET_POSITION|
 \end{itemize}
 
 \section{Paramètres de l'application}
