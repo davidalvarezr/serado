@@ -1,0 +1,42 @@
+<ion-card>
+    <ion-card-header>
+        <!--<ion-card-subtitle>Card Subtitle</ion-card-subtitle>-->
+        <ion-card-title>{{ad.title}}</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content class="row">
+
+     <ion-grid>
+
+      <ion-row>
+       <ion-col size="12" class="label">
+        <b class="">Lieu&nbsp;:&nbsp;</b>
+       </ion-col>
+       <ion-col size="12" class="val">
+        {{ad.location}}
+       </ion-col>
+      </ion-row>
+
+      <ion-row>
+       <ion-col size="12" class="label">
+        <b class="">Contrat&nbsp;:&nbsp;</b>
+       </ion-col>
+       <ion-col size="12" class="val">
+        {{ad.contract}}
+       </ion-col>
+      </ion-row>
+
+      <ion-row>
+       <ion-col size="12" class="label">
+        <b class="">Début de la mission&nbsp;:&nbsp;</b>
+       </ion-col>
+       <ion-col size="12" class="val">
+        {{ad.beginning}}
+       </ion-col>
+      </ion-row>
+
+     </ion-grid>
+
+    </ion-card-content>
+</ion-card>
+
