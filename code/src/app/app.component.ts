@@ -6,7 +6,7 @@ import {StatusBar} from '@ionic-native/status-bar/ngx';
 import {AppState} from './models/Models';
 import {Action, Store} from '@ngrx/store';
 import { Storage } from '@ionic/storage';
-import * as AppActions from './ngx-store/actions/app.actions';
+import * as PositionActions from './ngx-store/actions/position.actions';
 
 
 @Component({
@@ -43,7 +43,7 @@ export class AppComponent {
     ) {
         this.initializeApp();
 
-        this.storageToStore();
+        this.position_storageToStore();
     }
 
     initializeApp() {
@@ -53,12 +53,13 @@ export class AppComponent {
         });
     }
 
-    private storageToStore(): Promise<void> {
-        return this.storage.get('state') // returns null if 'state' key doesn't exist
-            .then(state => {
-                if (state) {
+    private position_storageToStore(): Promise<void> {
+        return this.storage.get('position') // returns null if 'state' key doesn't exist
+            .then(position => {
+                if (position) {
                     // It will fill all reducers with the value stores in local storage
-                    this.store.dispatch(AppActions.APP_INIT(state));
+                    // this.store.dispatch(AppActions.APP_INIT(state));
+                    this.store.dispatch(PositionActions.SET_POSITION(position));
                 }
             });
     }

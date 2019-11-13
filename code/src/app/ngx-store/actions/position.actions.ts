@@ -1,11 +1,10 @@
 import { createAction, props } from '@ngrx/store';
-import {AdsSort} from '../../models/Models';
-import {Position} from '../reducers/position.reducer';
+import * as fromPosition from '../reducers/position.reducer';
 
 
 export const SET_POSITION = createAction(
     '[POSITION] SET POSITION',
-    props<{str: string, pos: Position}>()
+    props<{positionReducerState: fromPosition.State}>()
 );
 
 export const RESET = createAction(
