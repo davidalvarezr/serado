@@ -303,5 +303,15 @@ Il n'y aura qu'un seul paramètre:
 Ceci permettra à l'utilisateur qui avec refuser l'accès à sa localisation de
 l'autoriser plus tard s'il le souhaite.
 
+\section{Requêtes HTTP}
+Puisque l'application sera disponible à partir d'applications mobiles et du web,
+il va falloir traiter les requêtes HTTP différemment:
+\begin{itemize}
+    \item Utiliser la classe \textit{HttpClient} pour les requêtes web
+    \item Utiliser la classe \textit{HTTP} pour les requêtes mobiles
+\end{itemize}
+On créera une \textit{Factory} qui retournera le bon objet en fonction de la
+plateforme où nous nous trouvons.
+
 \end{document}
 

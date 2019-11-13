@@ -10,6 +10,7 @@ import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
 import {StoreModule} from '@ngrx/store';
 import * as fromLists from './ngx-store/reducers/lists.reducers.js';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
     declarations: [AppComponent],
@@ -18,6 +19,7 @@ import * as fromLists from './ngx-store/reducers/lists.reducers.js';
         BrowserModule,
         IonicModule.forRoot(),
         AppRoutingModule,
+        HttpClientModule,
         StoreModule.forRoot({ lists: fromLists.reducer }) // ngrx-store
     ],
     providers: [

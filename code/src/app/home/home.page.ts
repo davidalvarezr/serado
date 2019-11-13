@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import {HttpFactory} from '../models/httpFactory/HttpFactory';
+import {HttpClient} from '@angular/common/http';
 
 @Component({
   selector: 'app-home',
@@ -7,6 +9,8 @@ import { Component } from '@angular/core';
 })
 export class HomePage {
 
-  constructor() {}
+  constructor(httpFactory: HttpClient) {
+    console.log('Inside, home.page.ts constructor');
+  }
 
 }
