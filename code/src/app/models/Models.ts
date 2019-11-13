@@ -16,7 +16,7 @@ export interface Position {
     long: number;
 }
 
-export enum AdSort {
+export enum AdsSort {
     PositionAsc,
     PositionDesc,
     DateAsc,
