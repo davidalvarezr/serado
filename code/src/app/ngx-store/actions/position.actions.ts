@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import {AdsSort} from '../../models/Models';
-import {Position} from '../reducers/position.reducers';
+import {Position} from '../reducers/position.reducer';
 
 
 export const SET_POSITION = createAction(

@@ -10,6 +10,7 @@ import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
 import {StoreModule} from '@ngrx/store';
 import * as fromLists from './ngx-store/reducers/lists.reducer.js';
+import * as fromPosition from './ngx-store/reducers/position.reducer';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {Interceptor} from './http-interceptors/interceptor';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
@@ -24,7 +25,7 @@ import {IonicStorageModule} from '@ionic/storage';
         AppRoutingModule,
         HttpClientModule,
         IonicStorageModule.forRoot(),
-        StoreModule.forRoot({ lists: fromLists.reducer }) // ngrx-store
+        StoreModule.forRoot({ lists: fromLists.reducer, position: fromPosition.reducer}) // ngrx-store
     ],
     providers: [
         StatusBar,

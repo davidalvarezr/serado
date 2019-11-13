@@ -1,3 +1,6 @@
+import {State as ListsState} from '../ngx-store/reducers/lists.reducer.js';
+import {State as PositionState} from '../ngx-store/reducers/position.reducer.js';
+
 export interface Ad {
     title: string;
     location: string;
@@ -18,5 +21,8 @@ export enum AdsSort {
     DateDesc
 }
 
-
+export interface AppState {
+    lists: ListsState;
+    position: PositionState;
+}
 
