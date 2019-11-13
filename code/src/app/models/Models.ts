@@ -5,6 +5,12 @@ export interface Ad {
     beginning: string;
 }
 
+export interface Info {
+    title: string;
+    description: string;
+    link: string;
+}
+
 export interface Position {
     lat: number;
     long: number;
