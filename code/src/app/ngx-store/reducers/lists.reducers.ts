@@ -1,5 +1,5 @@
 import {Ad, AdsSort, Info} from '../../models/Models';
-import {createReducer, on} from '@ngrx/store';
+import {Action, createReducer, on} from '@ngrx/store';
 import * as ListsActions from '../actions/lists.actions.js';
 
 export interface AdsState {
@@ -13,13 +13,13 @@ export interface InfosState {
     lastLoad: number; // number of milliseconds since midnight 01 January, 1970 UTC
 }
 
-export interface ListsReducerState {
+export interface State {
     ads: AdsState;
     infos: InfosState;
 }
 
 
-export const listReducerInitialState: ListsReducerState = {
+export const initialState: State = {
     ads: {
         lastLoad: Date.now(),
         list: [],
@@ -31,8 +31,8 @@ export const listReducerInitialState: ListsReducerState = {
     }
 };
 
-const ListsReducer = createReducer(
-    listReducerInitialState,
+const listsReducer = createReducer(
+    initialState,
     on(ListsActions.LOAD_ADS, state => state),
     on(ListsActions.LOAD_ADS_SUCCESS, state => state),
     on(ListsActions.LOAD_ADS_FAILURE, state => state),
@@ -46,5 +46,9 @@ const ListsReducer = createReducer(
     on(ListsActions.LOAD_INFOS, state => state),
     on(ListsActions.LOAD_INFOS_SUCCESS, state => state),
     on(ListsActions.LOAD_INFOS_FAILURE, state => state),
-    on(ListsActions.RESET, state => listReducerInitialState)
+    on(ListsActions.RESET, state => initialState)
 )
+
+export function reducer(state: State | undefined, action: Action) {
+    return listsReducer(state, action);
+}
