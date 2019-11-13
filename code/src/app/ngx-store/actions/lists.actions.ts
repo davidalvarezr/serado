@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import {AdSort} from '../../models/Models';
+import {AdsSort} from '../../models/Models';
 
 export const LOAD_ADS = createAction(
   '[LISTS] LOAD ADS'
@@ -15,7 +15,7 @@ export const LOAD_ADS_FAILURE = createAction(
 
 export const SORT_ADS = createAction(
     '[LISTS] SORT ADS',
-    props<{sort: AdSort}>()
+    props<{sort: AdsSort}>()
 );
 
 export const LOAD_INFOS = createAction(
@@ -28,4 +28,9 @@ export const LOAD_INFOS_SUCCESS = createAction(
 
 export const LOAD_INFOS_FAILURE = createAction(
     '[LISTS] LOAD INFOS FAILURE'
+);
+
+
+export const RESET = createAction(
+    '[LISTS] RESET'
 );
