@@ -1,9 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {Ad} from '../../models/Models';
+import {Ad, AppState} from '../../models/Models';
 import {HttpClient} from '@angular/common/http';
 import {routes} from '../../../environments/routes';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Storage } from '@ionic/storage';
+import {Store} from '@ngrx/store';
+import * as PositionActions from '../../ngx-store/actions/position.actions.js';
 
 @Component({
     selector: 'app-ad-list-page',
@@ -14,7 +16,7 @@ export class AdListPage implements OnInit {
 
     adList: Ad[];
 
-    constructor(private http: HttpClient, private geolocation: Geolocation, private storage: Storage) {
+    constructor(private http: HttpClient, private geolocation: Geolocation, private storage: Storage, private store: Store<AppState>) {
         this.http.get(routes.getAds)
             .subscribe(
                 (res: any) => {
@@ -27,6 +29,8 @@ export class AdListPage implements OnInit {
             const long = resp.coords.longitude;
 
             console.log(`You are currently at (${lat}, ${long})`);
+
+            store.dispatch(PositionActions.SET_POSITION({str: '', pos: { lat, long }}));
         }).catch((error) => {
             // TODO: if permission denied, save it
             console.log('Error getting location', error);
@@ -37,7 +41,7 @@ export class AdListPage implements OnInit {
         // FIXME: Storing object works in the browser. Test it on cordova platform as well !
         this.storage.set('test', {msg: 'it works !'})
             .then(msg => {
-                this.storage.get('test')
+                this.storage.get('jean')
                     .then(elt => console.log('The element retrieved : ', elt));
             })
             .catch(err => { console.error(err); });

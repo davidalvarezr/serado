@@ -15,6 +15,7 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {Interceptor} from './http-interceptors/interceptor';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import {IonicStorageModule} from '@ionic/storage';
+import {EffectsModule} from '@ngrx/effects';
 
 @NgModule({
     declarations: [AppComponent],
@@ -25,6 +26,7 @@ import {IonicStorageModule} from '@ionic/storage';
         AppRoutingModule,
         HttpClientModule,
         IonicStorageModule.forRoot(),
+        EffectsModule.forRoot([]),
         StoreModule.forRoot({ lists: fromLists.reducer, position: fromPosition.reducer}) // ngrx-store
     ],
     providers: [

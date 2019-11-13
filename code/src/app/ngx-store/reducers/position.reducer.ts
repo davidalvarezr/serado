@@ -1,5 +1,6 @@
 import {Action, createReducer, on} from '@ngrx/store';
 import * as PositionActions from '../actions/position.actions.js';
+import * as AppActions from '../actions/app.actions';
 
 
 export interface Position {
@@ -24,6 +25,8 @@ const positionReducer = createReducer(
         str,
         pos,
     })),
+    // INIT and RESET
+    on(AppActions.APP_INIT, (state, { wholeState }) => wholeState.position),
     on(PositionActions.RESET, state => initialState)
 )
 

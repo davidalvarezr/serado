@@ -3,8 +3,11 @@ import {Component} from '@angular/core';
 import {Platform} from '@ionic/angular';
 import {SplashScreen} from '@ionic-native/splash-screen/ngx';
 import {StatusBar} from '@ionic-native/status-bar/ngx';
-import {Store} from '@ngrx/store';
 import {AppState} from './models/Models';
+import {Action, Store} from '@ngrx/store';
+import { Storage } from '@ionic/storage';
+import * as AppActions from './ngx-store/actions/app.actions';
+
 
 @Component({
     selector: 'app-root',
@@ -12,6 +15,7 @@ import {AppState} from './models/Models';
     styleUrls: ['app.component.scss']
 })
 export class AppComponent {
+
     public appPages = [
         {
             title: 'Home',
@@ -38,6 +42,8 @@ export class AppComponent {
         private store: Store<AppState>,
     ) {
         this.initializeApp();
+
+        this.storageToStore();
     }
 
     initializeApp() {
@@ -45,5 +51,15 @@ export class AppComponent {
             this.statusBar.styleDefault();
             this.splashScreen.hide();
         });
+    }
+
+    private storageToStore(): Promise<void> {
+        return this.storage.get('state') // returns null if 'state' key doesn't exist
+            .then(state => {
+                if (state) {
+                    // It will fill all reducers with the value stores in local storage
+                    this.store.dispatch(AppActions.APP_INIT(state));
+                }
+            });
     }
 }
