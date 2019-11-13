@@ -9,7 +9,7 @@ import {StatusBar} from '@ionic-native/status-bar/ngx';
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
 import {StoreModule} from '@ngrx/store';
-import * as fromLists from './ngx-store/reducers/lists.reducers.js';
+import * as fromLists from './ngx-store/reducers/lists.reducer.js';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {Interceptor} from './http-interceptors/interceptor';
 

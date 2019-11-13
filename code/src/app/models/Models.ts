@@ -11,11 +11,6 @@ export interface Info {
     link: string;
 }
 
-export interface Position {
-    lat: number;
-    long: number;
-}
-
 export enum AdsSort {
     PositionAsc,
     PositionDesc,
