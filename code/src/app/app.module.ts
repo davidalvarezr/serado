@@ -9,7 +9,7 @@ import {StatusBar} from '@ionic-native/status-bar/ngx';
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
 import {StoreModule} from '@ngrx/store';
-import * as fromList from './ngx-store/reducers/lists.reducers.js';
+import * as fromLists from './ngx-store/reducers/lists.reducers.js';
 
 @NgModule({
     declarations: [AppComponent],
@@ -18,7 +18,7 @@ import * as fromList from './ngx-store/reducers/lists.reducers.js';
         BrowserModule,
         IonicModule.forRoot(),
         AppRoutingModule,
-        StoreModule.forRoot({fromLists.})
+        StoreModule.forRoot({ lists: fromLists.reducer }) // ngrx-store
     ],
     providers: [
         StatusBar,
