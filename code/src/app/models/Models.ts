@@ -5,5 +5,17 @@ export interface Ad {
     beginning: string;
 }
 
+export interface Position {
+    lat: number;
+    long: number;
+}
+
+export enum AdSort {
+    PositionAsc,
+    PositionDesc,
+    DateAsc,
+    DateDesc
+}
+
 
 
