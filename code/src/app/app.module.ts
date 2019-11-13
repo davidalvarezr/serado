@@ -13,6 +13,7 @@ import * as fromLists from './ngx-store/reducers/lists.reducer.js';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {Interceptor} from './http-interceptors/interceptor';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import {IonicStorageModule} from '@ionic/storage';
 
 @NgModule({
     declarations: [AppComponent],
@@ -22,6 +23,7 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
         IonicModule.forRoot(),
         AppRoutingModule,
         HttpClientModule,
+        IonicStorageModule.forRoot(),
         StoreModule.forRoot({ lists: fromLists.reducer }) // ngrx-store
     ],
     providers: [

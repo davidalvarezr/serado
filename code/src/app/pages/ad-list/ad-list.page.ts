@@ -3,6 +3,7 @@ import {Ad} from '../../models/Models';
 import {HttpClient} from '@angular/common/http';
 import {routes} from '../../../environments/routes';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { Storage } from '@ionic/storage';
 
 @Component({
     selector: 'app-ad-list-page',
@@ -13,7 +14,7 @@ export class AdListPage implements OnInit {
 
     adList: Ad[];
 
-    constructor(private http: HttpClient, private geolocation: Geolocation) {
+    constructor(private http: HttpClient, private geolocation: Geolocation, private storage: Storage) {
         this.http.get(routes.getAds)
             .subscribe(
                 (res: any) => {
@@ -33,6 +34,13 @@ export class AdListPage implements OnInit {
     }
 
     ngOnInit() {
+        // FIXME: Storing object works in the browser. Test it on cordova platform as well !
+        this.storage.set('test', {msg: 'it works !'})
+            .then(msg => {
+                this.storage.get('test')
+                    .then(elt => console.log('The element retrieved : ', elt));
+            })
+            .catch(err => { console.error(err); });
     }
 
 }
