@@ -1,32 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Ad} from '../../models/Models';
+import {HttpClient} from '@angular/common/http';
+import {routes} from '../../../environments/routes';
 
 @Component({
-  selector: 'app-ad-list-page',
-  templateUrl: './ad-list.page.html',
-  styleUrls: ['./ad-list.page.scss'],
+    selector: 'app-ad-list-page',
+    templateUrl: './ad-list.page.html',
+    styleUrls: ['./ad-list.page.scss'],
 })
 export class AdListPage implements OnInit {
 
-  adBasic: Ad = {
-    title: 'Employée de maison logée',
-    location: 'Rue de Montchoisy, 1207 Genève',
-    contract: 'CDI, 20h/semaine',
-    beginning: 'Janvier 2020',
-  };
+    adList: Ad[];
 
-  adBasic2: Ad = {
-    title: 'Employée de maison logée 2',
-    location: 'Rue de Montchoisy, 1207 Genève',
-    contract: 'CDI, 20h/semaine',
-    beginning: 'Janvier 2020',
-  };
+    constructor(private http: HttpClient) {
+        this.http.get(routes.getAds)
+            .subscribe(
+                (res: any) => {
+                    this.adList = res;
+                }
+            );
+    }
 
-  adList: Ad[] = [this.adBasic, this.adBasic2];
-
-  constructor() { }
-
-  ngOnInit() {
-  }
+    ngOnInit() {
+    }
 
 }
