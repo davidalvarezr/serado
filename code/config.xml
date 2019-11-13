@@ -45,7 +45,7 @@
         <splash density="port-xxxhdpi" src="resources/android/splash/drawable-port-xxxhdpi-screen.png" />
     </platform>
     <platform name="ios">
-        <edit-config target="NSLocationWhenInUseUsageDescription" file="*-Info.plist" mode="merge">
+        <edit-config file="*-Info.plist" mode="merge" target="NSLocationWhenInUseUsageDescription">
             <string>Serado Annonces a besoin de votre localisation afin de trier les offres d'emploi les plus proches de vous</string>
         </edit-config>
         <allow-intent href="itms:*" />
@@ -103,4 +103,5 @@
     <plugin name="cordova-plugin-ionic-webview" spec="^4.0.0" />
     <plugin name="cordova-plugin-ionic-keyboard" spec="^2.0.5" />
     <plugin name="cordova-plugin-advanced-http" spec="^2.2.0" />
+    <plugin name="cordova-plugin-geolocation" spec="^4.0.2" />
 </widget>

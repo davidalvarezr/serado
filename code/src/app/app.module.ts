@@ -12,6 +12,7 @@ import {StoreModule} from '@ngrx/store';
 import * as fromLists from './ngx-store/reducers/lists.reducer.js';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {Interceptor} from './http-interceptors/interceptor';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 @NgModule({
     declarations: [AppComponent],
@@ -27,7 +28,8 @@ import {Interceptor} from './http-interceptors/interceptor';
         StatusBar,
         SplashScreen,
         {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
-        { provide: HTTP_INTERCEPTORS, useClass: Interceptor, multi: true }
+        { provide: HTTP_INTERCEPTORS, useClass: Interceptor, multi: true },
+        Geolocation,
     ],
     bootstrap: [AppComponent]
 })
