@@ -9,8 +9,13 @@ import {HttpClient} from '@angular/common/http';
 })
 export class HomePage {
 
-  constructor(httpFactory: HttpClient) {
+  constructor(private http: HttpClient) {
     console.log('Inside, home.page.ts constructor');
+    this.http.get('https://www.google.ch').subscribe(
+        response => {
+          console.log(response);
+        }
+    );
   }
 
 }

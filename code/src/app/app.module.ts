@@ -10,7 +10,8 @@ import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
 import {StoreModule} from '@ngrx/store';
 import * as fromLists from './ngx-store/reducers/lists.reducers.js';
-import { HttpClientModule } from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {Interceptor} from './http-interceptors/interceptor';
 
 @NgModule({
     declarations: [AppComponent],
@@ -25,7 +26,8 @@ import { HttpClientModule } from '@angular/common/http';
     providers: [
         StatusBar,
         SplashScreen,
-        {provide: RouteReuseStrategy, useClass: IonicRouteStrategy}
+        {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
+        { provide: HTTP_INTERCEPTORS, useClass: Interceptor, multi: true }
     ],
     bootstrap: [AppComponent]
 })
