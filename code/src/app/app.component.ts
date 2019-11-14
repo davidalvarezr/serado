@@ -4,9 +4,10 @@ import {Platform} from '@ionic/angular';
 import {SplashScreen} from '@ionic-native/splash-screen/ngx';
 import {StatusBar} from '@ionic-native/status-bar/ngx';
 import {AppState} from './models/Models';
-import {Action, Store} from '@ngrx/store';
-import { Storage } from '@ionic/storage';
+import {Store} from '@ngrx/store';
+import {Storage} from '@ionic/storage';
 import * as PositionActions from './ngx-store/actions/position.actions';
+import {take} from 'rxjs/operators';
 
 
 @Component({
@@ -42,8 +43,14 @@ export class AppComponent {
         private store: Store<AppState>,
     ) {
         this.initializeApp();
-
         this.position_storageToStore();
+        setInterval(() => {
+            store.pipe(
+                take(1)
+            ).subscribe(state => {
+                console.log('WHOLE STATE', state);
+            });
+        }, 15000);
     }
 
     initializeApp() {
@@ -59,7 +66,12 @@ export class AppComponent {
                 if (position) {
                     // It will fill all reducers with the value stores in local storage
                     // this.store.dispatch(AppActions.APP_INIT(state));
-                    this.store.dispatch(PositionActions.SET_POSITION(position));
+
+                    // It will fill location reducer
+                    this.store.dispatch(PositionActions.SET_POSITION(
+                        // CAREFUL: do not forget labels when passing payloads
+                        {positionReducerState: position}
+                    ));
                 }
             });
     }
