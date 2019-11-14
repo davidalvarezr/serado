@@ -44,13 +44,7 @@ export class AppComponent {
     ) {
         this.initializeApp();
         this.position_storageToStore();
-        setInterval(() => {
-            store.pipe(
-                take(1)
-            ).subscribe(state => {
-                console.log('WHOLE STATE', state);
-            });
-        }, 15000);
+        // this.showNgrxStateEveryXseconds(15);
     }
 
     initializeApp() {
@@ -74,5 +68,15 @@ export class AppComponent {
                     ));
                 }
             });
+    }
+
+    private showNgrxStateEveryXseconds(x: number) {
+        setInterval(() => {
+            this.store.pipe(
+                take(1)
+            ).subscribe(state => {
+                console.log('WHOLE STATE', state);
+            });
+        }, x * 1000);
     }
 }
