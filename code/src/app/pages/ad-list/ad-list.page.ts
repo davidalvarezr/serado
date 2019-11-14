@@ -4,6 +4,7 @@ import {HttpClient} from '@angular/common/http';
 import {routes} from '../../../environments/routes';
 import { Storage } from '@ionic/storage';
 import {PositionService} from '../../services/position.service';
+import {Position} from '../../ngx-store/reducers/position.reducer';
 
 
 @Component({
@@ -20,8 +21,9 @@ export class AdListPage implements OnInit {
 
         positionService.askPosition()
             .then(pos => {
-                return null;
-            });
+                positionService.setPosition({hasPermission: true, str: '', pos});
+            })
+            .catch(err => { console.error(err); });
 
         this.http.get(routes.getAds)
             .subscribe(

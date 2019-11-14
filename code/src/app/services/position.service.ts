@@ -22,11 +22,19 @@ export class PositionService {
                 private androidPermissions: AndroidPermissions) {
     }
 
+    /**
+     * Store position in ngrx/store and local storage
+     * @returns a promise when has finished to store position in local storage
+     */
     setPosition(position: fromPosition.State): Promise<void> {
         this.store.dispatch(PositionActions.SET_POSITION({positionReducerState: position}));
         return this.storage.set('position', position);
     }
 
+    /**
+     * Detects the platform. If Android, will check permission and ask it according to the response
+     * @returns a promise that resolves with the position or reject with an error message
+     */
     askPosition(): Promise<Position> {
         return new Promise((resolve, reject) => {
 
@@ -87,7 +95,10 @@ export class PositionService {
         });
     }
 
-    getPosition(): Promise<Position> {
+    /**
+     * @returns a promise that resolves with position if available otherwise reject with error message
+     */
+    private getPosition(): Promise<Position> {
         return new Promise((resolve, reject) => {
             this.geolocation.getCurrentPosition().then((resp) => {
                 const lat = resp.coords.latitude;
