@@ -16,6 +16,7 @@ import {Interceptor} from './http-interceptors/interceptor';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import {IonicStorageModule} from '@ionic/storage';
 import {EffectsModule} from '@ngrx/effects';
+import {AndroidPermissions} from '@ionic-native/android-permissions/ngx';
 
 @NgModule({
     declarations: [AppComponent],
@@ -35,6 +36,7 @@ import {EffectsModule} from '@ngrx/effects';
         {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
         { provide: HTTP_INTERCEPTORS, useClass: Interceptor, multi: true },
         Geolocation,
+        AndroidPermissions
     ],
     bootstrap: [AppComponent]
 })
