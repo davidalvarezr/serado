@@ -19,6 +19,7 @@
     "@angular/platform-browser": "~8.1.2",
     "@angular/platform-browser-dynamic": "~8.1.2",
     "@angular/router": "~8.1.2",
+    "@ionic-native/android-permissions": "^5.16.0",
     "@ionic-native/core": "^5.0.0",
     "@ionic-native/diagnostic": "^4.20.0",
     "@ionic-native/geolocation": "^5.16.0",
@@ -30,6 +31,7 @@
     "@ngrx/effects": "^8.5.1",
     "@ngrx/store": "^8.5.1",
     "cordova-plugin-advanced-http": "^2.2.0",
+    "cordova-plugin-android-permissions": "^1.0.2",
     "cordova-plugin-geolocation": "^4.0.2",
     "cordova-sqlite-storage": "^3.4.0",
     "cordova.plugins.diagnostic": "^5.0.1",
@@ -70,7 +72,8 @@
       "cordova-plugin-advanced-http": {},
       "cordova-plugin-geolocation": {},
       "cordova-sqlite-storage": {},
-      "cordova.plugins.diagnostic": {}
+      "cordova.plugins.diagnostic": {},
+      "cordova-plugin-android-permissions": {}
     }
   }
 }
