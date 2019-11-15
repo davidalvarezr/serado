@@ -10,9 +10,15 @@ import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
 import {StoreModule} from '@ngrx/store';
 import * as fromLists from './ngx-store/reducers/lists.reducer.js';
+import * as fromPosition from './ngx-store/reducers/position.reducer';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {Interceptor} from './http-interceptors/interceptor';
 import {HTTP} from '@ionic-native/http/ngx';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
+import {IonicStorageModule} from '@ionic/storage';
+import {EffectsModule} from '@ngrx/effects';
+import {AndroidPermissions} from '@ionic-native/android-permissions/ngx';
+
 
 @NgModule({
     declarations: [AppComponent],
@@ -22,7 +28,9 @@ import {HTTP} from '@ionic-native/http/ngx';
         IonicModule.forRoot(),
         AppRoutingModule,
         HttpClientModule, // HTTP (web)
-        StoreModule.forRoot({ lists: fromLists.reducer }) // ngrx-store
+        EffectsModule.forRoot([]),
+        StoreModule.forRoot({ lists: fromLists.reducer, position: fromPosition.reducer}), // ngrx-store
+        IonicStorageModule.forRoot(), // local storage
     ],
     providers: [
         StatusBar,
@@ -30,6 +38,8 @@ import {HTTP} from '@ionic-native/http/ngx';
         {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
         { provide: HTTP_INTERCEPTORS, useClass: Interceptor, multi: true },
         HTTP, // HTTP (ionic)
+        Geolocation,
+        AndroidPermissions,
     ],
     bootstrap: [AppComponent]
 })

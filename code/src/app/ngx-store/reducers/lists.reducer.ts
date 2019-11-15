@@ -1,6 +1,7 @@
-import {Ad, AdsSort, Info} from '../../models/Models';
+import {Ad, AdsSort, AppState, Info} from '../../models/Models';
 import {Action, createReducer, on} from '@ngrx/store';
 import * as ListsActions from '../actions/lists.actions.js';
+import * as AppActions from '../actions/app.actions';
 
 export interface AdsState {
     list: Ad[];
@@ -46,6 +47,8 @@ const listsReducer = createReducer(
     on(ListsActions.LOAD_INFOS, state => state),
     on(ListsActions.LOAD_INFOS_SUCCESS, state => state),
     on(ListsActions.LOAD_INFOS_FAILURE, state => state),
+    // INIT and RESET
+    on(AppActions.APP_INIT, (state, { wholeState }) => wholeState.lists),
     on(ListsActions.RESET, state => initialState)
 )
 
