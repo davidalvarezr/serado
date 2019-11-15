@@ -12,6 +12,7 @@ import {StoreModule} from '@ngrx/store';
 import * as fromLists from './ngx-store/reducers/lists.reducer.js';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {Interceptor} from './http-interceptors/interceptor';
+import {HTTP} from '@ionic-native/http/ngx';
 
 @NgModule({
     declarations: [AppComponent],
@@ -20,14 +21,15 @@ import {Interceptor} from './http-interceptors/interceptor';
         BrowserModule,
         IonicModule.forRoot(),
         AppRoutingModule,
-        HttpClientModule,
+        HttpClientModule, // HTTP (web)
         StoreModule.forRoot({ lists: fromLists.reducer }) // ngrx-store
     ],
     providers: [
         StatusBar,
         SplashScreen,
         {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
-        { provide: HTTP_INTERCEPTORS, useClass: Interceptor, multi: true }
+        { provide: HTTP_INTERCEPTORS, useClass: Interceptor, multi: true },
+        HTTP, // HTTP (ionic)
     ],
     bootstrap: [AppComponent]
 })
