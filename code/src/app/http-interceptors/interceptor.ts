@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
-import {routes} from '../../environments/routes.js';
+import {fakeRoutes} from '../../environments/routes.js';
 
-import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse} from '@angular/common/http';
+import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
 
-import {Observable, of} from 'rxjs';
+import {Observable} from 'rxjs';
 import {fakeAdsResponse} from './fake-responses/fakeAds';
 
 /** Pass untouched request through to the next request handler. */
@@ -13,16 +13,15 @@ export class Interceptor implements HttpInterceptor {
     intercept(req: HttpRequest<any>, next: HttpHandler):
         Observable<HttpEvent<any>> {
 
+        console.log(`[GET] ${req.url}`);
+
         switch (req.url) {
-            case routes.getAds:
-                console.log(`[GET] ${req.url}`);
+            case fakeRoutes.getAds:
                 return fakeAdsResponse;
-                break;
             default:
-                return of(new HttpResponse({status: 404, body: `[[--> Route ${req.url} not found`}));
-                break;
+                return next.handle(req);
+                // return of(new HttpResponse({status: 404, body: `[[--> Route ${req.url} not found`}));
         }
 
-        return next.handle(req);
     }
 }

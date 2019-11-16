@@ -2,6 +2,7 @@ import {State as ListsState} from '../ngx-store/reducers/lists.reducer.js';
 import {State as PositionState} from '../ngx-store/reducers/position.reducer.js';
 
 export interface Ad {
+    id: number;
     title: string;
     location: string;
     contract: string;

@@ -20,10 +20,8 @@ export class HttpFactoryService {
    */
   public getCorrectHttp(): IHttpCrossPlatform {
     if (this.platform.is('cordova')) {
-      console.log('Returned HTTP');
       return this.httpMobile;
     } else {
-      console.log('Returned HttpClient');
       return this.httpWeb;
     }
   }
