@@ -3,6 +3,7 @@ import {Ad} from '../../models/Models';
 import { Storage } from '@ionic/storage';
 import {PositionService} from '../../services/position.service';
 import {JobsService} from '../../services/jobs.service';
+import {PositionPermissionWebService} from '../../models/permissionsFactory/position-permission-web.service';
 
 
 @Component({
@@ -13,7 +14,7 @@ import {JobsService} from '../../services/jobs.service';
 export class AdListPage implements OnInit {
     adList: Ad[];
 
-    constructor(private positionService: PositionService, private storage: Storage, private jobsService: JobsService) {
+    constructor(private positionService: PositionService, private storage: Storage, private jobsService: JobsService, private posPermWeb: PositionPermissionWebService) {
         this.askPosition();
         this.getAllJobs();
     }
@@ -24,7 +25,13 @@ export class AdListPage implements OnInit {
             .catch(err => { console.error(err); });
     }
 
-    private askPosition(): void {
+    private askPosition() {
+        this.posPermWeb.getPosition()
+            .then(res => { console.log('RES', res); });
+
+    }
+
+    private askPositionOld(): void {
         this.positionService.askPosition()
             .then(pos => {
                 this.positionService.setPosition({hasPermission: true, str: '', pos});

@@ -1,3 +1,3 @@
-import {Position} from '../../ngx-store/reducers/position.reducer';
+import {Geoposition} from '@ionic-native/geolocation';
 
-export type PositionResponse = Position | 'NOT_AVAILABLE';
+export type PositionResponse = Geoposition | 'NOT_AVAILABLE' | 'NOT_GRANTED';
