@@ -144,11 +144,27 @@ En ce qui concerne l'\textbf{interface administrateur}, nous continuerons d'util
 
 
 \subsection{API tierces}
+
+L'application devra avoir accès au services externes ci-dessous.
+
+\subsubsection{Google Maps API}
+
 Afin d'afficher une \textit{map} (carte), l'API de google sera utilisée:
 \url{https://developers.google.com/maps/documentation/javascript/tutorial}. Afin de
 pouvoir l'utiliser, il faudra rentrer un numéro de carte de crédit. L'utilisation
 de l'API est gratuite: \url{https://cloud.google.com/maps-platform/pricing/sheet/}. 
 
+\subsubsection{WP Job Manager}
+
+Nous aurons aussi besoin de récupérer la liste des offres d'emplois. Pour cela, nous
+utiliserons l'API du plugin \textit{WP Job Manager}:
+\begin{description}
+    \item[Liste des jobs] \url{http://wpjm.docker/wp-json/wp/v2/job-listings}
+    \item[Détail d'un job] \url{http://wpjm.docker/wp-json/wp/v2/job-listings/{id}} 
+\end{description}
+\vspace{1em}
+
+Les liens ci-dessus ont été trouvés à l'adresse suivante: \url{https://github.com/Automattic/WP-Job-Manager/pull/1628}
 
 \subsection{Déploiement}
 
