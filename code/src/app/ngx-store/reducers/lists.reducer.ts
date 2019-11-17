@@ -1,4 +1,4 @@
-import {Ad, AdsSort, AppState, Info} from '../../models/Models';
+import {Ad, AdsSort, Info} from '../../models/Models';
 import {Action, createReducer, on} from '@ngrx/store';
 import * as ListsActions from '../actions/lists.actions.js';
 import * as AppActions from '../actions/app.actions';
@@ -50,7 +50,7 @@ const listsReducer = createReducer(
     // INIT and RESET
     on(AppActions.APP_INIT, (state, { wholeState }) => wholeState.lists),
     on(ListsActions.RESET, state => initialState)
-)
+);
 
 export function reducer(state: State | undefined, action: Action) {
     return listsReducer(state, action);

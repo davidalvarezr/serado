@@ -1,13 +1,11 @@
 import {Component} from '@angular/core';
-
 import {Platform} from '@ionic/angular';
 import {SplashScreen} from '@ionic-native/splash-screen/ngx';
 import {StatusBar} from '@ionic-native/status-bar/ngx';
-import {AppState} from './models/Models';
 import {Store} from '@ngrx/store';
 import {Storage} from '@ionic/storage';
-import * as PositionActions from './ngx-store/actions/position.actions';
 import {take} from 'rxjs/operators';
+import {AppState} from './ngx-store/reducers';
 
 
 @Component({

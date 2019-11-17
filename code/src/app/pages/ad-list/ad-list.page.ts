@@ -1,11 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {Ad, AppState} from '../../models/Models';
+import {Ad} from '../../models/Models';
 import { Storage } from '@ionic/storage';
 import {PositionService} from '../../services/position.service';
 import {JobsService} from '../../services/jobs.service';
 import {PositionWebService} from '../../models/permissionsFactory/position-web.service';
 import {Store} from '@ngrx/store';
 import * as PositionActions from '../../ngx-store/actions/position.actions.js';
+import {AppState} from '../../ngx-store/reducers';
 
 @Component({
     selector: 'app-ad-list-page',

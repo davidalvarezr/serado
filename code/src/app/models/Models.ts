@@ -22,8 +22,3 @@ export enum AdsSort {
     DateDesc
 }
 
-export interface AppState {
-    lists: ListsState;
-    position: PositionState;
-}
-
