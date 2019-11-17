@@ -20,6 +20,7 @@ import {EffectsModule} from '@ngrx/effects';
 import {AndroidPermissions} from '@ionic-native/android-permissions/ngx';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import {PositionEffects} from './ngx-store/effects/position.effects';
+import {Diagnostic} from '@ionic-native/diagnostic/ngx';
 
 @NgModule({
     declarations: [AppComponent],
@@ -45,6 +46,7 @@ import {PositionEffects} from './ngx-store/effects/position.effects';
         HTTP, // HTTP (ionic)
         Geolocation,
         AndroidPermissions,
+        Diagnostic,
     ],
     bootstrap: [AppComponent]
 })

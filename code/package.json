@@ -21,7 +21,7 @@
     "@angular/router": "~8.1.2",
     "@ionic-native/android-permissions": "^5.16.0",
     "@ionic-native/core": "^5.0.0",
-    "@ionic-native/diagnostic": "^4.20.0",
+    "@ionic-native/diagnostic": "^5.16.0",
     "@ionic-native/geolocation": "^5.16.0",
     "@ionic-native/http": "^5.16.0",
     "@ionic-native/splash-screen": "^5.0.0",
@@ -30,10 +30,12 @@
     "@ionic/storage": "^2.2.0",
     "@ngrx/effects": "^8.5.1",
     "@ngrx/store": "^8.5.1",
-    "cordova-android": "7.1.4",
+    "cordova-android": "^8.0.0",
     "cordova-android-support-gradle-release": "^3.0.1",
     "cordova-plugin-advanced-http": "^2.2.0",
     "cordova-plugin-android-permissions": "^1.0.2",
+    "cordova-plugin-androidx": "^1.0.2",
+    "cordova-plugin-androidx-adapter": "^1.1.0",
     "cordova-plugin-device": "^2.0.2",
     "cordova-plugin-file": "^6.0.2",
     "cordova-plugin-geolocation": "^4.0.2",
@@ -82,7 +84,6 @@
       "cordova-plugin-advanced-http": {},
       "cordova-plugin-geolocation": {},
       "cordova-sqlite-storage": {},
-      "cordova.plugins.diagnostic": {},
       "cordova-plugin-android-permissions": {},
       "cordova-plugin-whitelist": {},
       "cordova-plugin-statusbar": {},
@@ -94,7 +95,12 @@
       "cordova-plugin-ionic-keyboard": {},
       "cordova-android-support-gradle-release": {
         "ANDROID_SUPPORT_VERSION": "27.+"
-      }
+      },
+      "cordova.plugins.diagnostic": {
+        "ANDROID_SUPPORT_VERSION": "28.+"
+      },
+      "cordova-plugin-androidx": {},
+      "cordova-plugin-androidx-adapter": {}
     },
     "platforms": [
       "android"
