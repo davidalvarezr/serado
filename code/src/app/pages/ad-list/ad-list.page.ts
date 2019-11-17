@@ -24,12 +24,11 @@ export class AdListPage implements OnInit {
                 private storage: Storage,
                 private jobsService: JobsService,
                 private posPermWeb: PositionWebService,
-                private store: Store<AppState>) {
-        this.askPosition();
-        this.getAllJobs();
-    }
+                private store: Store<AppState>) {}
 
     ngOnInit() {
+        this.askPosition();
+        this.getAllJobs();
         this.positionState$ = this.store.select(positionSelectors.getPositionState);
     }
 
