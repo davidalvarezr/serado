@@ -18,6 +18,7 @@ export class PositionWebService implements IPositionCrossPlatform {
             // @ts-ignore
             navigator.permissions.query({name: 'geolocation'})
                 .then((result: any) => {
+
                     if (result.state === 'denied') {
                         reject('NOT_GRANTED');
                         return;
@@ -28,7 +29,7 @@ export class PositionWebService implements IPositionCrossPlatform {
                             resolve(pos);
                             return;
                         })
-                        .catch(_ => {
+                        .catch( _ => {
                             reject('NOT_AVAILABLE');
                             return;
                         });

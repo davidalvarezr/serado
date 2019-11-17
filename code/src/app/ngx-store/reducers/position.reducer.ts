@@ -40,3 +40,6 @@ const positionReducer = createReducer(
 export function reducer(state: State | undefined, action: Action) {
     return positionReducer(state, action);
 }
+
+export const getPositionState = (state: State) => state;
+export const getCoordinates = (state: State) => state.coords;

@@ -5,8 +5,10 @@ import {PositionService} from '../../services/position.service';
 import {JobsService} from '../../services/jobs.service';
 import {PositionWebService} from '../../models/permissionsFactory/position-web.service';
 import {Store} from '@ngrx/store';
-import * as PositionActions from '../../ngx-store/actions/position.actions.js';
-import {AppState} from '../../ngx-store/reducers';
+import {AppState, PositionState} from '../../ngx-store/reducers';
+import {positionSelectors} from '../../ngx-store/selectors';
+import {Observable} from 'rxjs';
+import {PositionActions} from '../../ngx-store/actions';
 
 @Component({
     selector: 'app-ad-list-page',
@@ -14,6 +16,8 @@ import {AppState} from '../../ngx-store/reducers';
     styleUrls: ['./ad-list.page.scss'],
 })
 export class AdListPage implements OnInit {
+
+    positionState$: Observable<PositionState>
     adList: Ad[];
 
     constructor(private positionService: PositionService,
@@ -26,9 +30,7 @@ export class AdListPage implements OnInit {
     }
 
     ngOnInit() {
-        // FIXME: Storing object works in the browser. Test it on cordova platform as well !
-        this.storage.set('test', {msg: 'it works !'})
-            .catch(err => { console.error(err); });
+        this.positionState$ = this.store.select(positionSelectors.getPositionState);
     }
 
     private askPosition() {

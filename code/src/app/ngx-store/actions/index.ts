@@ -6,7 +6,7 @@ export const AppActions = _AppActions;
 export const PositionActions = _PositionActions;
 export const ListsActions = _ListsActions;
 
-export const AllActions = {
+export const actions = {
     app: AppActions,
     position: PositionActions,
     lists: ListsActions,

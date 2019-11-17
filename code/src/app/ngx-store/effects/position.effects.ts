@@ -1,14 +1,13 @@
 import {Injectable} from '@angular/core';
-import {PositionService} from '../../services/position.service';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
-import * as PositionActions from '../actions/position.actions';
 import {catchError, map, mergeMap} from 'rxjs/operators';
 import {PositionFactoryService} from '../../models/permissionsFactory/position-factory.service';
 import {IPositionCrossPlatform} from '../../models/permissionsFactory/IPositionCrossPlatform';
 import {from, of} from 'rxjs';
-import {Coordinates, Geoposition} from '@ionic-native/geolocation';
+import {Geoposition} from '@ionic-native/geolocation';
 import {PositionResponse} from '../../models/permissionsFactory/PositionResponse';
 import * as fromPosition from '../reducers/position.reducer.js';
+import {PositionActions} from '../actions';
 
 @Injectable()
 export class PositionEffects {
