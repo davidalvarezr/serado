@@ -1,6 +1,7 @@
 import {Action, createReducer, on} from '@ngrx/store';
 import * as PositionActions from '../actions/position.actions.js';
 import * as AppActions from '../actions/app.actions';
+import {Coordinates} from '@ionic-native/geolocation';
 
 
 export interface Position {
@@ -10,20 +11,28 @@ export interface Position {
 
 export interface State {
     hasPermission: boolean;
-    str: string;    // Maps API will process this string to find the GPS Location
-    pos?: Position;
+    isAvailable: boolean;
+    coords?: Coordinates;
+    loading: boolean;
+    loaded: boolean;
+    error: any;
 }
 
 
 export const initialState: State = {
     hasPermission: false,
-    str: null,
-    pos: undefined,
+    isAvailable: false,
+    coords: null,
+    loading: false,
+    loaded: false,
+    error: null,
 };
 
 const positionReducer = createReducer(
     initialState,
-    on(PositionActions.SET_POSITION, (state, { positionReducerState }) => positionReducerState),
+    on(PositionActions.LOAD_POSITION, state => ({ ...state, loading: true })),
+    on(PositionActions.LOAD_POSITION_SUCCESS, (state, { positionReducerState }) => positionReducerState),
+    on(PositionActions.LOAD_POSITION_FAILURE, state => ({ ...state, loading: false, loaded: false, error: state.error })),
     // INIT and RESET
     on(AppActions.APP_INIT, (state, { wholeState }) => wholeState.position),
     on(PositionActions.RESET, state => initialState)

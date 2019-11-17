@@ -1,6 +1,6 @@
 import {PositionResponse} from './PositionResponse';
 
-export interface IPositionPermissionCrossPlatform {
+export interface IPositionCrossPlatform {
     /**
      * Checks if the app already asked the permission
      */

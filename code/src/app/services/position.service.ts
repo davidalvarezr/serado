@@ -26,10 +26,10 @@ export class PositionService {
      * Store position in ngrx/store and local storage
      * @returns a promise when has finished to store position in local storage
      */
-    setPosition(position: fromPosition.State): Promise<void> {
-        this.store.dispatch(PositionActions.SET_POSITION({positionReducerState: position}));
+    /*setPosition(position: fromPosition.State): Promise<void> {
+        this.store.dispatch(PositionActions.LOAD_POSITION({positionReducerState: position}));
         return this.storage.set('position', position);
-    }
+    }*/
 
     /**
      * Detects the platform. If Android, will check permission and ask it according to the response

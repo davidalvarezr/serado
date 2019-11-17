@@ -18,7 +18,8 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import {IonicStorageModule} from '@ionic/storage';
 import {EffectsModule} from '@ngrx/effects';
 import {AndroidPermissions} from '@ionic-native/android-permissions/ngx';
-
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import {PositionEffects} from './ngx-store/effects/position.effects';
 
 @NgModule({
     declarations: [AppComponent],
@@ -30,6 +31,10 @@ import {AndroidPermissions} from '@ionic-native/android-permissions/ngx';
         HttpClientModule, // HTTP (web)
         EffectsModule.forRoot([]),
         StoreModule.forRoot({ lists: fromLists.reducer, position: fromPosition.reducer}), // ngrx-store
+        EffectsModule.forFeature([PositionEffects]),
+        StoreDevtoolsModule.instrument({
+            maxAge: 100
+        }),
         IonicStorageModule.forRoot(), // local storage
     ],
     providers: [

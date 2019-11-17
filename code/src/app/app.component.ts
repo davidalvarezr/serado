@@ -33,7 +33,6 @@ export class AppComponent {
         private store: Store<AppState>,
     ) {
         this.initializeApp();
-        this.position_storageToStore();
         // this.showNgrxStateEveryXseconds(15);
     }
 
@@ -42,22 +41,6 @@ export class AppComponent {
             this.statusBar.styleDefault();
             this.splashScreen.hide();
         });
-    }
-
-    private position_storageToStore(): Promise<void> {
-        return this.storage.get('position') // returns null if 'state' key doesn't exist
-            .then(position => {
-                if (position) {
-                    // It will fill all reducers with the value stores in local storage
-                    // this.store.dispatch(AppActions.APP_INIT(state));
-
-                    // It will fill location reducer
-                    this.store.dispatch(PositionActions.SET_POSITION(
-                        // CAREFUL: do not forget labels when passing payloads
-                        {positionReducerState: position}
-                    ));
-                }
-            });
     }
 
     private showNgrxStateEveryXseconds(x: number) {
