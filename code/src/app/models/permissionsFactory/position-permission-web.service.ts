@@ -14,7 +14,9 @@ export class PositionPermissionWebService implements IPositionPermissionCrossPla
 
     getPosition(): Promise<PositionResponse> {
         return new Promise((resolve) => {
-            navigator.permissions.query({name: 'geolocation'})
+
+            // @ts-ignore
+          navigator.permissions.query({name: 'geolocation'})
                 .then((result: any) => {
                     if (result.state === 'denied') {
                         resolve('NOT_GRANTED');
