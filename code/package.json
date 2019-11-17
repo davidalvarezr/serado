@@ -82,9 +82,7 @@
       "cordova-plugin-advanced-http": {},
       "cordova-plugin-geolocation": {},
       "cordova-sqlite-storage": {},
-      "cordova.plugins.diagnostic": {
-        "ANDROID_SUPPORT_VERSION": "28.+"
-      },
+      "cordova.plugins.diagnostic": {},
       "cordova-plugin-android-permissions": {},
       "cordova-plugin-whitelist": {},
       "cordova-plugin-statusbar": {},

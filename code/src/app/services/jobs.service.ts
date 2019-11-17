@@ -4,7 +4,7 @@ import {IHttpCrossPlatform} from '../models/httpFactory/IHttpCrossPlatform';
 import {Observable} from 'rxjs';
 import {Ad} from '../models/Models';
 import {routes} from '../../environments/routes';
-import {map as mapRx} from 'rxjs/operators';
+import {map} from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'
@@ -20,7 +20,7 @@ export class JobsService {
     getAllJobs(): Observable<Ad[]> {
         return this.http.get(routes.getAds)
             .pipe(
-                mapRx(json => this.transform(json))
+                map(json => this.transform(json))
             );
     }
 

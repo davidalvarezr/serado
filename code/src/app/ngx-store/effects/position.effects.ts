@@ -37,7 +37,10 @@ export class PositionEffects {
                     positionReducerState,
                 });
             }),
-            catchError(error => of(PositionActions.LOAD_POSITION_FAILURE({error}))),
+            catchError(error => {
+                console.log('ERROR', error);
+                return of(PositionActions.LOAD_POSITION_FAILURE({error}));
+            }),
         ))
     ));
 

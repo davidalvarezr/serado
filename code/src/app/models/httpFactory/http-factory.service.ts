@@ -20,7 +20,8 @@ export class HttpFactoryService {
    */
   public getCorrectHttp(): IHttpCrossPlatform {
     if (this.platform.is('cordova')) {
-      return this.httpMobile;
+      // If CORS errors with API, change to this.httpMobile
+      return this.httpWeb;
     } else {
       return this.httpWeb;
     }

@@ -31,7 +31,7 @@ const positionReducer = createReducer(
     initialState,
     on(PositionActions.LOAD_POSITION, state => ({ ...state, loading: true })),
     on(PositionActions.LOAD_POSITION_SUCCESS, (state, { positionReducerState }) => positionReducerState),
-    on(PositionActions.LOAD_POSITION_FAILURE, state => ({ ...state, loading: false, loaded: false, error: state.error })),
+    on(PositionActions.LOAD_POSITION_FAILURE, (state, { error }) => ({ ...state, loading: false, loaded: false, error })),
     // INIT and RESET
     on(AppActions.APP_INIT, (state, { wholeState }) => wholeState.position),
     on(PositionActions.RESET, state => initialState)

@@ -27,13 +27,12 @@ export class AdListPage implements OnInit {
                 private store: Store<AppState>) {}
 
     ngOnInit() {
-        this.askPosition();
+        this.store.dispatch(PositionActions.LOAD_POSITION());
         this.getAllJobs();
         this.positionState$ = this.store.select(positionSelectors.getPositionState);
     }
 
     private askPosition() {
-        this.store.dispatch(PositionActions.LOAD_POSITION());
         /*this.posPermWeb.getPosition()
             .then(res => { console.log('RES', res); });*/
 

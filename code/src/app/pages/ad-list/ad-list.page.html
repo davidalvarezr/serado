@@ -17,6 +17,9 @@
     <div *ngIf="(positionState$ | async) && (positionState$ | async).loaded">
         <p style="text-align: center">Position: {{((positionState$ | async).coords | json)}}</p>
     </div>
+    <div *ngIf="(positionState$ | async) && (positionState$ | async).error">
+        <p style="text-align: center">Erreur: {{((positionState$ | async).error | json)}}</p>
+    </div>
 
     <app-ad-list [ads]="adList"></app-ad-list>
 
