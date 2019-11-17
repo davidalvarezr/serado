@@ -1,4 +1,4 @@
-import { createAction, props } from '@ngrx/store';
+import {Action, createAction, props} from '@ngrx/store';
 import * as fromPosition from '../reducers/position.reducer';
 
 
@@ -19,3 +19,4 @@ export const LOAD_POSITION_FAILURE = createAction(
 export const RESET = createAction(
     '[POSITION] RESET'
 );
+

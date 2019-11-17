@@ -1,6 +1,5 @@
 import {Action, createReducer, on} from '@ngrx/store';
-import * as PositionActions from '../actions/position.actions.js';
-import * as AppActions from '../actions/app.actions';
+import {PositionActions, AppActions} from '../actions/';
 import {Coordinates} from '@ionic-native/geolocation';
 
 
