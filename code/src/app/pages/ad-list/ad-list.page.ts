@@ -6,7 +6,7 @@ import {JobsService} from '../../services/jobs.service';
 import {PositionWebService} from '../../models/permissionsFactory/position-web.service';
 import {Store} from '@ngrx/store';
 import {AppState, PositionState} from '../../ngx-store/reducers';
-import {positionSelectors} from '../../ngx-store/selectors';
+import {listsSelectors, positionSelectors} from '../../ngx-store/selectors';
 import {Observable} from 'rxjs';
 import {PositionActions} from '../../ngx-store/actions';
 
@@ -17,8 +17,8 @@ import {PositionActions} from '../../ngx-store/actions';
 })
 export class AdListPage implements OnInit {
 
-    positionState$: Observable<PositionState>
-    adList: Ad[];
+    positionState$: Observable<PositionState>;
+    adList$: Observable<Ad[]>;
 
     constructor(private positionService: PositionService,
                 private storage: Storage,
@@ -30,10 +30,11 @@ export class AdListPage implements OnInit {
         this.showAlertTellingWhyPositionIsNeededIfFirstTime();
         this.store.dispatch(PositionActions.LOAD_POSITION());
         // this.getAllJobs();
-        this.positionState$ = this.store.select(positionSelectors.getPositionState);
+        this.positionState$ = this.store.select<PositionState>(positionSelectors.getPositionState);
+        this.adList$ = this.store.select<Ad[]>(listsSelectors.getAdList);
     }
 
-    private getAllJobs(): void {
+   /* private getAllJobs(): void {
         this.jobsService.getAllJobs()
             .subscribe(
                 res => {
@@ -41,7 +42,7 @@ export class AdListPage implements OnInit {
                 },
                 err => { console.error(err); }
             );
-    }
+    }*/
 
     private async showAlertTellingWhyPositionIsNeededIfFirstTime(): Promise<void> {
         const trueIfAlreadyInit = await this.storage.get('trueIfAlreadyInit');

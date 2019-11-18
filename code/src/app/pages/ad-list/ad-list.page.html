@@ -21,6 +21,6 @@
         <p style="text-align: center">Erreur: {{((positionState$ | async).error | json)}}</p>
     </div>
 
-    <app-ad-list [ads]="adList"></app-ad-list>
+    <app-ad-list *ngIf="(adList$ | async).length" [ads]="(adList$ | async)"></app-ad-list>
 
 </ion-content>

@@ -59,3 +59,10 @@ const listsReducer = createReducer(
 export function reducer(state: State | undefined, action: Action) {
     return listsReducer(state, action);
 }
+
+export const getAdsState = (state: State) => state.ads;
+export const getAdList = (state: State) => getAdsState(state).list;
+export const getAdsLoaded = (state: State) => getAdsState(state).loaded;
+export const getAdsLoading = (state: State) => getAdsState(state).loading;
+
+export const getInfos = (state: State) => state.infos;
