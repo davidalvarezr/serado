@@ -7,7 +7,8 @@ import {from, of} from 'rxjs';
 import {Geoposition} from '@ionic-native/geolocation';
 import {PositionResponse} from '../../models/permissionsFactory/PositionResponse';
 import * as fromPosition from '../reducers/position.reducer.js';
-import {PositionActions} from '../actions';
+import {ListsActions, PositionActions} from '../actions';
+import {AdsSort} from '../../models/Models';
 
 @Injectable()
 export class PositionEffects {
@@ -18,7 +19,7 @@ export class PositionEffects {
         ofType(PositionActions.LOAD_POSITION.type),
         mergeMap(() => from(this.positionService.getPosition()).pipe(
             map((res: PositionResponse) => {
-                console.log('RES', res)
+                // console.log('RES', res)
 
                 const positionReducerState: fromPosition.State = {
                     // @ts-ignore
@@ -38,11 +39,23 @@ export class PositionEffects {
                 });
             }),
             catchError(error => {
-                console.log('ERROR', error);
+                console.error('ERROR', error);
                 return of(PositionActions.LOAD_POSITION_FAILURE({error}));
             }),
         ))
     ));
+
+    loadPositionSuccess$ = createEffect(() => this.actions$.pipe(
+        ofType(PositionActions.LOAD_POSITION_SUCCESS.type),
+        map(() => ListsActions.LOAD_ADS({sort: AdsSort.POSITION_ASC})),
+        catchError(error => { console.error(error); return of(error); })
+    ))
+
+    loadPositionFailure$ = createEffect(() => this.actions$.pipe(
+        ofType(PositionActions.LOAD_POSITION_FAILURE.type),
+        map(() => ListsActions.LOAD_ADS({sort: AdsSort.NONE})),
+        catchError(error => { console.error(error); return of(error); })
+    ))
 
     constructor(
         private actions$: Actions,

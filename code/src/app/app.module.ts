@@ -21,6 +21,7 @@ import {AndroidPermissions} from '@ionic-native/android-permissions/ngx';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import {PositionEffects} from './ngx-store/effects/position.effects';
 import {Diagnostic} from '@ionic-native/diagnostic/ngx';
+import {effects} from './ngx-store/effects';
 
 @NgModule({
     declarations: [AppComponent],
@@ -32,7 +33,7 @@ import {Diagnostic} from '@ionic-native/diagnostic/ngx';
         HttpClientModule, // HTTP (web)
         EffectsModule.forRoot([]),
         StoreModule.forRoot({ lists: fromLists.reducer, position: fromPosition.reducer}), // ngrx-store
-        EffectsModule.forFeature([PositionEffects]),
+        EffectsModule.forFeature(effects),
         StoreDevtoolsModule.instrument({
             maxAge: 100
         }),

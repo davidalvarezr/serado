@@ -4,14 +4,17 @@ import * as ListsActions from '../actions/lists.actions.js';
 import * as AppActions from '../actions/app.actions';
 
 export interface AdsState {
+    loading: boolean;
+    loaded: boolean;
+    error: any;
     list: Ad[];
-    lastLoad: number; // number of milliseconds since midnight 01 January, 1970 UTC
+    lastSuccessLoad: number; // number of milliseconds since midnight 01 January, 1970 UTC
     sort: AdsSort;
 }
 
 export interface InfosState {
     list: Info[];
-    lastLoad: number; // number of milliseconds since midnight 01 January, 1970 UTC
+    lastSuccessLoad: number; // number of milliseconds since midnight 01 January, 1970 UTC
 }
 
 export interface State {
@@ -22,28 +25,29 @@ export interface State {
 
 export const initialState: State = {
     ads: {
-        lastLoad: Date.now(),
+        loading: false,
+        loaded: false,
+        error: null,
+        lastSuccessLoad: 0,
         list: [],
-        sort: AdsSort.DateDesc,
+        sort: AdsSort.NONE,
     },
     infos: {
-        lastLoad: Date.now(),
+        lastSuccessLoad: 0,
         list: [],
     }
 };
 
 const listsReducer = createReducer(
     initialState,
-    on(ListsActions.LOAD_ADS, state => state),
-    on(ListsActions.LOAD_ADS_SUCCESS, state => state),
-    on(ListsActions.LOAD_ADS_FAILURE, state => state),
-    on(ListsActions.SORT_ADS, (state, { sort }) => ({
+    on(ListsActions.LOAD_ADS, (state, { sort }) => ({ ...state, ads: {...initialState.ads, loading: true, sort } })),
+    on(ListsActions.LOAD_ADS_SUCCESS, (state, { ads }) => ({
         ...state,
         ads: {
-            ...state.ads,
-            sort,
+            ...state.ads, list: ads, loading: false, loaded: true,
         }
     })),
+    on(ListsActions.LOAD_ADS_FAILURE, (state, { error }) => ({ ...state, ads: { ...state.ads, error, loading: false  }})),
     on(ListsActions.LOAD_INFOS, state => state),
     on(ListsActions.LOAD_INFOS_SUCCESS, state => state),
     on(ListsActions.LOAD_INFOS_FAILURE, state => state),

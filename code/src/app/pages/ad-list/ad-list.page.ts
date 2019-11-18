@@ -29,7 +29,7 @@ export class AdListPage implements OnInit {
     ngOnInit() {
         this.showAlertTellingWhyPositionIsNeededIfFirstTime();
         this.store.dispatch(PositionActions.LOAD_POSITION());
-        this.getAllJobs();
+        // this.getAllJobs();
         this.positionState$ = this.store.select(positionSelectors.getPositionState);
     }
 

@@ -16,9 +16,7 @@ export interface Info {
 }
 
 export enum AdsSort {
-    PositionAsc,
-    PositionDesc,
-    DateAsc,
-    DateDesc
+    NONE,
+    POSITION_ASC,
 }
 
