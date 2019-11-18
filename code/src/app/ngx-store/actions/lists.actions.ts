@@ -16,6 +16,13 @@ export const LOAD_ADS_FAILURE = createAction(
     props<{ error: any }>(),
 );
 
+// TODO: add those actions: SORT_LIST, SORT_LIST_SUCCESS. SORT_LIST_FAILURE
+
+export const SORT_AD_LIST = createAction(
+    '[LISTS] SORT AD LIST'
+)
+
+
 export const LOAD_INFOS = createAction(
     '[LISTS] LOAD INFOS',
 );

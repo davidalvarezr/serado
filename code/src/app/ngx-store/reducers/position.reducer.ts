@@ -29,7 +29,7 @@ export const initialState: State = {
 
 const positionReducer = createReducer(
     initialState,
-    on(PositionActions.LOAD_POSITION, state => ({ ...state, loading: true })),
+    on(PositionActions.LOAD_POSITION_FOR_LIST, state => ({ ...state, loading: true })),
     on(PositionActions.LOAD_POSITION_SUCCESS, (state, { positionReducerState }) => positionReducerState),
     on(PositionActions.LOAD_POSITION_FAILURE, (state, { error }) => ({ ...state, loading: false, loaded: false, error })),
     // INIT and RESET

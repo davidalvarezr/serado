@@ -24,6 +24,7 @@ export interface State {
 
 
 export const initialState: State = {
+    // TODO: add isSorting, sortingFinished
     ads: {
         loading: false,
         loaded: false,
@@ -40,11 +41,15 @@ export const initialState: State = {
 
 const listsReducer = createReducer(
     initialState,
-    on(ListsActions.LOAD_ADS, (state, { sort }) => ({ ...state, ads: {...initialState.ads, loading: true, sort } })),
+    on(ListsActions.LOAD_ADS, (state, { sort }) => ({
+        ...state,
+        ads: {
+            ...state.ads, loading: true, loaded: false, error: null, sort
+        } })),
     on(ListsActions.LOAD_ADS_SUCCESS, (state, { ads }) => ({
         ...state,
         ads: {
-            ...state.ads, list: ads, loading: false, loaded: true,
+            ...state.ads, list: ads, loading: false, loaded: true, lastSuccessLoad: Date.now()
         }
     })),
     on(ListsActions.LOAD_ADS_FAILURE, (state, { error }) => ({ ...state, ads: { ...state.ads, error, loading: false  }})),
@@ -64,5 +69,6 @@ export const getAdsState = (state: State) => state.ads;
 export const getAdList = (state: State) => getAdsState(state).list;
 export const getAdsLoaded = (state: State) => getAdsState(state).loaded;
 export const getAdsLoading = (state: State) => getAdsState(state).loading;
+export const getAdsLastSuccededLoad = (state: State) => getAdsState(state).lastSuccessLoad;
 
 export const getInfos = (state: State) => state.infos;

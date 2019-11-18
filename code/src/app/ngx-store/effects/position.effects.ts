@@ -16,7 +16,7 @@ export class PositionEffects {
     private positionService: IPositionCrossPlatform;
 
     loadPosition$ = createEffect(() => this.actions$.pipe(
-        ofType(PositionActions.LOAD_POSITION.type),
+        ofType(PositionActions.LOAD_POSITION_FOR_LIST.type),
         mergeMap(() => from(this.positionService.getPosition()).pipe(
             map((res: PositionResponse) => {
                 // console.log('RES', res)
