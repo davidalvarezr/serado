@@ -23,6 +23,7 @@ export class AdListPage implements OnInit, AfterViewInit {
     positionState$: Observable<PositionState>;
     adList$: Observable<Ad[]>;
     adsLoading$: Observable<boolean>;
+    adsIsSorting$: Observable<boolean>;
     adsLastSuccededLoad: number;
 
     constructor(private positionService: PositionService,
@@ -38,6 +39,7 @@ export class AdListPage implements OnInit, AfterViewInit {
         this.positionState$ = this.store.select<PositionState>(positionSelectors.getPositionState);
         this.adList$ = this.store.select<Ad[]>(listsSelectors.getAdList);
         this.adsLoading$ = this.store.select<boolean>(listsSelectors.getAdsLoading);
+        this.adsIsSorting$ = this.store.select<boolean>(listsSelectors.getAdsIsSorting);
         this.store.select<number>(listsSelectors.getAdsLastSuccededLoad)
             .subscribe(
             adsLastSuccededLoad => { this.adsLastSuccededLoad = adsLastSuccededLoad; }
@@ -45,8 +47,6 @@ export class AdListPage implements OnInit, AfterViewInit {
     }
 
     ngAfterViewInit(): void {
-        console.log("ENTERED THE VIEW: ad-list.page");
-
         if (Date.now() - this.adsLastSuccededLoad < 30 * 60 * 1000)  { // 30 minutes
             this.store.dispatch(PositionActions.LOAD_POSITION_FOR_LIST());
         } else {
@@ -56,7 +56,6 @@ export class AdListPage implements OnInit, AfterViewInit {
         setInterval(() => {
             console.log('time since load succeded', ((Date.now() - this.adsLastSuccededLoad) / 1000) + 's');
         }, 10 * 1000);
-
     }
 
     /* private getAllJobs(): void {

@@ -35,6 +35,7 @@ export class JobsService {
             location: elt.fields._job_location,
             contract: '',
             beginning: '',
+            coordinates: null,
         }));
     }
 

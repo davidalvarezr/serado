@@ -26,6 +26,11 @@
     <div *ngIf="(positionState$ | async) && !(positionState$ | async).loading && (adsLoading$ | async)">
         <p style="text-align: center">Récupération des annonces... <ion-spinner></ion-spinner></p>
     </div>
+
+    <div *ngIf="(positionState$ | async) && !(positionState$ | async).loading && (adsIsSorting$ | async)">
+        <p style="text-align: center">Tri de la liste e cours en fonction de votre localisation <ion-spinner></ion-spinner></p>
+    </div>
+
     <app-ad-list *ngIf="(adList$ | async).length" [ads]="(adList$ | async)"></app-ad-list>
 
 

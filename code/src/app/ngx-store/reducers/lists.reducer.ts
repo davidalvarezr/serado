@@ -10,6 +10,8 @@ export interface AdsState {
     list: Ad[];
     lastSuccessLoad: number; // number of milliseconds since midnight 01 January, 1970 UTC
     sort: AdsSort;
+    isSorting: boolean;
+    isSorted: boolean;
 }
 
 export interface InfosState {
@@ -32,6 +34,8 @@ export const initialState: State = {
         lastSuccessLoad: 0,
         list: [],
         sort: AdsSort.NONE,
+        isSorting: false,
+        isSorted: false,
     },
     infos: {
         lastSuccessLoad: 0,
@@ -41,10 +45,11 @@ export const initialState: State = {
 
 const listsReducer = createReducer(
     initialState,
+    // Here we don't use sort, but it is used in the effect
     on(ListsActions.LOAD_ADS, (state, { sort }) => ({
         ...state,
         ads: {
-            ...state.ads, loading: true, loaded: false, error: null, sort
+            ...state.ads, loading: true, loaded: false, error: null, sort: AdsSort.NONE
         } })),
     on(ListsActions.LOAD_ADS_SUCCESS, (state, { ads }) => ({
         ...state,
@@ -53,6 +58,20 @@ const listsReducer = createReducer(
         }
     })),
     on(ListsActions.LOAD_ADS_FAILURE, (state, { error }) => ({ ...state, ads: { ...state.ads, error, loading: false  }})),
+    // Here we don't use ads, but it is used in the effect
+    on(ListsActions.FIND_COORDINATES, (state, { ads }) => ({
+        ...state,
+        ads: {
+            ...state.ads, isSorting: true, sortingFinished: false, loading: false, loaded: true, lastSuccessLoad: Date.now()
+        }
+    })),
+    on(ListsActions.FIND_COORDINATES_SUCCESS, (state, { ads }) => ({
+        ...state,
+        ads: {
+            ...state.ads, list: ads, isSorting: false, sortingFinished: true, sort: AdsSort.POSITION_ASC
+        }
+    })),
+
     on(ListsActions.LOAD_INFOS, state => state),
     on(ListsActions.LOAD_INFOS_SUCCESS, state => state),
     on(ListsActions.LOAD_INFOS_FAILURE, state => state),
@@ -70,5 +89,6 @@ export const getAdList = (state: State) => getAdsState(state).list;
 export const getAdsLoaded = (state: State) => getAdsState(state).loaded;
 export const getAdsLoading = (state: State) => getAdsState(state).loading;
 export const getAdsLastSuccededLoad = (state: State) => getAdsState(state).lastSuccessLoad;
+export const getAdsIsSorting = (state: State) => getAdsState(state).isSorting;
 
 export const getInfos = (state: State) => state.infos;
