@@ -1,12 +1,8 @@
-import {State as ListsState} from '../ngx-store/reducers/lists.reducer.js';
-import {State as PositionState} from '../ngx-store/reducers/position.reducer.js';
-import {Coordinates} from '@ionic-native/geolocation/ngx';
-
 export interface Ad {
     id: number;
     title: string;
     location: string;
-    coordinates: Coordinates;
+    distanceFromHere?: number;
     contract: string;
     beginning: string;
 }

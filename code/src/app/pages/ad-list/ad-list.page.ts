@@ -3,15 +3,12 @@ import {Ad} from '../../models/Models';
 import { Storage } from '@ionic/storage';
 import {PositionService} from '../../services/position.service';
 import {JobsService} from '../../services/jobs.service';
-import {PositionWebService} from '../../models/permissionsFactory/position-web.service';
 import {Store} from '@ngrx/store';
 import {AppState, PositionState} from '../../ngx-store/reducers';
 import {listsSelectors, positionSelectors} from '../../ngx-store/selectors';
 import {Observable} from 'rxjs';
 import {PositionActions} from '../../ngx-store/actions';
-import {AdsState} from '../../ngx-store/reducers/lists.reducer';
-import {IonRefresher} from '@ionic/angular';
-import {tap} from 'rxjs/operators';
+import {HttpClient} from '@angular/common/http';
 
 @Component({
     selector: 'app-ad-list-page',
@@ -29,8 +26,8 @@ export class AdListPage implements OnInit, AfterViewInit {
     constructor(private positionService: PositionService,
                 private storage: Storage,
                 private jobsService: JobsService,
-                private posPermWeb: PositionWebService,
-                private store: Store<AppState>) {}
+                private store: Store<AppState>,
+                private http: HttpClient) {}
 
     ngOnInit() {
         this.showAlertTellingWhyPositionIsNeededIfFirstTime();
@@ -44,6 +41,20 @@ export class AdListPage implements OnInit, AfterViewInit {
             .subscribe(
             adsLastSuccededLoad => { this.adsLastSuccededLoad = adsLastSuccededLoad; }
             );
+
+        const coords: Coordinates = {
+            latitude: 46.2037855,
+            longitude: 6.1616231,
+            accuracy: 0,
+            speed: null, heading: null, altitude: null, altitudeAccuracy: null
+        };
+
+        this.positionService.getDistanceBetween(coords, 'Nyon')
+            .subscribe(
+                res => console.log(res),
+                err => console.error(err)
+            );
+
     }
 
     ngAfterViewInit(): void {

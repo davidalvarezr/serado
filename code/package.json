@@ -30,6 +30,7 @@
     "@ionic/storage": "^2.2.0",
     "@ngrx/effects": "^8.5.1",
     "@ngrx/store": "^8.5.1",
+    "@types/googlemaps": "^3.38.0",
     "cordova-android": "^8.0.0",
     "cordova-android-support-gradle-release": "^3.0.1",
     "cordova-plugin-advanced-http": "^2.2.0",
