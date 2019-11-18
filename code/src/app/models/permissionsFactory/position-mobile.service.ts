@@ -80,7 +80,6 @@ export class PositionMobileService implements IPositionCrossPlatform {
                     console.log('ERROR', _)
                     reject('NOT_AVAILABLE');
                     return;
-
                 });
 
         });

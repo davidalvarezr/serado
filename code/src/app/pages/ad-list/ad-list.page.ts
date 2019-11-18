@@ -27,24 +27,11 @@ export class AdListPage implements OnInit {
                 private store: Store<AppState>) {}
 
     ngOnInit() {
+        this.showAlertTellingWhyPositionIsNeededIfFirstTime();
         this.store.dispatch(PositionActions.LOAD_POSITION());
         this.getAllJobs();
         this.positionState$ = this.store.select(positionSelectors.getPositionState);
     }
-
-    private askPosition() {
-        /*this.posPermWeb.getPosition()
-            .then(res => { console.log('RES', res); });*/
-
-    }
-
-    /*private askPositionOld(): void {
-        this.positionService.askPosition()
-            .then(pos => {
-                this.positionService.setPosition({hasPermission: true, str: '', pos});
-            })
-            .catch(err => { console.error(err); });
-    }*/
 
     private getAllJobs(): void {
         this.jobsService.getAllJobs()
@@ -56,4 +43,11 @@ export class AdListPage implements OnInit {
             );
     }
 
+    private async showAlertTellingWhyPositionIsNeededIfFirstTime(): Promise<void> {
+        const trueIfAlreadyInit = await this.storage.get('trueIfAlreadyInit');
+        if (trueIfAlreadyInit) { return; }
+        const str = 'Serado Annonces a besoin de votre position afin de vous montrer les offres le splus proches de chez vous';
+        alert(str);
+        await this.storage.set('trueIfAlreadyInit', true);
+    }
 }
