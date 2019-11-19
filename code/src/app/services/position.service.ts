@@ -61,28 +61,26 @@ export class PositionService {
     }
 
     // @ts-ignore
-    checkIfGeolocaIsStorageOrGetItFromAPI(adId: number, address: string): Observable<LatLngLiteral> {
+    checkIfGeolocaIsStorageOrGetItFromAPI(adId: string, address: string): Observable<LatLngLiteral> {
         return new Observable<any>(subscriber => {
             // Check if the geoloc already checked the position of this ad
-            this.storage.get('adIdsMapToGeolocs')
-                .then(adIdsMapToGeolocs => {
-                    if (adIdsMapToGeolocs == null || adIdsMapToGeolocs[adId] == null) {     // If the array structure does not exist, or
-                                                                                            // exists but first time it fetched this adId,
-                        const mapping = adIdsMapToGeolocs == null ? {} : adIdsMapToGeolocs; // create it
-                        console.log('adIdsMapToGeolocs', adIdsMapToGeolocs);
+            this.storage.get(adId)
+                .then((adGeoloc: any) => {
+
+                    // console.log('STATE OF THE MAPPING THE FIRST TIME', adIdsMapToGeolocs);
+
+                    if (adGeoloc === null) {
+                        console.log('FETCHING FROM API WITH ID', adId);
                         this.getGeolocationFromAddress(address).subscribe(                          // Get geoloc form API,
                             latLng => {
-                                this.storage.set('adIdsMapToGeolocs', {
-                                    ...mapping,
-                                    [adId]: { str: address, val: latLng }
-                                });  // add it in local storage and
+                                this.storage.set(adId, { str: address, val: latLng });              // add it in local storage and
                                 subscriber.next(latLng);                                            // complete the observable
                                 subscriber.complete();
                                 return;
                             }
                         );
                     } else {    // Here, the structure exists and the key as well
-                        subscriber.next(adIdsMapToGeolocs[adId].val);
+                        subscriber.next(adGeoloc.val);
                         subscriber.complete();
                         return;
                     }

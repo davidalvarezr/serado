@@ -51,7 +51,7 @@ const listsReducer = createReducer(
         ads: {
             ...state.ads, loading: true, loaded: false, error: null, sort: AdsSort.NONE
         } })),
-    on(ListsActions.LOAD_ADS_SUCCESS, (state, { ads }) => ({
+    on(ListsActions.LOAD_ADS_SUCCESS, ListsActions.FIND_COORDINATES_SUCCESS, (state, { ads }) => ({
         ...state,
         ads: {
             ...state.ads, list: ads, loading: false, loaded: true, lastSuccessLoad: Date.now()

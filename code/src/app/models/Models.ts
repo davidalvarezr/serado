@@ -1,7 +1,13 @@
+export interface LatLng  {
+    lat: number;
+    lng: number;
+}
+
 export interface Ad {
     id: number;
     title: string;
     location: string;
+    coordinates?: LatLng;
     distanceFromHere?: number;
     contract: string;
     beginning: string;
