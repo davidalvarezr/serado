@@ -26,7 +26,6 @@ export interface State {
 
 
 export const initialState: State = {
-    // TODO: add isSorting, sortingFinished
     ads: {
         loading: false,
         loaded: false,

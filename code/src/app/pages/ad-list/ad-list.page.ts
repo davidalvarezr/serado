@@ -2,7 +2,7 @@ import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {Ad} from '../../models/Models';
 import { Storage } from '@ionic/storage';
 import {PositionService} from '../../services/position.service';
-import {JobsService} from '../../services/jobs.service';
+import {AdService} from '../../services/ad.service';
 import {Store} from '@ngrx/store';
 import {AppState, PositionState} from '../../ngx-store/reducers';
 import {listsSelectors, positionSelectors} from '../../ngx-store/selectors';
@@ -25,7 +25,7 @@ export class AdListPage implements OnInit, AfterViewInit {
 
     constructor(private positionService: PositionService,
                 private storage: Storage,
-                private jobsService: JobsService,
+                private jobsService: AdService,
                 private store: Store<AppState>,
                 private http: HttpClient) {}
 
@@ -52,7 +52,7 @@ export class AdListPage implements OnInit, AfterViewInit {
 
         setInterval(() => {
             console.log('time since load succeded', ((Date.now() - this.adsLastSuccededLoad) / 1000) + 's');
-        }, 10 * 1000);
+        }, 30 * 1000);
     }
 
     /* private getAllJobs(): void {

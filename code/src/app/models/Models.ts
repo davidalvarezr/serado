@@ -13,6 +13,15 @@ export interface Ad {
     beginning: string;
 }
 
+// TODO: add other fields after parsing HTML
+export interface AdNotComplete {
+    id: number;
+    title: string;
+    link: string;
+    // contract: string;
+    // beginning: string;
+}
+
 export interface Info {
     title: string;
     description: string;

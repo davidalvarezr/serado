@@ -7,7 +7,8 @@ const routes: Routes = [
     redirectTo: 'ad-list',
     pathMatch: 'full'
   },
-  { path: 'ad-list', loadChildren: './pages/ad-list/ad-list.module#AdListPageModule' }
+  { path: 'ad-list', loadChildren: './pages/ad-list/ad-list.module#AdListPageModule' },
+  { path: 'ad-list/:id', loadChildren: './pages/ad-infos/ad-infos.module#AdInfosPageModule' }
 ];
 
 @NgModule({

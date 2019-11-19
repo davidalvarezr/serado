@@ -20,7 +20,12 @@
 
 <body>
   <app-root></app-root>
-  <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCC1PJBWQmpSyo_SQqcL1nFfO8nYKVaymk&libraries=geometry"></script>
+  <script>
+    function initMap() {
+      console.log("MAP IS READY");
+    }
+  </script>
+  <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCC1PJBWQmpSyo_SQqcL1nFfO8nYKVaymk&libraries=geometry&callback=initMap"></script>
 </body>
 
 </html>

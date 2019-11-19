@@ -1,0 +1,20 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>Serado Annonces</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <div *ngIf="loading" style="padding-top: 20px">
+        <p style="text-align: center">
+            <ion-spinner></ion-spinner>
+        </p>
+    </div>
+
+    <div *ngIf="ad" class="ion-padding">
+        <h4>{{ad.title}}</h4>
+      <a href="{{ad.link}}">Postulez à partir du site web</a>
+    </div>
+
+    <app-google-maps [adPosition]="adPosition"></app-google-maps>
+</ion-content>

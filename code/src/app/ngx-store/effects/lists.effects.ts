@@ -3,7 +3,7 @@ import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {catchError, map, mergeMap, tap} from 'rxjs/operators';
 import {of, zip} from 'rxjs';
 import {ListsActions} from '../actions';
-import {JobsService} from '../../services/jobs.service';
+import {AdService} from '../../services/ad.service';
 import {Ad, AdsSort, LatLng} from '../../models/Models';
 import {PositionService} from '../../services/position.service';
 import {Store} from '@ngrx/store';
@@ -71,7 +71,7 @@ export class ListsEffects {
 
     constructor(
         private actions$: Actions,
-        private jobsService: JobsService,
+        private jobsService: AdService,
         private positionService: PositionService,
         private store: Store<AppState>,
     ) {

@@ -16,8 +16,6 @@ export const LOAD_ADS_FAILURE = createAction(
     props<{ error: any }>(),
 );
 
-// TODO: add those actions: SORT_LIST_FAILURE
-
 export const FIND_COORDINATES = createAction(
     '[LISTS] FIND COORDINATES',
     props<{ ads: Ad[] }>(),
