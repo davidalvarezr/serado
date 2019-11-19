@@ -41,25 +41,6 @@ export class AdListPage implements OnInit, AfterViewInit {
             .subscribe(
             adsLastSuccededLoad => { this.adsLastSuccededLoad = adsLastSuccededLoad; }
             );
-
-        const coords: Coordinates = {
-            latitude: 46.2037855,
-            longitude: 6.1616231,
-            accuracy: 0,
-            speed: null, heading: null, altitude: null, altitudeAccuracy: null
-        };
-
-        /*this.positionService.getDistanceBetween(coords, 'Nyon')
-            .subscribe(
-                res => console.log('Distance between', res),
-                err => console.error(err)
-            );*/
-        /*this.positionService.checkIfGeolocaIsStorageOrGetItFromAPI(9, 'Zurich, Suisse')
-            .subscribe(
-                res => console.log('Geolocation of Bizot 4', res),
-                err => console.error(err)
-            );*/
-
     }
 
     ngAfterViewInit(): void {

@@ -98,6 +98,11 @@ export class PositionService {
         });
     }
 
+    /**
+     * If an error occurs, returns a big distance so it will be sorted at the end
+     * @param from
+     * @param to
+     */
     distanceBetween(from: LatLng, to: LatLng): number {
         const fromFunc = {
             lat: () => from.lat,
@@ -107,7 +112,14 @@ export class PositionService {
             lat: () => to.lat,
             lng: () => to.lng,
         }
-        return computeDistanceBetween(fromFunc, toFunc);
+
+        let dist = 9999999;
+        try {
+            dist = computeDistanceBetween(fromFunc, toFunc);
+        } catch (error) {
+            console.error(error);
+        }
+        return dist;
     }
 
     private getGeolocationFromAddress(address: string): Observable<any> {

@@ -1,18 +1,12 @@
 import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {catchError, map, mergeMap, tap} from 'rxjs/operators';
-import {PositionFactoryService} from '../../models/permissionsFactory/position-factory.service';
-import {IPositionCrossPlatform} from '../../models/permissionsFactory/IPositionCrossPlatform';
-import {from, of, zip} from 'rxjs';
-import {Geoposition} from '@ionic-native/geolocation';
-import {PositionResponse} from '../../models/permissionsFactory/PositionResponse';
-import * as fromPosition from '../reducers/position.reducer.js';
-import {ListsActions, PositionActions} from '../actions';
+import {of, zip} from 'rxjs';
+import {ListsActions} from '../actions';
 import {JobsService} from '../../services/jobs.service';
 import {Ad, AdsSort, LatLng} from '../../models/Models';
 import {PositionService} from '../../services/position.service';
-import {FIND_COORDINATES_SUCCESS} from '../actions/lists.actions';
-import {select, Store} from '@ngrx/store';
+import {Store} from '@ngrx/store';
 import {AppState} from '../reducers';
 import {positionSelectors} from '../selectors';
 
@@ -30,9 +24,10 @@ export class ListsEffects {
                     }
                     return ListsActions.FIND_COORDINATES({ads});
                 }),
-                catchError(error => {
-                    return of(ListsActions.LOAD_ADS_FAILURE({error}));
-                }),
+            catchError(error => {
+                console.error(error);
+                return of(ListsActions.LOAD_ADS_FAILURE({error}));
+            }),
             ),
         )),
     );
@@ -41,26 +36,26 @@ export class ListsEffects {
         ofType(ListsActions.FIND_COORDINATES),
         mergeMap(({ads}) => {
             const arrayOfObs = [];
-            for (let i = 0; i < ads.length; i++) {
-                const ad = ads[i];
+            for (const ad of ads) {
                 arrayOfObs.push(this.positionService.checkIfGeolocaIsStorageOrGetItFromAPI(`${ad.id}`, ad.location));
             }
             return zip(...arrayOfObs).pipe(
                 map(
                     (arrayOfResponses: any) => {
                         for (let i = 0; i < ads.length; i++) {
-                            const ad = ads[i];
-                            ad.coordinates = arrayOfResponses[i];
+                            ads[i].coordinates = arrayOfResponses[i];
                         }
-
                         return ListsActions.FIND_COORDINATES_SUCCESS({ads});
                     }
                 ),
-                catchError(error => { console.log(error); return of(error); }),
+                catchError(error => {
+                    console.error(error);
+                    return of(ListsActions.FIND_COORDINATES_FAILURE({ads}));
+                }),
             );
         }),
     ));
-
+    myLocation: LatLng;
     addDistances$ = createEffect(() => this.actions$.pipe(
         ofType(ListsActions.FIND_COORDINATES_SUCCESS),
         map(({ads}) => {
@@ -70,11 +65,9 @@ export class ListsEffects {
                     distanceFromHere: this.positionService.distanceBetween(this.myLocation, ad.coordinates)
                 };
             });
-            return ListsActions.FINISHED_ADDING_DISTANCES({ads: adsWithDistance});
+            return ListsActions.ADD_DISTANCES_SUCCESS({ads: adsWithDistance});
         }),
     ));
-
-    myLocation: LatLng;
 
     constructor(
         private actions$: Actions,

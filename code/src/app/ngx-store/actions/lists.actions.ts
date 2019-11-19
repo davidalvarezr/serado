@@ -21,17 +21,27 @@ export const LOAD_ADS_FAILURE = createAction(
 export const FIND_COORDINATES = createAction(
     '[LISTS] FIND COORDINATES',
     props<{ ads: Ad[] }>(),
-)
+);
 
 export const FIND_COORDINATES_SUCCESS = createAction(
     '[LISTS] FIND COORDINATES SUCCESS',
     props<{ ads: Ad[] }>(),
-)
+);
 
-export const FINISHED_ADDING_DISTANCES = createAction(
-    '[LISTS] FINISHED ADDING DISTANCES',
+export const FIND_COORDINATES_FAILURE = createAction(
+    '[LISTS] FIND COORDINATES FAILURE',
     props<{ ads: Ad[] }>(),
-)
+);
+
+export const ADD_DISTANCES_SUCCESS = createAction(
+    '[LISTS] ADD DISTANCES SUCCESS',
+    props<{ ads: Ad[] }>(),
+);
+
+export const ADD_DISTANCES_FAILURE = createAction(
+    '[LISTS] ADD DISTANCES FAILURE',
+    props<{ ads: Ad[], error: any }>(),
+);
 
 export const LOAD_INFOS = createAction(
     '[LISTS] LOAD INFOS',
