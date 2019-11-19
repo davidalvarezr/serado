@@ -28,6 +28,11 @@ export const FIND_COORDINATES_SUCCESS = createAction(
     props<{ ads: Ad[] }>(),
 )
 
+export const FINISHED_ADDING_DISTANCES = createAction(
+    '[LISTS] FINISHED ADDING DISTANCES',
+    props<{ ads: Ad[] }>(),
+)
+
 export const LOAD_INFOS = createAction(
     '[LISTS] LOAD INFOS',
 );

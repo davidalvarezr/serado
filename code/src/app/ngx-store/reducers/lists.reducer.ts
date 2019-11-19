@@ -51,7 +51,7 @@ const listsReducer = createReducer(
         ads: {
             ...state.ads, loading: true, loaded: false, error: null, sort: AdsSort.NONE
         } })),
-    on(ListsActions.LOAD_ADS_SUCCESS, ListsActions.FIND_COORDINATES_SUCCESS, (state, { ads }) => ({
+    on(ListsActions.LOAD_ADS_SUCCESS, (state, { ads }) => ({
         ...state,
         ads: {
             ...state.ads, list: ads, loading: false, loaded: true, lastSuccessLoad: Date.now()
@@ -65,7 +65,8 @@ const listsReducer = createReducer(
             ...state.ads, isSorting: true, sortingFinished: false, loading: false, loaded: true, lastSuccessLoad: Date.now()
         }
     })),
-    on(ListsActions.FIND_COORDINATES_SUCCESS, (state, { ads }) => ({
+    // TODO: remove ----------------------------------------------------------------------------------------------- FIND_COORDINATES_SUCCESS
+    on(ListsActions.FINISHED_ADDING_DISTANCES, (state, { ads }) => ({
         ...state,
         ads: {
             ...state.ads, list: ads, isSorting: false, sortingFinished: true, sort: AdsSort.POSITION_ASC

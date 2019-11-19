@@ -34,7 +34,7 @@ export class AdListPage implements OnInit, AfterViewInit {
         this.store.dispatch(PositionActions.LOAD_POSITION_FOR_LIST());
         // this.getAllJobs();
         this.positionState$ = this.store.select<PositionState>(positionSelectors.getPositionState);
-        this.adList$ = this.store.select<Ad[]>(listsSelectors.getAdList);
+        this.adList$ = this.store.select<Ad[]>(listsSelectors.getAdListSorted);
         this.adsLoading$ = this.store.select<boolean>(listsSelectors.getAdsLoading);
         this.adsIsSorting$ = this.store.select<boolean>(listsSelectors.getAdsIsSorting);
         this.store.select<number>(listsSelectors.getAdsLastSuccededLoad)

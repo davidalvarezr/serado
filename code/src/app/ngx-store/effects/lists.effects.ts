@@ -9,8 +9,12 @@ import {PositionResponse} from '../../models/permissionsFactory/PositionResponse
 import * as fromPosition from '../reducers/position.reducer.js';
 import {ListsActions, PositionActions} from '../actions';
 import {JobsService} from '../../services/jobs.service';
-import {AdsSort} from '../../models/Models';
+import {Ad, AdsSort, LatLng} from '../../models/Models';
 import {PositionService} from '../../services/position.service';
+import {FIND_COORDINATES_SUCCESS} from '../actions/lists.actions';
+import {select, Store} from '@ngrx/store';
+import {AppState} from '../reducers';
+import {positionSelectors} from '../selectors';
 
 @Injectable()
 export class ListsEffects {
@@ -57,9 +61,36 @@ export class ListsEffects {
         }),
     ));
 
+    addDistances$ = createEffect(() => this.actions$.pipe(
+        ofType(ListsActions.FIND_COORDINATES_SUCCESS),
+        map(({ads}) => {
+            const adsWithDistance = ads.map((ad: Ad) => {
+                return {
+                    ...ad,
+                    distanceFromHere: this.positionService.distanceBetween(this.myLocation, ad.coordinates)
+                };
+            });
+            return ListsActions.FINISHED_ADDING_DISTANCES({ads: adsWithDistance});
+        }),
+    ));
+
+    myLocation: LatLng;
+
     constructor(
         private actions$: Actions,
         private jobsService: JobsService,
         private positionService: PositionService,
-    ) {}
+        private store: Store<AppState>,
+    ) {
+        this.store.select(positionSelectors.getCoordinatesState)
+            .subscribe(coords => {
+                if (coords) {
+                    this.myLocation = {
+                        lat: coords.latitude,
+                        lng: coords.longitude,
+                    };
+                }
+
+            });
+    }
 }

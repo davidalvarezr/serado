@@ -9,9 +9,11 @@ import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 // @ts-ignore
 import maps = google.maps;
+import {LatLng} from '../models/Models';
+// @ts-ignore
+import computeDistanceBetween = google.maps.geometry.spherical.computeDistanceBetween;
 
-const {UnitSystem, TravelMode, DistanceMatrixService, Geocoder, LatLng, LatLngLiteral, GeocoderRequest} = maps;
-
+const {UnitSystem, TravelMode, DistanceMatrixService, Geocoder, LatLng, LatLngLiteral} = maps;
 
 @Injectable({
     providedIn: 'root'
@@ -60,6 +62,14 @@ export class PositionService {
         );
     }
 
+
+    /**
+     * Check if the geoloc of an ad if already stored in local storage.
+     * If yes, return it.
+     * If no, find it through the API, save it in local storage, and return the geoloc.
+     * @param adId The id of the ad who has the adress
+     * @param address The string we want the geoloc from
+     */
     // @ts-ignore
     checkIfGeolocaIsStorageOrGetItFromAPI(adId: string, address: string): Observable<LatLngLiteral> {
         return new Observable<any>(subscriber => {
@@ -86,6 +96,18 @@ export class PositionService {
                     }
                 });
         });
+    }
+
+    distanceBetween(from: LatLng, to: LatLng): number {
+        const fromFunc = {
+            lat: () => from.lat,
+            lng: () => from.lng,
+        };
+        const toFunc = {
+            lat: () => to.lat,
+            lng: () => to.lng,
+        }
+        return computeDistanceBetween(fromFunc, toFunc);
     }
 
     private getGeolocationFromAddress(address: string): Observable<any> {
