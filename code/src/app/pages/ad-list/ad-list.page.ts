@@ -49,11 +49,16 @@ export class AdListPage implements OnInit, AfterViewInit {
             speed: null, heading: null, altitude: null, altitudeAccuracy: null
         };
 
-        this.positionService.getDistanceBetween(coords, 'Nyon')
+        /*this.positionService.getDistanceBetween(coords, 'Nyon')
             .subscribe(
-                res => console.log(res),
+                res => console.log('Distance between', res),
                 err => console.error(err)
-            );
+            );*/
+        /*this.positionService.checkIfGeolocaIsStorageOrGetItFromAPI(9, 'Zurich, Suisse')
+            .subscribe(
+                res => console.log('Geolocation of Bizot 4', res),
+                err => console.error(err)
+            );*/
 
     }
 
