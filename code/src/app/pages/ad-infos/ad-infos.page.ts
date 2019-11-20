@@ -3,8 +3,9 @@ import {ActivatedRoute} from '@angular/router';
 import {AdService} from '../../services/ad.service';
 import {Ad, AdNotComplete, LatLng} from '../../models/Models';
 import {Store} from '@ngrx/store';
-import {listsSelectors} from '../../ngx-store/selectors';
+import {listsSelectors, positionSelectors} from '../../ngx-store/selectors';
 import {AppState} from '../../ngx-store/reducers';
+import {Coordinates} from '@ionic-native/geolocation';
 
 @Component({
     selector: 'app-ad-infos',
@@ -17,7 +18,7 @@ export class AdInfosPage implements OnInit {
     ad: AdNotComplete;
     loading = false;
     adPosition: LatLng;
-    currentPosition: LatLng;
+    currentPosition: Coordinates;
 
     constructor(
         private store: Store<AppState>,
@@ -46,11 +47,13 @@ export class AdInfosPage implements OnInit {
             );
 
         // Find the position of the current ad and put it in this.adPosition
-        this.store.select<Ad[]>(listsSelectors.getAdList)
-            .subscribe(adList => {
+        this.store.select<Ad[]>(listsSelectors.getAdList).subscribe(adList => {
                 this.adPosition = adList.find(ad => ad.id === this.adId).coordinates;
-            }
-        );
+            });
+
+        this.store.select<Coordinates>(positionSelectors.getCoordinatesState).subscribe(curPos => {
+           this.currentPosition = curPos;
+        });
 
         // TODO: do the same with current position
     }
