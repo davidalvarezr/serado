@@ -16,7 +16,7 @@ export class PositionEffects {
     private positionService: IPositionCrossPlatform;
 
     loadPosition$ = createEffect(() => this.actions$.pipe(
-        ofType(PositionActions.LOAD_POSITION_FOR_LIST.type),
+        ofType(PositionActions.LOAD_POSITION_FOR_LIST),
         mergeMap(() => from(this.positionService.getPosition()).pipe(
             map((res: PositionResponse) => {
                 // console.log('RES', res)
@@ -46,7 +46,7 @@ export class PositionEffects {
     ));
 
     loadPositionSuccess$ = createEffect(() => this.actions$.pipe(
-        ofType(PositionActions.LOAD_POSITION_SUCCESS.type),
+        ofType(PositionActions.LOAD_POSITION_SUCCESS),
         map(() => ListsActions.LOAD_ADS({sort: AdsSort.POSITION_ASC})),
         catchError(error => { console.error(error); return of(error); })
     ))

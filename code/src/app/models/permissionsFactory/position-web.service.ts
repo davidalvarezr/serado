@@ -33,6 +33,10 @@ export class PositionWebService implements IPositionCrossPlatform {
                             reject('NOT_AVAILABLE');
                             return;
                         });
+                })
+                .catch( _ => {
+                    reject('NOT_AVAILABLE');
+                    return;
                 });
         });
     }

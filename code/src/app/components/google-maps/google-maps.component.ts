@@ -1,8 +1,7 @@
-import {AfterViewInit, Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {LatLng} from '../../models/Models';
 // @ts-ignore
 import maps = google.maps;
-import GeolocationMarker from '../../../../node_modules/geolocation-marker/src/geolocation-marker.js';
 
 @Component({
     selector: 'app-google-maps',
@@ -12,7 +11,7 @@ import GeolocationMarker from '../../../../node_modules/geolocation-marker/src/g
 export class GoogleMapsComponent implements OnInit {
 
     @Input('adPosition') adPosition: LatLng;
-    @Input('currentPosition') currentPosition: Coordinates;
+    @Input('currentPosition') currentPosition?: Coordinates;
 
     private map: maps.Map;
     private markers: maps.Marker[];
@@ -23,21 +22,39 @@ export class GoogleMapsComponent implements OnInit {
     ngOnInit() {
         this.map = new maps.Map(document.getElementById('map'), {
             // ~Center of Switzerland : 46.853906, 8.245431
-            // center: {lat: 46.853906, lng: 8.245431},
-            // zoom: 6.7
+            center: {lat: 46.853906, lng: 8.245431},
+            zoom: 10,
+            disableDefaultUI: true,
         });
         this.markers = [];
 
         this.addMarker(this.adPosition);
-        const GeoMarker = new GeolocationMarker(this.map);
-        this.addMarker({lat: 46.2037506, lng: 6.1615178});
-        this.markers[this.markers.length - 1].setVisible(false);
+        console.log('currentPosition', this.currentPosition);
+        console.log('adPosition', this.adPosition);
+        if (this.currentPosition !== null) {
+            // const GeoMarker = new GeolocationMarker(this.map);
+            this.addCurrentLocationMarker({lat: this.currentPosition.latitude, lng: this.currentPosition.longitude})
+            this.addMarker({lat: 46.2037506, lng: 6.1615178});
+            this.markers[this.markers.length - 1].setVisible(false);
+            setTimeout(() => {
+                this.boundToMarkers();
+            }, 1);
+        } else {
+            this.map.setCenter(new maps.LatLng(this.adPosition.lat, this.adPosition.lng));
+            this.map.setZoom(10);
+        }
 
-        this.boundToMarkers();
+
     }
 
     private addMarker(latLng: LatLng): maps.Marker {
         this.markers.push(new maps.Marker({position: latLng, map: this.map}));
+    }
+
+    private addCurrentLocationMarker(latLng: LatLng): maps.Marker {
+        this.markers.push(new maps.Marker({
+            position: latLng, map: this.map, icon: '../../assets/map/cur_loc_24.png'
+        }));
     }
 
     private boundToMarkers() {

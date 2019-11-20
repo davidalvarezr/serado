@@ -34,6 +34,7 @@ export class PositionService {
         this.geocoder = new Geocoder();
     }
 
+    // NOT USED
     getDistanceBetween(origin: Coordinates, destination: string): Observable<number> {
         return new Observable<any>(subscriber => {
             this.distanceMatrixService.getDistanceMatrix(
@@ -111,7 +112,7 @@ export class PositionService {
         const toFunc = {
             lat: () => to.lat,
             lng: () => to.lng,
-        }
+        };
 
         let dist = 9999999;
         try {

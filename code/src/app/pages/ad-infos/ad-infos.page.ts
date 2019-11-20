@@ -18,7 +18,7 @@ export class AdInfosPage implements OnInit {
     ad: AdNotComplete;
     loading = false;
     adPosition: LatLng;
-    currentPosition: Coordinates;
+    currentPosition?: Coordinates;
 
     constructor(
         private store: Store<AppState>,

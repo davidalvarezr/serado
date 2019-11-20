@@ -20,7 +20,7 @@ export class ListsEffects {
             map(
                 (ads: any) => {
                     if (sort === AdsSort.NONE) {
-                        return ListsActions.LOAD_ADS_SUCCESS({ads});
+                        return ListsActions.FIND_COORDINATES({ads});
                     }
                     return ListsActions.FIND_COORDINATES({ads});
                 }),
@@ -55,19 +55,30 @@ export class ListsEffects {
             );
         }),
     ));
+
     myLocation: LatLng;
+    hasLocation: boolean;
+
     addDistances$ = createEffect(() => this.actions$.pipe(
         ofType(ListsActions.FIND_COORDINATES_SUCCESS),
         map(({ads}) => {
-            const adsWithDistance = ads.map((ad: Ad) => {
-                return {
-                    ...ad,
-                    distanceFromHere: this.positionService.distanceBetween(this.myLocation, ad.coordinates)
-                };
-            });
-            return ListsActions.ADD_DISTANCES_SUCCESS({ads: adsWithDistance});
+            if (this.hasLocation) { // We have the location, sort it with distances
+                const adsWithDistance = ads.map((ad: Ad) => {
+                    return {
+                        ...ad,
+                        distanceFromHere: this.positionService.distanceBetween(this.myLocation, ad.coordinates)
+                    };
+                });
+                return ListsActions.ADD_DISTANCES_SUCCESS({ads: adsWithDistance});
+            } else { // We don't have the position, just return the ads like that (with coordinates)
+                return ListsActions.ADD_DISTANCES_FAILURE({ads, error: 'CAN\'T ADD DISTANCE BECAUSE NO ACCESS TO LOCATION'});
+            }
+
         }),
     ));
+
+
+
 
     constructor(
         private actions$: Actions,
@@ -75,15 +86,18 @@ export class ListsEffects {
         private positionService: PositionService,
         private store: Store<AppState>,
     ) {
-        this.store.select(positionSelectors.getCoordinatesState)
-            .subscribe(coords => {
-                if (coords) {
-                    this.myLocation = {
-                        lat: coords.latitude,
-                        lng: coords.longitude,
-                    };
-                }
+        this.store.select(positionSelectors.getCoordinatesState).subscribe(coords => {
+            if (coords) {
+                this.myLocation = {
+                    lat: coords.latitude,
+                    lng: coords.longitude,
+                };
+            }
 
-            });
+        });
+
+        this.store.select(positionSelectors.getPositionState).subscribe(positionState => {
+            this.hasLocation = positionState.isAvailable;
+        });
     }
 }
