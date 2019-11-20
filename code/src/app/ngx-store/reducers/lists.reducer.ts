@@ -10,8 +10,11 @@ export interface AdsState {
     list: Ad[];
     lastSuccessLoad: number; // number of milliseconds since midnight 01 January, 1970 UTC
     sort: AdsSort;
-    isSorting: boolean;
+    isAddingDistances: boolean;
+    hasDistances: boolean;
     isSorted: boolean;
+    isFindingCoordinates: boolean;
+    hasCoordinates: boolean;
 }
 
 export interface InfosState {
@@ -33,8 +36,11 @@ export const initialState: State = {
         lastSuccessLoad: 0,
         list: [],
         sort: AdsSort.NONE,
-        isSorting: false,
         isSorted: false,
+        isFindingCoordinates: false,
+        hasCoordinates: false,
+        isAddingDistances: false,
+        hasDistances: false,
     },
     infos: {
         lastSuccessLoad: 0,
@@ -45,35 +51,53 @@ export const initialState: State = {
 const listsReducer = createReducer(
     initialState,
     // Here we don't use sort, but it is used in the effect
-    on(ListsActions.LOAD_ADS, (state, { sort }) => ({
+    on(ListsActions.LOAD_ADS, (state, {sort}) => ({
         ...state,
         ads: {
-            ...state.ads, loading: true, loaded: false, error: null, sort: AdsSort.NONE
-        } })),
-    on(ListsActions.LOAD_ADS_SUCCESS, (state, { ads }) => ({
-        ...state,
-        ads: {
-            ...state.ads, list: ads, loading: false, loaded: true, lastSuccessLoad: Date.now()
+            ...state.ads, loading: true, loaded: false, error: null, sort: AdsSort.NONE, isSorted: false,
         }
     })),
-    on(ListsActions.LOAD_ADS_FAILURE, (state, { error }) => ({ ...state, ads: { ...state.ads, error, loading: false  }})),
+    on(ListsActions.LOAD_ADS_SUCCESS, (state, {ads}) => ({
+        ...state,
+        ads: {
+            ...state.ads, list: ads, loading: false, loaded: true, lastSuccessLoad: Date.now(),
+        }
+    })),
+    on(ListsActions.LOAD_ADS_FAILURE, (state, {error}) => ({
+        ...state,
+        ads: {
+            ...state.ads, error, loading: false,
+        }
+    })),
     // Here we don't use ads, but it is used in the effect
-    on(ListsActions.FIND_COORDINATES, (state, { ads }) => ({
+    on(ListsActions.FIND_COORDINATES, (state, {ads}) => ({
         ...state,
         ads: {
-            ...state.ads, isSorting: true, isSorted: false, loading: false, loaded: true, lastSuccessLoad: Date.now()
+            ...state.ads, isFindingCoordinates: true, hasCoordinates: false,
         }
     })),
-    on(ListsActions.ADD_DISTANCES_SUCCESS, (state, { ads }) => ({
+    on(ListsActions.FIND_COORDINATES_SUCCESS, (state, {ads}) => ({
         ...state,
         ads: {
-            ...state.ads, list: ads, isSorting: false, isSorted: true, sort: AdsSort.POSITION_ASC
+            ...state.ads, isFindingCoordinates: false, hasCoordinates: true,
+        }
+    })),
+    on(ListsActions.FIND_COORDINATES_FAILURE, (state, {ads, error}) => ({
+        ...state,
+        ads: {
+            ...state.ads, isFindingCoordinates: false, list: ads, isAddingDistances: true, hasDistances: false, error,
+        }
+    })),
+    on(ListsActions.ADD_DISTANCES_SUCCESS, (state, {ads}) => ({
+        ...state,
+        ads: {
+            ...state.ads, list: ads, sort: AdsSort.POSITION_ASC, isAddingDistances: false, hasDistances: true,
         }
     })),
     on(ListsActions.ADD_DISTANCES_FAILURE, (state, {ads, error}) => ({
         ...state,
         ads: {
-            ...state.ads, list: ads, isSorting: false, isSorted: false, sort: AdsSort.NONE
+            ...state.ads, list: ads, sort: AdsSort.NONE, isAddingDistances: false, error,
         }
     })),
 
@@ -81,7 +105,7 @@ const listsReducer = createReducer(
     on(ListsActions.LOAD_INFOS_SUCCESS, state => state),
     on(ListsActions.LOAD_INFOS_FAILURE, state => state),
     // INIT and RESET
-    on(AppActions.APP_INIT, (state, { wholeState }) => wholeState.lists),
+    on(AppActions.APP_INIT, (state, {wholeState}) => wholeState.lists),
     on(ListsActions.RESET, state => initialState)
 );
 
@@ -94,6 +118,5 @@ export const getAdList = (state: State) => getAdsState(state).list;
 export const getAdsLoaded = (state: State) => getAdsState(state).loaded;
 export const getAdsLoading = (state: State) => getAdsState(state).loading;
 export const getAdsLastSuccededLoad = (state: State) => getAdsState(state).lastSuccessLoad;
-export const getAdsIsSorting = (state: State) => getAdsState(state).isSorting;
 
 export const getInfos = (state: State) => state.infos;

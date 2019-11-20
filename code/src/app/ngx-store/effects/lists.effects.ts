@@ -19,23 +19,30 @@ export class ListsEffects {
             tap(() => console.log('sort', sort)),
             map(
                 (ads: any) => {
-                    if (sort === AdsSort.NONE) {
-                        return ListsActions.FIND_COORDINATES({ads});
-                    }
-                    return ListsActions.FIND_COORDINATES({ads});
+                    return ListsActions.LOAD_ADS_SUCCESS({ads, sort});
+                    // return ListsActions.FIND_COORDINATES({ads, sort});
                 }),
             catchError(error => {
                 console.error(error);
-                return of(ListsActions.LOAD_ADS_FAILURE({error}));
+                return of(ListsActions.LOAD_ADS_FAILURE({error: 'FAILURE WHEN LOADING ADS'}));
             }),
             ),
         )),
     );
 
+    loadAdsSuccess = createEffect(() => this.actions$.pipe(
+        ofType(ListsActions.LOAD_ADS_SUCCESS),
+        map(({ads, sort}) => ListsActions.FIND_COORDINATES({ads, sort}))
+    ));
+
+    // loadAdsFailure --> do nothing
+
     findCoordinates$ = createEffect(() => this.actions$.pipe(
         ofType(ListsActions.FIND_COORDINATES),
-        mergeMap(({ads}) => {
+        mergeMap(({ads, sort}) => {
             const arrayOfObs = [];
+
+            // Find the coordinates of each ad
             for (const ad of ads) {
                 arrayOfObs.push(this.positionService.checkIfGeolocaIsStorageOrGetItFromAPI(`${ad.id}`, ad.location));
             }
@@ -45,24 +52,23 @@ export class ListsEffects {
                         for (let i = 0; i < ads.length; i++) {
                             ads[i].coordinates = arrayOfResponses[i];
                         }
-                        return ListsActions.FIND_COORDINATES_SUCCESS({ads});
+                        return ListsActions.FIND_COORDINATES_SUCCESS({ads, sort});
                     }
                 ),
                 catchError(error => {
                     console.error(error);
-                    return of(ListsActions.FIND_COORDINATES_FAILURE({ads}));
+                    return of(ListsActions.FIND_COORDINATES_FAILURE({ads, error: 'COORDINATES NOT FOUND'}));
                 }),
             );
         }),
     ));
 
     myLocation: LatLng;
-    hasLocation: boolean;
 
     addDistances$ = createEffect(() => this.actions$.pipe(
         ofType(ListsActions.FIND_COORDINATES_SUCCESS),
-        map(({ads}) => {
-            if (this.hasLocation) { // We have the location, sort it with distances
+        map(({ads, sort}) => {
+            if (sort === AdsSort.POSITION_ASC) { // We have the location, sort it with distances
                 const adsWithDistance = ads.map((ad: Ad) => {
                     return {
                         ...ad,
@@ -76,6 +82,8 @@ export class ListsEffects {
 
         }),
     ));
+
+
 
 
 
@@ -94,10 +102,6 @@ export class ListsEffects {
                 };
             }
 
-        });
-
-        this.store.select(positionSelectors.getPositionState).subscribe(positionState => {
-            this.hasLocation = positionState.isAvailable;
         });
     }
 }

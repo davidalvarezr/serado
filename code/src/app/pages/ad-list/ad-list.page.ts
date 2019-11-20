@@ -9,6 +9,7 @@ import {listsSelectors, positionSelectors} from '../../ngx-store/selectors';
 import {Observable} from 'rxjs';
 import {PositionActions} from '../../ngx-store/actions';
 import {HttpClient} from '@angular/common/http';
+import {AdsState} from '../../ngx-store/reducers/lists.reducer';
 
 @Component({
     selector: 'app-ad-list-page',
@@ -18,6 +19,7 @@ import {HttpClient} from '@angular/common/http';
 export class AdListPage implements OnInit, AfterViewInit {
 
     positionState$: Observable<PositionState>;
+    adsState$: Observable<AdsState>;
     adList$: Observable<Ad[]>;
     adsLoading$: Observable<boolean>;
     adsIsSorting$: Observable<boolean>;
@@ -36,11 +38,11 @@ export class AdListPage implements OnInit, AfterViewInit {
         this.positionState$ = this.store.select<PositionState>(positionSelectors.getPositionState);
         this.adList$ = this.store.select<Ad[]>(listsSelectors.getAdListSorted);
         this.adsLoading$ = this.store.select<boolean>(listsSelectors.getAdsLoading);
-        this.adsIsSorting$ = this.store.select<boolean>(listsSelectors.getAdsIsSorting);
         this.store.select<number>(listsSelectors.getAdsLastSuccededLoad)
             .subscribe(
             adsLastSuccededLoad => { this.adsLastSuccededLoad = adsLastSuccededLoad; }
             );
+        this.adsState$ = this.store.select<AdsState>(listsSelectors.getAdsState);
     }
 
     ngAfterViewInit(): void {
@@ -54,16 +56,6 @@ export class AdListPage implements OnInit, AfterViewInit {
             console.log('time since load succeded', ((Date.now() - this.adsLastSuccededLoad) / 1000) + 's');
         }, 30 * 1000);
     }
-
-    /* private getAllJobs(): void {
-         this.jobsService.getAllJobs()
-             .subscribe(
-                 res => {
-                     this.adList = res;
-                 },
-                 err => { console.error(err); }
-             );
-     }*/
 
     private async showAlertTellingWhyPositionIsNeededIfFirstTime(): Promise<void> {
         const trueIfAlreadyInit = await this.storage.get('trueIfAlreadyInit');

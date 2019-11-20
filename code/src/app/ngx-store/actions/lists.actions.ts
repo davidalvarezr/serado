@@ -8,7 +8,7 @@ export const LOAD_ADS = createAction(
 
 export const LOAD_ADS_SUCCESS = createAction(
     '[LISTS] LOAD ADS SUCCESS',
-    props<{ads: Ad[]}>(),
+    props<{ads: Ad[], sort: AdsSort}>(),
 );
 
 export const LOAD_ADS_FAILURE = createAction(
@@ -18,17 +18,17 @@ export const LOAD_ADS_FAILURE = createAction(
 
 export const FIND_COORDINATES = createAction(
     '[LISTS] FIND COORDINATES',
-    props<{ ads: Ad[] }>(),
+    props<{ ads: Ad[], sort: AdsSort }>(),
 );
 
 export const FIND_COORDINATES_SUCCESS = createAction(
     '[LISTS] FIND COORDINATES SUCCESS',
-    props<{ ads: Ad[] }>(),
+    props<{ ads: Ad[], sort: AdsSort }>(),
 );
 
 export const FIND_COORDINATES_FAILURE = createAction(
     '[LISTS] FIND COORDINATES FAILURE',
-    props<{ ads: Ad[] }>(),
+    props<{ ads: Ad[], error: any }>(),
 );
 
 export const ADD_DISTANCES_SUCCESS = createAction(
