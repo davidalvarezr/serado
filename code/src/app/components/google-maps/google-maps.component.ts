@@ -2,6 +2,7 @@ import {AfterViewInit, Component, Input, OnDestroy, OnInit} from '@angular/core'
 import {LatLng} from '../../models/Models';
 // @ts-ignore
 import maps = google.maps;
+import GeolocationMarker from '../../../../node_modules/geolocation-marker/src/geolocation-marker.js';
 
 @Component({
     selector: 'app-google-maps',
@@ -28,7 +29,9 @@ export class GoogleMapsComponent implements OnInit {
         this.markers = [];
 
         this.addMarker(this.adPosition);
+        const GeoMarker = new GeolocationMarker(this.map);
         this.addMarker({lat: 46.2037506, lng: 6.1615178});
+        this.markers[this.markers.length - 1].setVisible(false);
 
         this.boundToMarkers();
     }
