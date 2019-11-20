@@ -79,13 +79,13 @@ const listsReducer = createReducer(
     on(ListsActions.FIND_COORDINATES_SUCCESS, (state, {ads}) => ({
         ...state,
         ads: {
-            ...state.ads, isFindingCoordinates: false, hasCoordinates: true,
+            ...state.ads, isFindingCoordinates: false, hasCoordinates: true, isAddingDistances: true, hasDistances: false,
         }
     })),
     on(ListsActions.FIND_COORDINATES_FAILURE, (state, {ads, error}) => ({
         ...state,
         ads: {
-            ...state.ads, isFindingCoordinates: false, list: ads, isAddingDistances: true, hasDistances: false, error,
+            ...state.ads, isFindingCoordinates: false, list: ads, error,
         }
     })),
     on(ListsActions.ADD_DISTANCES_SUCCESS, (state, {ads}) => ({

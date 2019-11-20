@@ -8,6 +8,7 @@ import { IonicModule } from '@ionic/angular';
 import { AdListPage } from './ad-list.page';
 import {AdCellComponent} from '../../components/ad-cell/ad-cell.component';
 import {AdListComponent} from '../../components/ad-list/ad-list.component';
+import {ToastComponent} from '../../components/toast/toast.component';
 
 const routes: Routes = [
   {
@@ -23,6 +24,6 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes),
   ],
-  declarations: [AdListPage, AdListComponent, AdCellComponent]
+    declarations: [AdListPage, AdListComponent, AdCellComponent, ToastComponent]
 })
 export class AdListPageModule {}

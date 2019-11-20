@@ -40,7 +40,7 @@ export class PositionEffects {
             }),
             catchError(error => {
                 console.error('ERROR', error);
-                return of(PositionActions.LOAD_POSITION_FAILURE({error}));
+                return of(PositionActions.LOAD_POSITION_FAILURE({error: 'Position indisponible'}));
             }),
         ))
     ));
@@ -48,13 +48,15 @@ export class PositionEffects {
     loadPositionSuccess$ = createEffect(() => this.actions$.pipe(
         ofType(PositionActions.LOAD_POSITION_SUCCESS),
         map(() => ListsActions.LOAD_ADS({sort: AdsSort.POSITION_ASC})),
+        // FIXME: I think this is impossible that an error happens here ?!
         catchError(error => { console.error(error); return of(error); })
     ))
 
     loadPositionFailure$ = createEffect(() => this.actions$.pipe(
-        ofType(PositionActions.LOAD_POSITION_FAILURE.type),
+        ofType(PositionActions.LOAD_POSITION_FAILURE),
         map(() => ListsActions.LOAD_ADS({sort: AdsSort.NONE})),
-        catchError(error => { console.error(error); return of(error); })
+        // FIXME: I think this is impossible that an error happens here ?!
+        catchError(error => { console.error('ERROR', error); return of(error); })
     ))
 
     constructor(

@@ -24,7 +24,7 @@ export class ListsEffects {
                 }),
             catchError(error => {
                 console.error(error);
-                return of(ListsActions.LOAD_ADS_FAILURE({error: 'FAILURE WHEN LOADING ADS'}));
+                return of(ListsActions.LOAD_ADS_FAILURE({error: 'Les offres d\'emploi n\'ont pas pu être chargées'}));
             }),
             ),
         )),
@@ -57,7 +57,7 @@ export class ListsEffects {
                 ),
                 catchError(error => {
                     console.error(error);
-                    return of(ListsActions.FIND_COORDINATES_FAILURE({ads, error: 'COORDINATES NOT FOUND'}));
+                    return of(ListsActions.FIND_COORDINATES_FAILURE({ads, error: 'Les coordonnées n\'ont pas été trouvées'}));
                 }),
             );
         }),
@@ -77,7 +77,7 @@ export class ListsEffects {
                 });
                 return ListsActions.ADD_DISTANCES_SUCCESS({ads: adsWithDistance});
             } else { // We don't have the position, just return the ads like that (with coordinates)
-                return ListsActions.ADD_DISTANCES_FAILURE({ads, error: 'CAN\'T ADD DISTANCE BECAUSE NO ACCESS TO LOCATION'});
+                return ListsActions.ADD_DISTANCES_FAILURE({ads, error: 'Calcul des distances impossible'});
             }
 
         }),

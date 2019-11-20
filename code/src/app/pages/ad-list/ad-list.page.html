@@ -10,40 +10,14 @@
 </ion-header>
 
 <ion-content>
+
+    <app-toast #errorToast type="error"></app-toast>
+    <app-toast #infoToast></app-toast>
+
     <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
 
-    <div class="messages" *ngIf="positionState$ | async as positionState">
-        <div *ngIf="positionState.loading">
-            <p>Localisation en cours... <ion-spinner></ion-spinner></p>
-        </div>
-        <div *ngIf="positionState.loaded">
-            <p>Position: {{positionState.coords | json}}</p>
-        </div>
-
-        <div *ngIf="positionState.error">
-            <p class="msg-error">Erreur: {{positionState.error | json}}</p>
-        </div>
-    </div>
-
-    <div class="messages" *ngIf="adsState$ | async as adsState">
-        <div *ngIf="adsState.loading">
-            <p>Récupération des annonces... <ion-spinner></ion-spinner></p>
-        </div>
-        <div *ngIf="adsState.isFindingCoordinates">
-            <p>Recherche des coordonnées correspondant aux adresses... <ion-spinner></ion-spinner></p>
-        </div>
-        <div *ngIf="adsState.isAddingDistances">
-            <p>Calcul des distances entre la position actuelle et les annonces... <ion-spinner></ion-spinner></p>
-        </div>
-
-        <div *ngIf="adsState.error">
-            <p class="msg-error">Erreur: {{adsState.error | json}}</p>
-        </div>
-    </div>
-
     <app-ad-list *ngIf="(adList$ | async).length" [ads]="(adList$ | async)"></app-ad-list>
-
 
 </ion-content>

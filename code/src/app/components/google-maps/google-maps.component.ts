@@ -53,7 +53,7 @@ export class GoogleMapsComponent implements OnInit {
 
     private addCurrentLocationMarker(latLng: LatLng): maps.Marker {
         this.markers.push(new maps.Marker({
-            position: latLng, map: this.map, icon: '../../assets/map/cur_loc_24.png'
+            position: latLng, map: this.map, icon: '../../assets/map/cur_loc_32_s.png'
         }));
     }
 
