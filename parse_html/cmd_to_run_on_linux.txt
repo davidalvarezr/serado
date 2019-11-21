@@ -1,0 +1,3 @@
+sed -e 's/\\n/\
+/g' -e 's/\\\n/\
+/g' -e 's/\\t/  /g' -e 's/\\"/"/g' dirty_html.txt

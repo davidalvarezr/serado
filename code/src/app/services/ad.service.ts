@@ -30,6 +30,10 @@ export class AdService {
         return this.http.get(routes.getOneAd(id))
             .pipe(
                 map(json => {
+
+                    const isolatedContent = this.isolateContent(json);
+                    console.info(isolatedContent);
+
                     const adNotComplete: AdNotComplete = {
                         id: json.id,
                         title: this.invert_escape_html(json.title.rendered),
@@ -39,6 +43,22 @@ export class AdService {
                     return adNotComplete;
                 }),
             );
+    }
+
+    private isolateContent(json: any) {
+        interface RegexAndReplacement {
+            regex: RegExp;
+            replacement: string;
+        }
+        const backslashN: RegexAndReplacement = {regex: /\\n/g, replacement: '\n'};
+        const backslashT: RegexAndReplacement = {regex: /\\t/g, replacement: '  '};
+        const quoteMark: RegexAndReplacement = {regex: /\\"/g, replacement: '"'};
+
+        const regexes: RegexAndReplacement[] = [backslashN, backslashT, quoteMark];
+
+        return regexes.reduce((previousVal, currentVal) => {
+            return previousVal.replace(currentVal.regex, currentVal.replacement);
+        }, json.content.rendered);
     }
 
     private transform(json: any[]): Ad[] {

@@ -23,7 +23,7 @@ export class GoogleMapsComponent implements OnInit {
 
 
     ngOnInit() {
-        this.map = new maps.Map(document.getElementById('map'), {
+        /*this.map = new maps.Map(document.getElementById('map'), {
             // ~Center of Switzerland : 46.853906, 8.245431
             center: {lat: 46.853906, lng: 8.245431},
             zoom: 10,
@@ -45,7 +45,7 @@ export class GoogleMapsComponent implements OnInit {
         } else {
             this.map.setCenter(new maps.LatLng(this.adPosition.lat, this.adPosition.lng));
             this.map.setZoom(10);
-        }
+        }*/
 
 
     }
