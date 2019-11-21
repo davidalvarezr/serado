@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {AdService} from '../../services/ad.service';
-import {Ad, AdNotComplete, LatLng} from '../../models/Models';
+import {Ad, AdComplete, AdNotComplete, LatLng} from '../../models/Models';
 import {Store} from '@ngrx/store';
 import {listsSelectors, positionSelectors} from '../../ngx-store/selectors';
 import {AppState} from '../../ngx-store/reducers';
@@ -15,7 +15,7 @@ import {Coordinates} from '@ionic-native/geolocation';
 export class AdInfosPage implements OnInit {
 
     adId: number;
-    ad: AdNotComplete;
+    ad: AdComplete;
     loading = false;
     adPosition: LatLng;
     currentPosition?: Coordinates;
@@ -35,7 +35,7 @@ export class AdInfosPage implements OnInit {
         // Fetch the Ad info from API
         this.adService.getOneJob(this.adId)
             .subscribe(
-                (ad: AdNotComplete) => {
+                (ad: AdComplete) => {
                     console.log(ad);
                     this.loading = false;
                     this.ad = ad;

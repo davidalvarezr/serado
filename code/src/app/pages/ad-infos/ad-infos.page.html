@@ -13,8 +13,25 @@
 
     <div *ngIf="ad" class="ion-padding">
         <h4>{{ad.title}}</h4>
-      <a href="{{ad.link}}">Postulez à partir du site web</a>
+        <a href="{{ad.link}}">Postulez à partir du site web</a>
     </div>
 
     <app-google-maps [adPosition]="adPosition" [currentPosition]="currentPosition"></app-google-maps>
+
+    <div *ngIf="ad" class="ion-padding">
+
+        <ion-grid>
+
+            <ion-row *ngFor="let info of ad.infos">
+                <ion-col class="label" size="12">
+                    <b class="">{{info.title}}&nbsp;:&nbsp;</b>
+                </ion-col>
+                <ion-col class="val" size="12" [innerHTML]="info.description">
+                </ion-col>
+            </ion-row>
+
+        </ion-grid>
+
+    </div>
+
 </ion-content>
