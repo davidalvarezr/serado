@@ -296,6 +296,24 @@ Les éléments suivants devront être stockés:
     \item Heure du dernier chargement de la \textbf{liste des infos générales}
     \item La position GPS de l'utilisateur
 \end{itemize}
+\vspace{1em}
+
+Le diagramme ci-dessous décrit le comportement principal de l'application, c'est-à-dire,
+dans l'ordre:
+\begin{enumerate}
+    \item Charger (trouver) la position actuelle de l'utilisateur.
+    \item Charger les annonces.
+    \item Trouver et ajouter les coordonnées GPS de chacune des annonces (avec Google Maps API).
+    \item Calculer et ajouter les distances entre la position actuelle de l'utilisateur et la position de chacune des annonces.
+\end{enumerate}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{../diags/serado_activity.pdf}
+    \caption{Diagramme d'activité}
+    \label{fig:activity_diagram}
+\end{figure}
+
 
 \subsection{Actions}
 Afin de modifier l'état global de l'application, nous allons devoir \textit{dispatcher}
@@ -328,6 +346,13 @@ il va falloir traiter les requêtes HTTP différemment:
 \end{itemize}
 On créera une \textit{Factory} qui retournera le bon objet en fonction de la
 plateforme où nous nous trouvons.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{../diags/http_factory_class.pdf}
+    \caption{Diagramme de classe de la HttpFactory}
+    \label{fig:class_http_factory}
+\end{figure}
 
 Un \textit{HttpInterceptor} sera aussi utilisé pour simuler les requêtes HTTP,
 en attendant de maîtriser la génération (ou quelque chose à voir) d'API depuis
