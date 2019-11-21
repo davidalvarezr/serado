@@ -19,6 +19,9 @@ export class GoogleMapsComponent implements OnInit {
     constructor() {}
 
 
+    // It seems that by default, on Android, user has to interact with the map to have it loaded
+
+
     ngOnInit() {
         this.map = new maps.Map(document.getElementById('map'), {
             // ~Center of Switzerland : 46.853906, 8.245431
