@@ -9,6 +9,7 @@
 \usepackage{float}
 \usepackage[bottom]{footmisc}
 \usepackage{gensymb}
+\usepackage[normalem]{ulem}
 
 \setlength{\parindent}{0em}
 \setlength{\parskip}{1em}
@@ -100,8 +101,9 @@ Il y a deux moyens pour récupérer ces informations:
 \end{enumerate}
 \vspace{1em}
 
-Puisque la personne qui gère \textit{WordPress} est absente cette semaine
-(11.11.2019), nous partirons plutôt sur la méthode n\degree2.
+\sout{Puisque la personne qui gère \textit{WordPress} est absente cette semaine
+(11.11.2019), nous partirons plutôt sur la méthode n\degree2.} C'est la méthode
+n\degree1 qui a été finalement faite.
 
 Ensuite, puisque on utilise \textit{WordPress} pour insérer les offres d'emploi,
 l'idéal serait de aussi l'utiliser pour insérer les informations générales.
@@ -153,6 +155,37 @@ Afin d'afficher une \textit{map} (carte), l'API de google sera utilisée:
 \url{https://developers.google.com/maps/documentation/javascript/tutorial}. Afin de
 pouvoir l'utiliser, il faudra rentrer un numéro de carte de crédit. L'utilisation
 de l'API est gratuite: \url{https://cloud.google.com/maps-platform/pricing/sheet/}. 
+
+ATTENTION: pendant la première année un crédit de 300\$/mois est offert pour
+l'utilisation des services, ce qui devrait être suffisant pour l'entreprise, en
+partant du principe qu'il n'y aura pas énormément d'utilisateur. Il me semble
+qu'après cette année, certains services sont restreints, voir: 
+\url{https://cloud.google.com/free/docs/gcp-free-tier}.
+
+Deux API sont utilisées:
+\begin{description}
+    \item[Geocoding API] Trouve les coordonnées GPS d'un lieu à partir de son adresse.
+    \item[Maps JavaScript API] Affiche la carte, ainsi que plusieurs marqueurs.  
+\end{description}
+\vspace{1em}
+
+La \textbf{Geocoding API} est normalement peu utilisé, elle récupère les
+coordonnées des annonces, puis les stocke dans la mémoire interne. Elle sera donc
+appelée une fois par annonce par utilisateur. La \textbf{Maps JavaScript API} quant
+à elle est beaucoup utilisée. Elle est appelée à chaque fois qu'un utilisateur
+clique sur une annonce.
+
+Si il s'avère que l'utilisation gratuite est dépassée à cause de cela, je propose
+deux solutions:
+\begin{enumerate}
+    \item Payer pour l'API et regarder les frais sur un mois, et, continuer ainsi selon les frais.
+    \item Utiliser \textbf{Maps Embed API} (son utilisation est normalement complètement gratuite). Voir \url{https://developers.google.com/maps/documentation/embed/guide}
+\end{enumerate}
+La dernière option permet seulement d'afficher une map avec un seul marqueur. On
+perdrait alors la fonctionnalité qui permettait à l'utilisateur de voir à la fois
+sa position et celle de l'annonce sur la carte.
+
+Voir ce lien pour les autre soptimisations possibles: \url{https://developers.google.com/maps/optimization-guide}
 
 \subsubsection{WP Job Manager}
 
@@ -314,6 +347,8 @@ dans l'ordre:
     \label{fig:activity_diagram}
 \end{figure}
 
+Ces actions correspondes à des actions \textit{NgRx} et peuvent être trouvée dans le dossier
+\verb|ngx-store/actions|.
 
 \subsection{Actions}
 Afin de modifier l'état global de l'application, nous allons devoir \textit{dispatcher}
