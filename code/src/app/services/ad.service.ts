@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpFactoryService} from '../models/httpFactory/http-factory.service';
 import {IHttpCrossPlatform} from '../models/httpFactory/IHttpCrossPlatform';
 import {Observable, of} from 'rxjs';
-import {Ad, AdNotComplete} from '../models/Models';
+import {Ad, AdComplete, TitleAndDescription} from '../models/Models';
 import {routes} from '../../environments/routes';
 import {catchError, map} from 'rxjs/operators';
 
@@ -26,18 +26,21 @@ export class AdService {
     }
 
     // TODO: change to AdComplete when HTML is parsed
-    getOneJob(id: number): Observable<AdNotComplete> {
+    getOneJob(id: number): Observable<AdComplete> {
         return this.http.get(routes.getOneAd(id))
             .pipe(
                 map(json => {
 
-                    const isolatedContent = this.isolateContent(json);
-                    console.info(isolatedContent);
+                    const readableHTML = this.toReadableHTML(json);
+                    const elements = this.getElementsFromHTML(readableHTML);
 
-                    const adNotComplete: AdNotComplete = {
+                    console.log(elements);
+
+                    const adNotComplete: AdComplete = {
                         id: json.id,
                         title: this.invert_escape_html(json.title.rendered),
                         link: json.link,
+                        infos: elements,
                     };
 
                     return adNotComplete;
@@ -45,7 +48,7 @@ export class AdService {
             );
     }
 
-    private isolateContent(json: any) {
+    private toReadableHTML(json: any) {
         interface RegexAndReplacement {
             regex: RegExp;
             replacement: string;
@@ -59,6 +62,19 @@ export class AdService {
         return regexes.reduce((previousVal, currentVal) => {
             return previousVal.replace(currentVal.regex, currentVal.replacement);
         }, json.content.rendered);
+    }
+
+    private getElementsFromHTML(htmlString: string): TitleAndDescription[] {
+        const bodyElement = document.createElement('body');
+        bodyElement.innerHTML = htmlString;
+        const keys: any[] = Array.from(bodyElement.getElementsByClassName('ligne-item-offre-emploi-titre'));
+        const values: any[] = Array.from(bodyElement.getElementsByClassName('ligne-item-offre-emploi-desc'));
+        console.assert(keys.length === values.length, 'Keys and values must have the same length');
+        const array: TitleAndDescription[] = [];
+        for (let i = 0; i < keys.length; i++) {
+            array[i] = {title: keys[i].innerHTML, description: values[i].innerHTML};
+        }
+        return array;
     }
 
     private transform(json: any[]): Ad[] {
@@ -79,3 +95,4 @@ export class AdService {
     }
 
 }
+

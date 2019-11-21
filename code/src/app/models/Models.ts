@@ -22,6 +22,18 @@ export interface AdNotComplete {
     // beginning: string;
 }
 
+export interface TitleAndDescription {
+    title: string;
+    description: string;
+}
+
+export interface AdComplete {
+    id: number;
+    title: string;
+    link: string;
+    infos: TitleAndDescription[];
+}
+
 export interface Info {
     title: string;
     description: string;
