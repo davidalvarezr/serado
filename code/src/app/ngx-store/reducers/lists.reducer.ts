@@ -54,7 +54,7 @@ const listsReducer = createReducer(
     on(ListsActions.LOAD_ADS, (state, {sort}) => ({
         ...state,
         ads: {
-            ...state.ads, loading: true, loaded: false, error: null, sort: AdsSort.NONE, isSorted: false,
+            ...state.ads, loading: true, loaded: false, error: null, sort: AdsSort.NONE, isSorted: false, list: [],
         }
     })),
     on(ListsActions.LOAD_ADS_SUCCESS, (state, {ads}) => ({

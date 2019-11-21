@@ -11,10 +11,30 @@
 
 <ion-content>
 
+
+        <div *ngIf="(positionState$ | async).loading" class="container">
+            <div class="vertical-center">
+                <p>
+                    <ion-spinner></ion-spinner>
+                </p>
+            </div>
+        </div>
+
+
+        <div *ngIf="(adsState$ | async).loading || (adsState$ | async).isFindingCoordinates || (adsState$ | async).isAddingDistances"
+             class="container">
+            <div class="vertical-center">
+                <p>
+                    <ion-spinner></ion-spinner>
+                </p>
+            </div>
+        </div>
+
+
     <app-toast #errorToast type="error"></app-toast>
     <app-toast #infoToast></app-toast>
 
-    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher (ionRefresh)="doRefresh($event)" slot="fixed">
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
 
