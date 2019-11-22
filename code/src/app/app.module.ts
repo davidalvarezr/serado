@@ -37,7 +37,7 @@ import {effects} from './ngx-store/effects';
         StoreDevtoolsModule.instrument({
             maxAge: 100
         }),
-        IonicStorageModule.forRoot(), // local storage
+        IonicStorageModule.forRoot({driverOrder: ['indexeddb', 'sqlite', 'websql']}), // local storage
     ],
     providers: [
         StatusBar,
