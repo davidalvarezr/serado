@@ -12,7 +12,7 @@
 <ion-content>
 
 
-        <div *ngIf="(positionState$ | async).loading" class="container">
+        <div *ngIf="positionState && positionState.loading" class="container">
             <div class="vertical-center">
                 <p>
                     <ion-spinner></ion-spinner>
@@ -21,7 +21,7 @@
         </div>
 
 
-        <div *ngIf="(adsState$ | async).loading || (adsState$ | async).isFindingCoordinates || (adsState$ | async).isAddingDistances"
+        <div *ngIf="adsState && (adsState.loading || adsState.isFindingCoordinates || adsState.isAddingDistances)"
              class="container">
             <div class="vertical-center">
                 <p>
@@ -38,6 +38,6 @@
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
 
-    <app-ad-list *ngIf="(adList$ | async).length" [ads]="(adList$ | async)"></app-ad-list>
+    <app-ad-list *ngIf="adList.length" [ads]="adList"></app-ad-list>
 
 </ion-content>
