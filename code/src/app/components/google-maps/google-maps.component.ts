@@ -16,6 +16,21 @@ export class GoogleMapsComponent implements OnInit {
     private map: maps.Map;
     private markers: maps.Marker[];
 
+    curLocMarkerImage = {
+        url: '../../assets/map/cur_loc_24.png',
+        // This marker is 20 pixels wide by 32 pixels high.
+        size: new maps.Size(24, 24),
+        // The origin for this image is (0, 0).
+        origin: new maps.Point(0, 0),
+        // The anchor for this image is the base of the flagpole at (0, 32).
+        anchor: new maps.Point(0, 24)
+    };
+    curLocShape = {
+        coords: [0, 24, 0, 0, 24, 0, 24, 24],
+        type: 'poly'
+    };
+
+
     constructor() {}
 
 
@@ -52,9 +67,18 @@ export class GoogleMapsComponent implements OnInit {
         this.markers.push(new maps.Marker({position: latLng, map: this.map}));
     }
 
+
+
+
     private addCurrentLocationMarker(latLng: LatLng): maps.Marker {
-        this.markers.push(new maps.Marker({
+        /*this.markers.push(new maps.Marker({
             position: latLng, map: this.map, icon: '../../assets/map/cur_loc_32_s.png'
+        }));*/
+        this.markers.push(new maps.Marker({
+            position: latLng,
+            map: this.map,
+            icon: this.curLocMarkerImage,
+            shape: this.curLocShape,
         }));
     }
 
