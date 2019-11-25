@@ -1,0 +1,20 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>Partenaires</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+    <ion-card *ngFor="let partner of partners">
+        <ion-img [src]="partner.img"></ion-img>
+        <ion-card-header>
+            <ion-title>{{partner.title}}</ion-title>
+        </ion-card-header>
+        <ion-card-content [innerHTML]="partner.desc"></ion-card-content>
+        <ion-card-content class="link-container">
+            <a [href]="'https://' + partner.link">{{partner.link}}</a>
+        </ion-card-content>
+    </ion-card>
+
+</ion-content>

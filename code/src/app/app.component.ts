@@ -20,6 +20,11 @@ export class AppComponent {
             title: 'Annonces',
             url: '/ad-list',
             icon: 'list',
+        },
+        {
+            title: 'Partenaires',
+            url: '/partners',
+            icon: 'people',
         }
     ];
 

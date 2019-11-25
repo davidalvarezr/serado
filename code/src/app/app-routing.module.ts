@@ -8,7 +8,8 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   { path: 'ad-list', loadChildren: './pages/ad-list/ad-list.module#AdListPageModule' },
-  { path: 'ad-list/:id', loadChildren: './pages/ad-infos/ad-infos.module#AdInfosPageModule' }
+  { path: 'ad-list/:id', loadChildren: './pages/ad-infos/ad-infos.module#AdInfosPageModule' },
+  { path: 'partners', loadChildren: './pages/partners/partners.module#PartnersPageModule' }
 ];
 
 @NgModule({
