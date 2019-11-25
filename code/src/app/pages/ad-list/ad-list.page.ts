@@ -114,7 +114,6 @@ export class AdListPage implements OnInit, AfterViewInit {
 
     private initialize() {
 
-        this.store.dispatch(PositionActions.LOAD_POSITION_FOR_LIST());
         this.positionState$.subscribe(positionState => { this.positionState = positionState; });
         this.adList$.subscribe(adList => this.adList = adList);
         this.store.select<number>(listsSelectors.getAdsLastSuccededLoad)
@@ -123,7 +122,8 @@ export class AdListPage implements OnInit, AfterViewInit {
             );
         this.adsState$.subscribe(adsState => this.adsState = adsState);
 
-        if (Date.now() - this.adsLastSuccededLoad < 30 * 60 * 1000)  { // 30 minutes
+
+        if (Date.now() - this.adsLastSuccededLoad > 30 * 60 * 1000)  { // 30 minutes
             this.store.dispatch(PositionActions.LOAD_POSITION_FOR_LIST());
         } else {
             // console.log('THE APP DID NOT UPDTATE THE POSITION AND THE ADS BECAUSE LAST TIME WAS LESS THAN 30 MIN');
