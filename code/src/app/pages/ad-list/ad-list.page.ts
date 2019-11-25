@@ -114,9 +114,7 @@ export class AdListPage implements OnInit, AfterViewInit {
 
     private initialize() {
 
-        // this.showAlertTellingWhyPositionIsNeededIfFirstTime();
         this.store.dispatch(PositionActions.LOAD_POSITION_FOR_LIST());
-        // this.getAllJobs();
         this.positionState$.subscribe(positionState => { this.positionState = positionState; });
         this.adList$.subscribe(adList => this.adList = adList);
         this.store.select<number>(listsSelectors.getAdsLastSuccededLoad)
@@ -128,11 +126,11 @@ export class AdListPage implements OnInit, AfterViewInit {
         if (Date.now() - this.adsLastSuccededLoad < 30 * 60 * 1000)  { // 30 minutes
             this.store.dispatch(PositionActions.LOAD_POSITION_FOR_LIST());
         } else {
-            console.log('THE APP DID NOT UPDTATE THE POSITION AND THE ADS BECAUSE LAST TIME WAS LESS THAN 30 MIN');
+            // console.log('THE APP DID NOT UPDTATE THE POSITION AND THE ADS BECAUSE LAST TIME WAS LESS THAN 30 MIN');
         }
 
-        setInterval(() => {
+        /*setInterval(() => {
             console.log('time since load succeded', ((Date.now() - this.adsLastSuccededLoad) / 1000) + 's');
-        }, 30 * 1000);
+        }, 30 * 1000);*/
     }
 }

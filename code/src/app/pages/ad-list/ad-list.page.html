@@ -11,32 +11,25 @@
 
 <ion-content>
 
+    <!--    Show refresher only if nothing is loading-->
+    <ion-refresher
+            [disabled]="(positionState && positionState.loading) || (adsState && (adsState.loading || adsState.isFindingCoordinates || adsState.isAddingDistances))"
+            (ionRefresh)="doRefresh($event)"
+            slot="fixed">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
 
-        <div *ngIf="positionState && positionState.loading" class="container">
-            <div class="vertical-center">
-                <p>
-                    <ion-spinner></ion-spinner>
-                </p>
-            </div>
+    <div *ngIf="(positionState && positionState.loading) || (adsState && (adsState.loading || adsState.isFindingCoordinates || adsState.isAddingDistances))"
+         class="container">
+        <div class="vertical-center">
+            <p>
+                <ion-spinner></ion-spinner>
+            </p>
         </div>
-
-
-        <div *ngIf="adsState && (adsState.loading || adsState.isFindingCoordinates || adsState.isAddingDistances)"
-             class="container">
-            <div class="vertical-center">
-                <p>
-                    <ion-spinner></ion-spinner>
-                </p>
-            </div>
-        </div>
-
+    </div>
 
     <app-toast #errorToast type="error"></app-toast>
     <app-toast #infoToast></app-toast>
-
-    <ion-refresher (ionRefresh)="doRefresh($event)" slot="fixed">
-        <ion-refresher-content></ion-refresher-content>
-    </ion-refresher>
 
     <app-ad-list *ngIf="adList.length" [ads]="adList"></app-ad-list>
 

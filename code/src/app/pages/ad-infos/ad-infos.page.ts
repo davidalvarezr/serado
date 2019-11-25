@@ -36,7 +36,7 @@ export class AdInfosPage implements OnInit {
         this.adService.getOneJob(this.adId)
             .subscribe(
                 (ad: AdComplete) => {
-                    console.log(ad);
+                    // console.log(ad);
                     this.loading = false;
                     this.ad = ad;
                 },
@@ -48,7 +48,8 @@ export class AdInfosPage implements OnInit {
 
         // Find the position of the current ad and put it in this.adPosition
         this.store.select<Ad[]>(listsSelectors.getAdList).subscribe(adList => {
-                this.adPosition = adList.find(ad => ad.id === this.adId).coordinates;
+                const maybeAd = adList.find(ad => ad.id === this.adId);
+                this.adPosition = maybeAd ? maybeAd.coordinates : null;
             });
 
         this.store.select<Coordinates>(positionSelectors.getCoordinatesState).subscribe(curPos => {

@@ -34,7 +34,7 @@ export class AdService {
                     const readableHTML = this.toReadableHTML(json);
                     const elements = this.getElementsFromHTML(readableHTML);
 
-                    console.log(elements);
+                    // console.log(elements);
 
                     const adNotComplete: AdComplete = {
                         id: json.id,

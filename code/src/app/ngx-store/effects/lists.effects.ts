@@ -16,7 +16,6 @@ export class ListsEffects {
     loadAds$ = createEffect(() => this.actions$.pipe(
         ofType(ListsActions.LOAD_ADS),
         mergeMap(({sort}) => this.jobsService.getAllJobs().pipe(
-            tap(() => console.log('sort', sort)),
             map(
                 (ads: any) => {
                     return ListsActions.LOAD_ADS_SUCCESS({ads, sort});
