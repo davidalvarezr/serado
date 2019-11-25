@@ -51,6 +51,25 @@
         <splash density="port-xxxhdpi" src="resources/android/splash/drawable-port-xxxhdpi-screen.png" />
     </platform>
     <platform name="ios">
+        <edit-config file="*-Info.plist" mode="merge" target="NSExceptionDomains">
+            <dict>
+                <key>localhost</key>
+                <dict>
+                    <key>NSExceptionAllowsInsecureHTTPLoads</key>
+                    <true />
+                </dict>
+                <key>http://maps.googleapis.com</key>
+                <dict>
+                    <key>NSExceptionAllowsInsecureHTTPLoads</key>
+                    <true />
+                </dict>
+                <key>https://serado.ch</key>
+                <dict>
+                    <key>NSExceptionAllowsInsecureHTTPLoads</key>
+                    <true />
+                </dict>
+            </dict>
+        </edit-config>
         <edit-config file="*-Info.plist" mode="merge" target="NSLocationWhenInUseUsageDescription">
             <string>Serado Annonces a besoin de votre localisation afin de trier les offres d'emploi les plus proches de vous</string>
         </edit-config>
