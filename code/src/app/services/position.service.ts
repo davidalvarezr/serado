@@ -8,12 +8,11 @@ import {AppState} from '../ngx-store/reducers';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 // @ts-ignore
-import maps = google.maps;
+// import maps = google.maps;
 import {LatLng} from '../models/Models';
-// @ts-ignore
-import computeDistanceBetween = google.maps.geometry.spherical.computeDistanceBetween;
+// import computeDistanceBetween = google.maps.geometry.spherical.computeDistanceBetween;
 
-const {UnitSystem, TravelMode, DistanceMatrixService, Geocoder, LatLng, LatLngLiteral} = maps;
+//const {UnitSystem, TravelMode, DistanceMatrixService, Geocoder, LatLng, LatLngLiteral} = maps;
 
 @Injectable({
     providedIn: 'root'
@@ -24,44 +23,78 @@ export class PositionService {
     private distanceMatrixService: DistanceMatrixService;
     // @ts-ignore
     private geocoder: Geocoder;
+    private maps;
 
     constructor(private storage: Storage,
                 private store: Store<AppState>,
                 private geolocation: Geolocation,
                 private platform: Platform,
                 private androidPermissions: AndroidPermissions) {
-        this.distanceMatrixService = new DistanceMatrixService();
-        this.geocoder = new Geocoder();
+
+        this .injectSDK()
+            .then((itWorked) => {
+                if (itWorked) {
+                    // Here we are sure that `google` variable is available
+                    // @ts-ignore
+                    this.distanceMatrixService = new google.maps.DistanceMatrixService();
+                    // @ts-ignore
+                    this.geocoder = new google.maps.Geocoder();
+                } else {
+                    console.error('Injecting maps did not work...');
+                }
+            });
+
+    }
+
+    private injectSDK(): Promise<boolean> {
+
+        return new Promise((resolve, reject) => {
+
+            try {
+                window['initMap'] = () => {
+                    resolve(true);
+                }
+
+                const script = window.document.createElement('script');
+                script.id = 'googleMaps';
+                script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyD5LGk3CEAgAfyAKDmJcpsvTv1TioH1dws&libraries=geometry&callback=initMap';
+                window.document.body.appendChild(script);
+            } catch (error) {
+                console.error(error);
+                resolve(false);
+            }
+        });
+
     }
 
     // NOT USED
-    getDistanceBetween(origin: Coordinates, destination: string): Observable<number> {
-        return new Observable<any>(subscriber => {
-            this.distanceMatrixService.getDistanceMatrix(
-                {
-                    origins: [new LatLng(origin.latitude, origin.longitude)],
-                    destinations: [destination],
-                    travelMode: TravelMode.DRIVING,
-                    unitSystem: UnitSystem.METRIC,
-                    avoidHighways: false,
-                    avoidTolls: false,
-                },
-                (response) => {
-                    subscriber.next(response);
-                    subscriber.complete();
-                }
-            );
-        }).pipe(
-            map(res => {
-                const elt = res.rows[0].elements[0];
-                if (elt.status !== 'NOT_FOUND') {
-                    return elt.distance.value;
-                } else {
-                    return 999999; // Make sure that it is far away in order to appear at the end of the sorted by distance list
-                }
-            }),
-        );
-    }
+    // getDistanceBetween(origin: Coordinates, destination: string): Observable<number> {
+    //     return new Observable<any>(subscriber => {
+    //         this.distanceMatrixService.getDistanceMatrix(
+    //             {
+    //                 origins: [new LatLng(origin.latitude, origin.longitude)],
+    //                 destinations: [destination],
+    //                 travelMode: TravelMode.DRIVING,
+    //                 unitSystem: UnitSystem.METRIC,
+    //                 avoidHighways: false,
+    //                 avoidTolls: false,
+    //             },
+    //             (response) => {
+    //                 subscriber.next(response);
+    //                 subscriber.complete();
+    //             }
+    //         );
+    //     }).pipe(
+    //         map(res => {
+    //             const elt = res.rows[0].elements[0];
+    //             if (elt.status !== 'NOT_FOUND') {
+    //                 return elt.distance.value;
+    //             } else {
+    //                 return 999999; // Make sure that it is far away in order to appear at the end of the sorted by distance list
+    //             }
+    //         }),
+    //     );
+    // }
 
 
     /**
@@ -116,7 +149,8 @@ export class PositionService {
 
         let dist = 9999999;
         try {
-            dist = computeDistanceBetween(fromFunc, toFunc);
+            // @ts-ignore
+            dist = google.maps.geometry.spherical.computeDistanceBetween(fromFunc, toFunc);
         } catch (error) {
             console.error(error);
         }
