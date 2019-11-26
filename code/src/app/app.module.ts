@@ -8,7 +8,7 @@ import {StatusBar} from '@ionic-native/status-bar/ngx';
 
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
-import {StoreModule} from '@ngrx/store';
+import {StoreModule, ActionReducer, MetaReducer} from '@ngrx/store';
 import * as fromLists from './ngx-store/reducers/lists.reducer.js';
 import * as fromPosition from './ngx-store/reducers/position.reducer';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
@@ -23,6 +23,17 @@ import {PositionEffects} from './ngx-store/effects/position.effects';
 import {Diagnostic} from '@ionic-native/diagnostic/ngx';
 import {effects} from './ngx-store/effects';
 
+export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
+  return function(state, action) {
+    console.log('state', state);
+    console.log('action', action);
+
+    return reducer(state, action);
+  };
+}
+
+export const metaReducers: MetaReducer<any>[] = [debug];
+
 @NgModule({
     declarations: [AppComponent],
     entryComponents: [],
@@ -32,7 +43,7 @@ import {effects} from './ngx-store/effects';
         AppRoutingModule,
         HttpClientModule, // HTTP (web)
         EffectsModule.forRoot([]),
-        StoreModule.forRoot({ lists: fromLists.reducer, position: fromPosition.reducer}), // ngrx-store
+        StoreModule.forRoot({ lists: fromLists.reducer, position: fromPosition.reducer},{metaReducers}), // ngrx-store
         EffectsModule.forFeature(effects),
         StoreDevtoolsModule.instrument({
             maxAge: 100

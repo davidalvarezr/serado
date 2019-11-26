@@ -60,7 +60,7 @@ const listsReducer = createReducer(
     on(ListsActions.LOAD_ADS_SUCCESS, (state, {ads}) => ({
         ...state,
         ads: {
-            ...state.ads, list: ads, loading: false, loaded: true, lastSuccessLoad: Date.now(),
+            ...state.ads, loading: false, loaded: true, lastSuccessLoad: Date.now(),
         }
     })),
     on(ListsActions.LOAD_ADS_FAILURE, (state, {error}) => ({
