@@ -3,16 +3,12 @@ import {Storage} from '@ionic/storage';
 import {Store} from '@ngrx/store';
 import {Geolocation} from '@ionic-native/geolocation/ngx';
 import {Platform} from '@ionic/angular';
-import {AndroidPermissions} from '@ionic-native/android-permissions/ngx';
 import {AppState} from '../ngx-store/reducers';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-// @ts-ignore
-// import maps = google.maps;
 import {LatLng} from '../models/Models';
-// import computeDistanceBetween = google.maps.geometry.spherical.computeDistanceBetween;
+import {ApiKeyService} from './api-key.service';
 
-//const {UnitSystem, TravelMode, DistanceMatrixService, Geocoder, LatLng, LatLngLiteral} = maps;
 
 @Injectable({
     providedIn: 'root'
@@ -29,7 +25,7 @@ export class PositionService {
                 private store: Store<AppState>,
                 private geolocation: Geolocation,
                 private platform: Platform,
-                private androidPermissions: AndroidPermissions) {
+                private apiKeyService: ApiKeyService) {
 
         this .injectSDK()
             .then((itWorked) => {
@@ -57,7 +53,8 @@ export class PositionService {
 
                 const script = window.document.createElement('script');
                 script.id = 'googleMaps';
-                script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyD5LGk3CEAgAfyAKDmJcpsvTv1TioH1dws&libraries=geometry&callback=initMap';
+                const API_KEY = this.apiKeyService.getGoogleMapsApiKey();
+                script.src = `https://maps.googleapis.com/maps/api/js?key=${API_KEY}&libraries=geometry&callback=initMap`;
                 window.document.body.appendChild(script);
             } catch (error) {
                 console.error(error);

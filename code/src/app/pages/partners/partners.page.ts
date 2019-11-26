@@ -16,7 +16,7 @@ export class PartnersPage implements OnInit {
       link: 'www.employee-de-maison.ch',
     },
     {
-      img: '../../../assets/logo/pf.webp',
+      img: '../../../assets/logo/pf.png',
       title: 'Pôle Formation',
       desc: 'Vous souhaitez acquérir et/ou renforcer vos ' +
           'connaissances en tant qu\'employée de maison ou ' +
