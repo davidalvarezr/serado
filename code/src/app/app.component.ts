@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, enableProdMode} from '@angular/core';
 import {Platform} from '@ionic/angular';
 import {SplashScreen} from '@ionic-native/splash-screen/ngx';
 import {StatusBar} from '@ionic-native/status-bar/ngx';
@@ -7,6 +7,7 @@ import {Storage} from '@ionic/storage';
 import {take} from 'rxjs/operators';
 import {AppState} from './ngx-store/reducers';
 
+// enableProdMode();
 
 @Component({
     selector: 'app-root',
@@ -35,9 +36,21 @@ export class AppComponent {
         private storage: Storage,
         private store: Store<AppState>,
     ) {
+        console.log('===== initializing app =====');
         this.initializeApp();
+        // this.whenGoogleLoadedDo(this.initializeApp);
         // this.showNgrxStateEveryXseconds(15);
     }
+
+    /*whenGoogleLoadedDo(func) {
+        if (google !== 'undefined') {
+            func();
+        } else {
+           setTimeout(() => {
+               this.whenGoogleLoadedDo(func());
+           }, 500);
+        }
+    }*/
 
     initializeApp() {
         this.platform.ready().then(() => {

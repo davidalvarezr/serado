@@ -19,8 +19,6 @@ import {IonicStorageModule} from '@ionic/storage';
 import {EffectsModule} from '@ngrx/effects';
 import {AndroidPermissions} from '@ionic-native/android-permissions/ngx';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import {PositionEffects} from './ngx-store/effects/position.effects';
-import {Diagnostic} from '@ionic-native/diagnostic/ngx';
 import {effects} from './ngx-store/effects';
 
 export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
@@ -43,7 +41,7 @@ export const metaReducers: MetaReducer<any>[] = [debug];
         AppRoutingModule,
         HttpClientModule, // HTTP (web)
         EffectsModule.forRoot([]),
-        StoreModule.forRoot({ lists: fromLists.reducer, position: fromPosition.reducer},{metaReducers}), // ngrx-store
+        StoreModule.forRoot({ lists: fromLists.reducer, position: fromPosition.reducer}), // ngrx-store {metaReducers}
         EffectsModule.forFeature(effects),
         StoreDevtoolsModule.instrument({
             maxAge: 100
@@ -58,7 +56,6 @@ export const metaReducers: MetaReducer<any>[] = [debug];
         HTTP, // HTTP (ionic)
         Geolocation,
         AndroidPermissions,
-        Diagnostic,
     ],
     bootstrap: [AppComponent]
 })
