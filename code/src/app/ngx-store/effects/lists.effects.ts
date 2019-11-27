@@ -69,6 +69,7 @@ export class ListsEffects {
         map(({ads, sort}) => {
             if (sort === AdsSort.POSITION_ASC) { // We have the location, sort it with distances
                 const adsWithDistance = ads.map((ad: Ad) => {
+                    // console.log(ad.location);
                     return {
                         ...ad,
                         distanceFromHere: this.positionService.distanceBetween(this.myLocation, ad.coordinates)

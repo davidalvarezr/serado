@@ -16,9 +16,9 @@ import {ApiKeyService} from './api-key.service';
 export class PositionService {
 
     // @ts-ignore
-    private distanceMatrixService: DistanceMatrixService;
+    private distanceMatrixService;
     // @ts-ignore
-    private geocoder: Geocoder;
+    private geocoder;
     private maps;
 
     constructor(private storage: Storage,
@@ -64,34 +64,6 @@ export class PositionService {
 
     }
 
-    // NOT USED
-    // getDistanceBetween(origin: Coordinates, destination: string): Observable<number> {
-    //     return new Observable<any>(subscriber => {
-    //         this.distanceMatrixService.getDistanceMatrix(
-    //             {
-    //                 origins: [new LatLng(origin.latitude, origin.longitude)],
-    //                 destinations: [destination],
-    //                 travelMode: TravelMode.DRIVING,
-    //                 unitSystem: UnitSystem.METRIC,
-    //                 avoidHighways: false,
-    //                 avoidTolls: false,
-    //             },
-    //             (response) => {
-    //                 subscriber.next(response);
-    //                 subscriber.complete();
-    //             }
-    //         );
-    //     }).pipe(
-    //         map(res => {
-    //             const elt = res.rows[0].elements[0];
-    //             if (elt.status !== 'NOT_FOUND') {
-    //                 return elt.distance.value;
-    //             } else {
-    //                 return 999999; // Make sure that it is far away in order to appear at the end of the sorted by distance list
-    //             }
-    //         }),
-    //     );
-    // }
 
 
     /**
@@ -151,7 +123,6 @@ export class PositionService {
         } catch (error) {
             console.error(error);
         }
-        // TODO: uncomment dist (4 lines above) and return it. I did that to stop using API quota when testing
         return dist;
     }
 

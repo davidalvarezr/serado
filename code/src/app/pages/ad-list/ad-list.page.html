@@ -31,6 +31,6 @@
     <app-toast #errorToast type="error"></app-toast>
     <app-toast #infoToast></app-toast>
 
-    <app-ad-list *ngIf="adList.length" [ads]="adList"></app-ad-list>
+    <app-ad-list *ngIf="adList.length || !(positionState && positionState.loading) || (adsState && (adsState.loading || adsState.isFindingCoordinates || adsState.isAddingDistances))" [ads]="adList"></app-ad-list>
 
 </ion-content>
