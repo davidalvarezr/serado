@@ -15,6 +15,7 @@ export interface AdsState {
     isSorted: boolean;
     isFindingCoordinates: boolean;
     hasCoordinates: boolean;
+    shouldShowSpinner: boolean;
 }
 
 export interface InfosState {
@@ -41,6 +42,7 @@ export const initialState: State = {
         hasCoordinates: false,
         isAddingDistances: false,
         hasDistances: false,
+        shouldShowSpinner: false,
     },
     infos: {
         lastSuccessLoad: 0,
@@ -54,7 +56,7 @@ const listsReducer = createReducer(
     on(ListsActions.LOAD_ADS, (state, {sort}) => ({
         ...state,
         ads: {
-            ...state.ads, loading: true, loaded: false, error: null, sort: AdsSort.NONE, isSorted: false, list: [],
+            ...state.ads, loading: true, loaded: false, error: null, sort: AdsSort.NONE, isSorted: false, list: [], shouldShowSpinner: true,
         }
     })),
     on(ListsActions.LOAD_ADS_SUCCESS, (state, {ads}) => ({
@@ -66,7 +68,7 @@ const listsReducer = createReducer(
     on(ListsActions.LOAD_ADS_FAILURE, (state, {error}) => ({
         ...state,
         ads: {
-            ...state.ads, error, loading: false,
+            ...state.ads, error, loading: false, shouldShowSpinner: false,
         }
     })),
     // Here we don't use ads, but it is used in the effect
@@ -85,19 +87,19 @@ const listsReducer = createReducer(
     on(ListsActions.FIND_COORDINATES_FAILURE, (state, {ads, error}) => ({
         ...state,
         ads: {
-            ...state.ads, isFindingCoordinates: false, list: ads, error,
+            ...state.ads, isFindingCoordinates: false, list: ads, error, shouldShowSpinner: false,
         }
     })),
     on(ListsActions.ADD_DISTANCES_SUCCESS, (state, {ads}) => ({
         ...state,
         ads: {
-            ...state.ads, list: ads, sort: AdsSort.POSITION_ASC, isAddingDistances: false, hasDistances: true,
+            ...state.ads, list: ads, sort: AdsSort.POSITION_ASC, isAddingDistances: false, hasDistances: true, shouldShowSpinner: false,
         }
     })),
     on(ListsActions.ADD_DISTANCES_FAILURE, (state, {ads, error}) => ({
         ...state,
         ads: {
-            ...state.ads, list: ads, sort: AdsSort.NONE, isAddingDistances: false, error,
+            ...state.ads, list: ads, sort: AdsSort.NONE, isAddingDistances: false, error, shouldShowSpinner: false,
         }
     })),
 
@@ -118,5 +120,5 @@ export const getAdList = (state: State) => getAdsState(state).list;
 export const getAdsLoaded = (state: State) => getAdsState(state).loaded;
 export const getAdsLoading = (state: State) => getAdsState(state).loading;
 export const getAdsLastSuccededLoad = (state: State) => getAdsState(state).lastSuccessLoad;
-
+export const getShouldShowSpinner = (state: State) => getAdsState(state).shouldShowSpinner;
 export const getInfos = (state: State) => state.infos;

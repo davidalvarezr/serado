@@ -5,7 +5,7 @@ import {PositionService} from '../../services/position.service';
 import {AdService} from '../../services/ad.service';
 import {Store} from '@ngrx/store';
 import {AppState, PositionState} from '../../ngx-store/reducers';
-import {listsSelectors, positionSelectors} from '../../ngx-store/selectors';
+import {appSelectors, listsSelectors, positionSelectors} from '../../ngx-store/selectors';
 import {Observable, Subscription} from 'rxjs';
 import {PositionActions} from '../../ngx-store/actions';
 import {HttpClient} from '@angular/common/http';
@@ -37,6 +37,9 @@ export class AdListPage implements OnInit, AfterViewInit, OnDestroy {
     alslSub: Subscription;
 
     resumeSub: Subscription;
+
+    shouldShowSpinner = true;
+    sssSub: Subscription;
 
     constructor(private positionService: PositionService,
                 private storage: Storage,
@@ -77,7 +80,10 @@ export class AdListPage implements OnInit, AfterViewInit, OnDestroy {
         );
         this.resumeSub = this.platform.resume.subscribe(
           _ => {
-              this.checkTimeAndLoad();
+              setTimeout(() => {
+                  this.checkTimeAndLoad();
+
+              }, 100);
           }
         );
     }
@@ -115,6 +121,8 @@ export class AdListPage implements OnInit, AfterViewInit, OnDestroy {
         this.alslSub.unsubscribe();
         this.alSub.unsubscribe();
         this.resumeSub.unsubscribe();
+        this.sssSub.unsubscribe();
+        console.error('AdListPage destroyed');
     }
 
     private async showAlertTellingWhyPositionIsNeededIfFirstTime(): Promise<void> {
@@ -140,11 +148,18 @@ export class AdListPage implements OnInit, AfterViewInit, OnDestroy {
                 adsLastSuccededLoad => { this.adsLastSuccededLoad = adsLastSuccededLoad; }
             );
         this.asSub = this.adsState$.subscribe(adsState => this.adsState = adsState);
+
+        this.sssSub = this.store.select<boolean>(appSelectors.shoulShowSpinner).subscribe(
+            shouldShowSpinner => {
+                console.log('shouldShowSpinner:', shouldShowSpinner);
+                this.shouldShowSpinner = shouldShowSpinner;
+            }
+        );
         this.checkTimeAndLoad();
     }
 
     private checkTimeAndLoad() {
-        if (Date.now() - this.adsLastSuccededLoad > 30 * 60 * 1000)  { // 10 seconds
+        if (Date.now() - this.adsLastSuccededLoad > 10 * 1000)  { // 10 seconds
             this.store.dispatch(PositionActions.LOAD_POSITION_FOR_LIST());
         }
 

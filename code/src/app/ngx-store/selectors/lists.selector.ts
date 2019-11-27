@@ -26,4 +26,5 @@ export const getAdListSorted = createSelector(
 export const getAdsLoading = createSelector(getListsState, fromLists.getAdsLoading);
 export const getAdsLoaded = createSelector(getListsState, fromLists.getAdsLoaded);
 export const getAdsLastSuccededLoad = createSelector(getListsState, fromLists.getAdsLastSuccededLoad);
+export const getShouldShowAdSpinner = createSelector(getListsState, fromLists.getShouldShowSpinner)
 

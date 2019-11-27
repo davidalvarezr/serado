@@ -41,7 +41,7 @@ export const metaReducers: MetaReducer<any>[] = [debug];
         AppRoutingModule,
         HttpClientModule, // HTTP (web)
         EffectsModule.forRoot([]),
-        StoreModule.forRoot({ lists: fromLists.reducer, position: fromPosition.reducer}), // ngrx-store {metaReducers}
+        StoreModule.forRoot({ lists: fromLists.reducer, position: fromPosition.reducer}, {metaReducers}), // ngrx-store {metaReducers}
         EffectsModule.forFeature(effects),
         StoreDevtoolsModule.instrument({
             maxAge: 100

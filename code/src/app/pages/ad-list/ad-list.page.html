@@ -13,13 +13,19 @@
 
     <!--    Show refresher only if nothing is loading-->
     <ion-refresher
-            [disabled]="(positionState && positionState.loading) || (adsState && (adsState.loading || adsState.isFindingCoordinates || adsState.isAddingDistances))"
+            [disabled]="shouldShowSpinner"
             (ionRefresh)="doRefresh($event)"
             slot="fixed">
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
 
-    <div *ngIf="(positionState && positionState.loading) || (adsState && (adsState.loading || adsState.isFindingCoordinates || adsState.isAddingDistances))"
+    <div>
+        <p>
+            shouldShowSpinner: {{shouldShowSpinner}}
+        </p>
+    </div>
+
+    <div *ngIf="shouldShowSpinner"
          class="container">
         <div class="vertical-center">
             <p>
@@ -31,6 +37,6 @@
     <app-toast #errorToast type="error"></app-toast>
     <app-toast #infoToast></app-toast>
 
-    <app-ad-list *ngIf="adList.length || !(positionState && positionState.loading) || (adsState && (adsState.loading || adsState.isFindingCoordinates || adsState.isAddingDistances))" [ads]="adList"></app-ad-list>
+    <app-ad-list *ngIf="!shouldShowSpinner" [ads]="adList"></app-ad-list>
 
 </ion-content>
