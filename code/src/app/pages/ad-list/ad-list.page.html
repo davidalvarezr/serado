@@ -13,7 +13,7 @@
 
     <!--    Show refresher only if nothing is loading-->
     <ion-refresher
-            [disabled]="shouldShowSpinner"
+            [disabled]="shouldShowSpinner$ | async"
             (ionRefresh)="doRefresh($event)"
             slot="fixed">
         <ion-refresher-content></ion-refresher-content>
@@ -21,11 +21,11 @@
 
     <div>
         <p>
-            shouldShowSpinner: {{shouldShowSpinner}}
+            shouldShowSpinner: {{shouldShowSpinner$ | async}}
         </p>
     </div>
 
-    <div *ngIf="shouldShowSpinner"
+    <div *ngIf="shouldShowSpinner$ | async"
          class="container">
         <div class="vertical-center">
             <p>
@@ -37,6 +37,6 @@
     <app-toast #errorToast type="error"></app-toast>
     <app-toast #infoToast></app-toast>
 
-    <app-ad-list *ngIf="!shouldShowSpinner" [ads]="adList"></app-ad-list>
+    <app-ad-list *ngIf="!(shouldShowSpinner$ | async)" [ads]="adList$ | async"></app-ad-list>
 
 </ion-content>
