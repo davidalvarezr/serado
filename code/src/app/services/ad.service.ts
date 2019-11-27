@@ -78,14 +78,21 @@ export class AdService {
     }
 
     private transform(json: any[]): Ad[] {
-        return json.map((elt: any) => ({
-            id: elt.id,
-            title: this.invert_escape_html(elt.title.rendered),
-            location: elt.fields._job_location,
-            contract: '',
-            beginning: '',
-            coordinates: null,
-        }));
+        return json.map((elt: any) => {
+            // console.log('elt.content.rendered', elt.content.rendered)
+            const elements = this.getElementsFromHTML(elt.content.rendered);
+
+            // console.log('elements', elements);
+
+            return {
+                id: elt.id,
+                title: this.invert_escape_html(elt.title.rendered),
+                location: elt.fields._job_location,
+                contract: elements[1].description,
+                beginning: elements[4].description,
+                coordinates: null,
+            };
+        });
     }
 
     private invert_escape_html(str) {
