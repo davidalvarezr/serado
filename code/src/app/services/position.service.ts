@@ -147,11 +147,12 @@ export class PositionService {
         let dist = 9999999;
         try {
             // @ts-ignore
-            dist = google.maps.geometry.spherical.computeDistanceBetween(fromFunc, toFunc);
+            // dist = google.maps.geometry.spherical.computeDistanceBetween(fromFunc, toFunc);
         } catch (error) {
             console.error(error);
         }
-        return dist;
+        // TODO: uncomment dist (4 lines above) and return it. I did that to stop using API quota when testing
+        return 0;
     }
 
     private getGeolocationFromAddress(address: string): Observable<any> {

@@ -1,20 +1,25 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
+
+// 1) Try with lazy loaded and import modules
 const routes: Routes = [
   {
     path: '',
     redirectTo: 'ad-list',
     pathMatch: 'full'
   },
-  { path: 'ad-list', loadChildren: './pages/ad-list/ad-list.module#AdListPageModule' },
-  { path: 'ad-list/:id', loadChildren: './pages/ad-infos/ad-infos.module#AdInfosPageModule' },
-  { path: 'partners', loadChildren: './pages/partners/partners.module#PartnersPageModule' }
+  { path: 'ad-list', loadChildren: () => import('./pages/ad-list/ad-list.module').then(mod => mod.AdListPageModule) },
+  { path: 'ad-list/:id', loadChildren: () => import('./pages/ad-infos/ad-infos.module').then(mod => mod.AdInfosPageModule)},
+  { path: 'partners', loadChildren: () => import('./pages/partners/partners.module').then(mod => mod.PartnersPageModule) }
 ];
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
+    RouterModule.forRoot(routes, {
+      // preloadingStrategy: PreloadAllModules,
+      // enableTracing: true,
+    })
   ],
   exports: [RouterModule]
 })

@@ -1,3 +1,4 @@
 <div>
+  <!-- same route (.) with `ad.id` as a parameter -->
   <app-ad-cell *ngFor="let ad of ads" [ad]="ad" [routerLink]="['.', ad.id]"></app-ad-cell>
 </div>
