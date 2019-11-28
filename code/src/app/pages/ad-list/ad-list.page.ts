@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, NgZone, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Ad} from '../../models/Models';
 import {Storage} from '@ionic/storage';
 import {PositionService} from '../../services/position.service';
@@ -42,7 +42,8 @@ export class AdListPage implements OnInit, AfterViewInit, OnDestroy {
                 private jobsService: AdService,
                 private alertCtrl: AlertController,
                 private store: Store<AppState>,
-                private platform: Platform) {
+                private platform: Platform,
+                private ngZone: NgZone) {
     }
 
     ngOnInit() {
@@ -53,13 +54,9 @@ export class AdListPage implements OnInit, AfterViewInit, OnDestroy {
         this.lastSuccededLoad.sub = this.store.pipe(select(listsSelectors.getAdsLastSuccededLoad)).subscribe(
             val => this.lastSuccededLoad.val = val
         );
-        this.resumeSub = this.platform.resume.subscribe(
-            _ => {
-                setTimeout(() => {
-                    this.checkTimeAndLoad();
-
-                }, 100);
-            }
+        this.resumeSub = this.platform.resume.subscribe(() => this.ngZone.run(() => {
+                this.checkTimeAndLoad();
+            })
         );
 
         // TODO: unsubscribe
