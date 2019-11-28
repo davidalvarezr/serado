@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
-import {catchError, map, mergeMap, tap} from 'rxjs/operators';
-import {of, zip} from 'rxjs';
+import {catchError, delay, map, mergeMap, switchMap} from 'rxjs/operators';
+import {Observable, of, timer, zip} from 'rxjs';
 import {ListsActions} from '../actions';
 import {AdService} from '../../services/ad.service';
 import {Ad, AdsSort, LatLng} from '../../models/Models';
@@ -39,12 +39,40 @@ export class ListsEffects {
     findCoordinates$ = createEffect(() => this.actions$.pipe(
         ofType(ListsActions.FIND_COORDINATES),
         mergeMap(({ads, sort}) => {
-            const arrayOfObs = [];
+
+            // const arrayOfObs: Observable<any>[][] = [];
+            const arrayOfObs: Observable<any>[] = [];
+            // const allRes = [];
 
             // Find the coordinates of each ad
+            /*for (let i = 0; i < ads.length; i++) {
+                arrayOfObs[i / 10].push(this.positionService.checkIfGeolocaIsStorageOrGetItFromAPI(`${ads[i].id}`, ads[i].location));
+            }*/
             for (const ad of ads) {
                 arrayOfObs.push(this.positionService.checkIfGeolocaIsStorageOrGetItFromAPI(`${ad.id}`, ad.location));
             }
+
+
+            // of(arrayOfObs).pipe(
+            //     // We have each group of ten and we delay them
+            //     switchMap(groupOfTen => of(groupOfTen).pipe(delay(1100))),
+            //     // find the coordinates for the group of ten and add it to all res
+            //     map((groupOfTenRetarded) => zip(...groupOfTenRetarded).pipe(
+            //         map(
+            //             (arrayOfResponses: any) => {
+            //                 allRes.push(arrayOfResponses);
+            //                 // return ListsActions.FIND_COORDINATES_SUCCESS({ads, sort});
+            //             }
+            //         ),
+            //         catchError(error => {
+            //             console.error(error);
+            //             return of(ListsActions.FIND_COORDINATES_FAILURE({ads, error: 'Les coordonnées n\'ont pas été trouvées'}));
+            //         }),
+            //     )),
+            // );
+            //
+            // return of(ListsActions.FIND_COORDINATES_SUCCESS({ads, sort}));
+
             return zip(...arrayOfObs).pipe(
                 map(
                     (arrayOfResponses: any) => {
@@ -82,10 +110,6 @@ export class ListsEffects {
 
         }),
     ));
-
-
-
-
 
 
     constructor(

@@ -6,11 +6,12 @@ import {AdService} from '../../services/ad.service';
 import {select, Store} from '@ngrx/store';
 import {AppState} from '../../ngx-store/reducers';
 import {appSelectors, listsSelectors, routerSelectors} from '../../ngx-store/selectors';
-import {Observable, Subscription} from 'rxjs';
+import {Observable, of, Subscription} from 'rxjs';
 import {PositionActions} from '../../ngx-store/actions';
 import {ToastComponent} from '../../components/toast/toast.component';
 import {AlertController, Platform} from '@ionic/angular';
 import {Router} from '@angular/router';
+import {debounceTime} from 'rxjs/operators';
 
 @Component({
     selector: 'app-ad-list-page',
@@ -64,14 +65,25 @@ export class AdListPage implements OnInit, AfterViewInit, OnDestroy {
         this.currentUrl.sub = this.store.pipe(select(routerSelectors.currentUrl)).subscribe(
             val => this.currentUrl.val = val
         );
+
+        // resume only happen on mobile
+        // This code will assure to not trigger LOAD_POSITION more than one time, because when the app is launched for the first time, a
+        // native alert is displayed which cause a resume event (and we don't want it)
         this.resumeSub = this.platform.resume.subscribe(() => {
-            // alert('current page :' + this.currentUrl.val);
-            // Only check the time when currently viewing this page (because this page stays alive when consulting one ad info)
-            if (this.currentUrl.val === '/ad-list') {
-                this.ngZone.run(() => {
-                    this.checkTimeAndLoad();
+            console.error('APP RESUMED');
+            this.storage.get('trueIfAlreadyResumed')
+                .then(trueIfAlreadyResumed => {
+                    if (trueIfAlreadyResumed === true) {
+                        // Only check the time when currently viewing this page (because this page stays alive when consulting one ad info)
+                        if (this.currentUrl.val === '/ad-list') {
+                            this.ngZone.run(() => {
+                                this.checkTimeAndLoad();
+                            });
+                        }
+                    }
+                    this.storage.set('trueIfAlreadyResumed', true);
                 });
-            }
+            // alert('current page :' + this.currentUrl.val);
         });
 
 
@@ -113,10 +125,10 @@ export class AdListPage implements OnInit, AfterViewInit, OnDestroy {
         this.storage.get('trueIfAlreadyInit').then(trueIfAlreadyInit => {
             if (!trueIfAlreadyInit) {
                 this.showAlert().then(() => {
-                    this.initialize();
+                    this.checkTimeAndLoad();
                 });
             } else {
-                this.initialize();
+                this.checkTimeAndLoad();
             }
         });
     }
@@ -130,30 +142,22 @@ export class AdListPage implements OnInit, AfterViewInit, OnDestroy {
     }
 
     doRefresh($event: any) {
+        console.log('Calling LOAD_POSITION_FOR_LIST since doRefresh');
         this.store.dispatch(PositionActions.LOAD_POSITION_FOR_LIST());
         setTimeout(() => {
             $event.detail.complete();
         }, 10);
     }
 
-    private async showAlertTellingWhyPositionIsNeededIfFirstTime(): Promise<void> {
-        const trueIfAlreadyInit = await this.storage.get('trueIfAlreadyInit');
-        if (trueIfAlreadyInit) {
-            return;
-        }
-        const str = 'Serado Annonces a besoin de votre position afin de vous montrer les offres le splus proches de chez vous';
-        alert(str);
-        await this.storage.set('trueIfAlreadyInit', true);
-    }
-
-    private initialize() {
-        this.checkTimeAndLoad();
-    }
-
     private checkTimeAndLoad() {
         if (Date.now() - this.lastSuccededLoad.val > 10 * 1000) { // 10 seconds
-            this.store.dispatch(PositionActions.LOAD_POSITION_FOR_LIST());
+            console.log('Calling LOAD_POSITION_FOR_LIST since checkTimeAndLoad');
+            of(this.store.dispatch(PositionActions.LOAD_POSITION_FOR_LIST()))
+                .pipe(debounceTime(5000))
+                .subscribe(
+                    _ => {},
+                    error => console.error(error),
+                );
         }
-
     }
 }

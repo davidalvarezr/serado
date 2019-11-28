@@ -32,8 +32,9 @@
     "@ngrx/router-store": "^8.5.2",
     "@ngrx/store": "^8.5.1",
     "@types/googlemaps": "^3.38.0",
-    "cordova-android": "^8.0.0",
+    "cordova-android": "^8.1.0",
     "cordova-android-support-gradle-release": "^3.0.1",
+    "cordova-ios": "^5.1.0",
     "cordova-plugin-advanced-http": "^2.2.0",
     "cordova-plugin-android-permissions": "^1.0.2",
     "cordova-plugin-androidx": "^1.0.2",
@@ -106,7 +107,8 @@
       "cordova-plugin-androidx-adapter": {}
     },
     "platforms": [
-      "android"
+      "android",
+      "ios"
     ]
   }
 }
