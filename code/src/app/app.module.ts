@@ -20,6 +20,7 @@ import {EffectsModule} from '@ngrx/effects';
 import {AndroidPermissions} from '@ionic-native/android-permissions/ngx';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import {effects} from './ngx-store/effects';
+import {routerReducer, StoreRouterConnectingModule} from '@ngrx/router-store';
 
 export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
   return function(state, action) {
@@ -41,7 +42,8 @@ export const metaReducers: MetaReducer<any>[] = [debug];
         AppRoutingModule,
         HttpClientModule, // HTTP (web)
         EffectsModule.forRoot([]),
-        StoreModule.forRoot({ lists: fromLists.reducer, position: fromPosition.reducer}, {metaReducers}), // ngrx-store {metaReducers}
+        StoreModule.forRoot({ router: routerReducer, lists: fromLists.reducer, position: fromPosition.reducer}, {metaReducers}), // ngrx-store {metaReducers}
+        StoreRouterConnectingModule.forRoot(),
         EffectsModule.forFeature(effects),
         StoreDevtoolsModule.instrument({
             maxAge: 100

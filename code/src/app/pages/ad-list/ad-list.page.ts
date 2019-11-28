@@ -5,7 +5,7 @@ import {PositionService} from '../../services/position.service';
 import {AdService} from '../../services/ad.service';
 import {select, Store} from '@ngrx/store';
 import {AppState} from '../../ngx-store/reducers';
-import {appSelectors, listsSelectors} from '../../ngx-store/selectors';
+import {appSelectors, listsSelectors, routerSelectors} from '../../ngx-store/selectors';
 import {Observable, Subscription} from 'rxjs';
 import {PositionActions} from '../../ngx-store/actions';
 import {ToastComponent} from '../../components/toast/toast.component';
@@ -30,7 +30,13 @@ export class AdListPage implements OnInit, AfterViewInit, OnDestroy {
         val: 0,
         sub: null,
     };
-
+    currentUrl: {
+        val: string,
+        sub: Subscription,
+    } = {
+        val: '/ad-list',
+        sub: null,
+    };
     resumeSub: Subscription;
 
     shouldShowSpinner$: Observable<boolean>;
@@ -44,8 +50,7 @@ export class AdListPage implements OnInit, AfterViewInit, OnDestroy {
                 private alertCtrl: AlertController,
                 private store: Store<AppState>,
                 private platform: Platform,
-                private ngZone: NgZone,
-                private router: Router) {
+                private ngZone: NgZone) {
     }
 
     ngOnInit() {
@@ -56,11 +61,17 @@ export class AdListPage implements OnInit, AfterViewInit, OnDestroy {
         this.lastSuccededLoad.sub = this.store.pipe(select(listsSelectors.getAdsLastSuccededLoad)).subscribe(
             val => this.lastSuccededLoad.val = val
         );
+        this.currentUrl.sub = this.store.pipe(select(routerSelectors.currentUrl)).subscribe(
+            val => this.currentUrl.val = val
+        );
         this.resumeSub = this.platform.resume.subscribe(() => {
-            // alert('current page :' + this.router.getCurrentNavigation().extractedUrl);
-            this.ngZone.run(() => {
-                this.checkTimeAndLoad();
-            });
+            // alert('current page :' + this.currentUrl.val);
+            // Only check the time when currently viewing this page (because this page stays alive when consulting one ad info)
+            if (this.currentUrl.val === '/ad-list') {
+                this.ngZone.run(() => {
+                    this.checkTimeAndLoad();
+                });
+            }
         });
 
 
@@ -114,6 +125,7 @@ export class AdListPage implements OnInit, AfterViewInit, OnDestroy {
     ngOnDestroy(): void {
         this.resumeSub.unsubscribe();
         this.lastSuccededLoad.sub.unsubscribe();
+        this.currentUrl.sub.unsubscribe();
         console.error('AdListPage destroyed');
     }
 
