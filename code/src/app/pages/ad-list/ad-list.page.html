@@ -19,12 +19,6 @@
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
 
-    <div>
-        <p>
-            shouldShowSpinner: {{shouldShowSpinner$ | async}}
-        </p>
-    </div>
-
     <div *ngIf="shouldShowSpinner$ | async"
          class="container">
         <div class="vertical-center">
