@@ -10,6 +10,7 @@ import {Observable, Subscription} from 'rxjs';
 import {PositionActions} from '../../ngx-store/actions';
 import {ToastComponent} from '../../components/toast/toast.component';
 import {AlertController, Platform} from '@ionic/angular';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-ad-list-page',
@@ -43,7 +44,8 @@ export class AdListPage implements OnInit, AfterViewInit, OnDestroy {
                 private alertCtrl: AlertController,
                 private store: Store<AppState>,
                 private platform: Platform,
-                private ngZone: NgZone) {
+                private ngZone: NgZone,
+                private router: Router) {
     }
 
     ngOnInit() {
@@ -54,10 +56,13 @@ export class AdListPage implements OnInit, AfterViewInit, OnDestroy {
         this.lastSuccededLoad.sub = this.store.pipe(select(listsSelectors.getAdsLastSuccededLoad)).subscribe(
             val => this.lastSuccededLoad.val = val
         );
-        this.resumeSub = this.platform.resume.subscribe(() => this.ngZone.run(() => {
+        this.resumeSub = this.platform.resume.subscribe(() => {
+            // alert('current page :' + this.router.getCurrentNavigation().extractedUrl);
+            this.ngZone.run(() => {
                 this.checkTimeAndLoad();
-            })
-        );
+            });
+        });
+
 
         // TODO: unsubscribe
         this.errorMsg$.subscribe(
