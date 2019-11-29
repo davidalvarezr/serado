@@ -159,7 +159,6 @@ export class PositionService {
                 subscriber.error(error);
             }
         }).pipe(
-            tap(console.log),
             map((res: any) => {
                 if (!res.length) {
                     return null;
