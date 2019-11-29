@@ -1,0 +1,17 @@
+ion-content {
+  div {
+    padding: 20px;
+  }
+}
+
+//https://css-tricks.com/centering-css-complete-guide/#center-vertically
+.container {
+  height: 100%;
+  position: relative;
+}
+.vertical-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

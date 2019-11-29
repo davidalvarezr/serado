@@ -6,12 +6,13 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'ad-list',
+    redirectTo: 'infos',
     pathMatch: 'full'
   },
   { path: 'ad-list', loadChildren: () => import('./pages/ad-list/ad-list.module').then(mod => mod.AdListPageModule) },
-  { path: 'ad-list/:id', loadChildren: () => import('./pages/ad-infos/ad-infos.module').then(mod => mod.AdInfosPageModule)},
-  { path: 'partners', loadChildren: () => import('./pages/partners/partners.module').then(mod => mod.PartnersPageModule) }
+  { path: 'ad-list/:id', loadChildren: () => import('./pages/ad-infos/ad-infos.module').then(mod => mod.AdInfosPageModule) },
+  { path: 'partners', loadChildren: () => import('./pages/partners/partners.module').then(mod => mod.PartnersPageModule) },
+  { path: 'infos', loadChildren: () => import('./pages/infos/infos.module').then(mod => mod.InfosPageModule) }
 ];
 
 @NgModule({

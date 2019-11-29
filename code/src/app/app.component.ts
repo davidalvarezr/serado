@@ -26,6 +26,11 @@ export class AppComponent {
             title: 'Partenaires',
             url: '/partners',
             icon: 'people',
+        },
+        {
+            title: 'Informations',
+            url: '/infos',
+            icon: 'information-circle-outline',
         }
     ];
 

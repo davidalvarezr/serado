@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      Informations générales
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="loading"
+       class="container">
+    <div class="vertical-center">
+      <p>
+        <ion-spinner></ion-spinner>
+      </p>
+    </div>
+  </div>
+  <div *ngIf="!loading" [innerHTML]="infos"></div>
+
+</ion-content>
