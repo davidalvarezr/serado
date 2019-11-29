@@ -150,8 +150,8 @@ export class AdListPage implements OnInit, AfterViewInit, OnDestroy {
     }
 
     private checkTimeAndLoad() {
-        if (Date.now() - this.lastSuccededLoad.val > 10 * 1000) { // 10 seconds
-            console.log('Calling LOAD_POSITION_FOR_LIST since checkTimeAndLoad');
+        if (Date.now() - this.lastSuccededLoad.val > 30 * 60 * 1000) { // 30 min
+            // console.log('Calling LOAD_POSITION_FOR_LIST since checkTimeAndLoad');
             of(this.store.dispatch(PositionActions.LOAD_POSITION_FOR_LIST()))
                 .pipe(debounceTime(5000))
                 .subscribe(

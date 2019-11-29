@@ -19,7 +19,7 @@ export class InfosPage implements OnInit {
         this.loading = true;
         this.infosService.getInfos().subscribe(
             res => {
-                console.log(res);
+                // console.log(res);
                 this.infos = res;
                 this.loading = false;
             });
