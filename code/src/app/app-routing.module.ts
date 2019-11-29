@@ -6,7 +6,7 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'infos',
+    redirectTo: 'ad-list',
     pathMatch: 'full'
   },
   { path: 'ad-list', loadChildren: () => import('./pages/ad-list/ad-list.module').then(mod => mod.AdListPageModule) },

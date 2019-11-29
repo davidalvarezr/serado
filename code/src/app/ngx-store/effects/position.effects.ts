@@ -30,7 +30,8 @@ export class PositionEffects {
                     loading: false,
                     loaded: res !== 'NOT_AVAILABLE' && res !== 'NOT_GRANTED',
                     isAvailable: res !== 'NOT_AVAILABLE' && res !== 'NOT_GRANTED',
-                    error: null,
+                    error: res === 'NOT_AVAILABLE' ? 'Position indisponible' :
+                        (res === 'NOT_GRANTED' ? 'Vous avez refusé l\'accès à votre positions' : null),
                     hasPermission: res !== 'NOT_GRANTED',
                 };
 
@@ -50,14 +51,14 @@ export class PositionEffects {
         map(() => ListsActions.LOAD_ADS({sort: AdsSort.POSITION_ASC})),
         // FIXME: I think this is impossible that an error happens here ?!
         catchError(error => { console.error(error); return of(error); })
-    ))
+    ));
 
     loadPositionFailure$ = createEffect(() => this.actions$.pipe(
         ofType(PositionActions.LOAD_POSITION_FAILURE),
         map(() => ListsActions.LOAD_ADS({sort: AdsSort.NONE})),
         // FIXME: I think this is impossible that an error happens here ?!
         catchError(error => { console.error('ERROR', error); return of(error); })
-    ))
+    ));
 
     constructor(
         private actions$: Actions,
