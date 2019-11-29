@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
-import {catchError, delay, map, mergeMap, switchMap} from 'rxjs/operators';
-import {Observable, of, timer, zip} from 'rxjs';
+import {catchError, map, mergeMap, timeout} from 'rxjs/operators';
+import {Observable, of, zip} from 'rxjs';
 import {ListsActions} from '../actions';
 import {AdService} from '../../services/ad.service';
 import {Ad, AdsSort, LatLng} from '../../models/Models';
@@ -9,6 +9,7 @@ import {PositionService} from '../../services/position.service';
 import {Store} from '@ngrx/store';
 import {AppState} from '../reducers';
 import {positionSelectors} from '../selectors';
+import {timeouts} from '../../../environments/timeouts';
 
 @Injectable()
 export class ListsEffects {
@@ -21,6 +22,7 @@ export class ListsEffects {
                     return ListsActions.LOAD_ADS_SUCCESS({ads, sort});
                     // return ListsActions.FIND_COORDINATES({ads, sort});
                 }),
+            timeout(timeouts.loadAds),
             catchError(error => {
                 console.error(error);
                 return of(ListsActions.LOAD_ADS_FAILURE({error: 'Les offres d\'emploi n\'ont pas pu être chargées'}));
@@ -82,6 +84,7 @@ export class ListsEffects {
                         return ListsActions.FIND_COORDINATES_SUCCESS({ads, sort});
                     }
                 ),
+                timeout(timeouts.findCoordinates),
                 catchError(error => {
                     console.error(error);
                     return of(ListsActions.FIND_COORDINATES_FAILURE({ads, error: 'Les coordonnées n\'ont pas été trouvées'}));
@@ -125,7 +128,6 @@ export class ListsEffects {
                     lng: coords.longitude,
                 };
             }
-
         });
     }
 }

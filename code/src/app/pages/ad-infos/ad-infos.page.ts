@@ -7,6 +7,7 @@ import {listsSelectors, positionSelectors} from '../../ngx-store/selectors';
 import {AppState} from '../../ngx-store/reducers';
 import {Coordinates} from '@ionic-native/geolocation';
 import {map, switchMap} from 'rxjs/operators';
+import {Platform} from '@ionic/angular';
 
 @Component({
     selector: 'app-ad-infos',
@@ -20,15 +21,18 @@ export class AdInfosPage implements OnInit {
     loading = false;
     adPosition: LatLng;
     currentPosition?: Coordinates;
+    backButtonText: any;
 
     constructor(
         private store: Store<AppState>,
         private adService: AdService,
         private route: ActivatedRoute,
+        private platform: Platform,
     ) {
     }
 
     ngOnInit() {
+        this.backButtonText = this.platform.is('ios') ? 'Retour' : '';
         this.route.paramMap.pipe(
             map((params: ParamMap) => {
                 this.adId = +params.get('id');

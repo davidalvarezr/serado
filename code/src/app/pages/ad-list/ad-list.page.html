@@ -33,4 +33,6 @@
 
     <app-ad-list *ngIf="!(shouldShowSpinner$ | async)" [ads]="adList$ | async"></app-ad-list>
 
+    <p *ngIf="!(shouldShowSpinner$ | async) && (adList$ | async).length === 0" class="emptyMsg">Aucune annonce trouvée. Swipez vers le bas pour recharger la liste</p>
+
 </ion-content>

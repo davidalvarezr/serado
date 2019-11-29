@@ -6,7 +6,7 @@ import {AdService} from '../../services/ad.service';
 import {select, Store} from '@ngrx/store';
 import {AppState} from '../../ngx-store/reducers';
 import {appSelectors, listsSelectors, routerSelectors} from '../../ngx-store/selectors';
-import {Observable, of, Subscription} from 'rxjs';
+import {Observable, of, Subscription, timer} from 'rxjs';
 import {PositionActions} from '../../ngx-store/actions';
 import {ToastComponent} from '../../components/toast/toast.component';
 import {AlertController, Platform} from '@ionic/angular';
@@ -151,12 +151,11 @@ export class AdListPage implements OnInit, AfterViewInit, OnDestroy {
 
     private checkTimeAndLoad() {
         if (Date.now() - this.lastSuccededLoad.val > 30 * 60 * 1000) { // 30 min
-            // console.log('Calling LOAD_POSITION_FOR_LIST since checkTimeAndLoad');
             of(this.store.dispatch(PositionActions.LOAD_POSITION_FOR_LIST()))
                 .pipe(debounceTime(5000))
                 .subscribe(
                     _ => {},
-                    error => console.error(error),
+                    error => { console.error(error); },
                 );
         }
     }

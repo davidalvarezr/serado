@@ -17,6 +17,7 @@ export class ToastComponent implements OnInit {
       message: msg,
       duration: 2000,
       color: this.type === 'error' ? 'danger' : 'dark',
+      position: this.type === 'error' ? 'top' : 'bottom',
     });
     toast.present();
   }

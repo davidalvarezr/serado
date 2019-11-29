@@ -1,14 +1,15 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
 import {LatLng} from '../../models/Models';
 // @ts-ignore
 import maps = google.maps;
+import {MapInitService} from '../../services/map-init.service';
 
 @Component({
     selector: 'app-google-maps',
     templateUrl: './google-maps.component.html',
     styleUrls: ['./google-maps.component.scss'],
 })
-export class GoogleMapsComponent implements OnInit {
+export class GoogleMapsComponent implements OnInit, AfterViewInit {
 
     @Input('adPosition') adPosition: LatLng;
     @Input('currentPosition') currentPosition?: Coordinates;
@@ -31,7 +32,7 @@ export class GoogleMapsComponent implements OnInit {
     };
 
 
-    constructor() {}
+    constructor(private mapInitService: MapInitService) {}
 
 
     // It seems that by default, on Android, user has to interact with the map to have it loaded
@@ -39,13 +40,17 @@ export class GoogleMapsComponent implements OnInit {
 
     ngOnInit() {
         if (this.adPosition) {
-
             this.map = new maps.Map(document.getElementById('map'), {
                 // ~Center of Switzerland : 46.853906, 8.245431
                 center: {lat: 46.853906, lng: 8.245431},
                 zoom: 10,
                 disableDefaultUI: true,
             });
+        }
+    }
+
+    ngAfterViewInit(): void {
+        if (this.adPosition) {
             this.markers = [];
 
             this.addMarker(this.adPosition);
@@ -63,7 +68,6 @@ export class GoogleMapsComponent implements OnInit {
                 this.map.setCenter(new maps.LatLng(this.adPosition.lat, this.adPosition.lng));
                 this.map.setZoom(10);
             }
-
         }
     }
 

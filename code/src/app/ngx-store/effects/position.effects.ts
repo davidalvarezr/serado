@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
-import {catchError, map, mergeMap} from 'rxjs/operators';
+import {catchError, map, mergeMap, timeout} from 'rxjs/operators';
 import {PositionFactoryService} from '../../models/permissionsFactory/position-factory.service';
 import {IPositionCrossPlatform} from '../../models/permissionsFactory/IPositionCrossPlatform';
 import {from, of} from 'rxjs';
@@ -9,6 +9,7 @@ import {PositionResponse} from '../../models/permissionsFactory/PositionResponse
 import * as fromPosition from '../reducers/position.reducer.js';
 import {ListsActions, PositionActions} from '../actions';
 import {AdsSort} from '../../models/Models';
+import {timeouts} from '../../../environments/timeouts';
 
 @Injectable()
 export class PositionEffects {
@@ -39,6 +40,7 @@ export class PositionEffects {
                     positionReducerState,
                 });
             }),
+            timeout(timeouts.loadPosition),
             catchError(error => {
                 console.error('ERROR', error);
                 return of(PositionActions.LOAD_POSITION_FAILURE({error: 'Position indisponible'}));
