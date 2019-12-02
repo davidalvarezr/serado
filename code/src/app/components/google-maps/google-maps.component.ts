@@ -11,8 +11,8 @@ import {MapInitService} from '../../services/map-init.service';
 })
 export class GoogleMapsComponent implements OnInit, AfterViewInit {
 
-    @Input('adPosition') adPosition: LatLng;
-    @Input('currentPosition') currentPosition?: Coordinates;
+    @Input() adPosition: LatLng;
+    @Input() currentPosition?: Coordinates;
 
     private map: maps.Map;
     private markers: maps.Marker[];
@@ -32,42 +32,48 @@ export class GoogleMapsComponent implements OnInit, AfterViewInit {
     };
 
 
-    constructor(private mapInitService: MapInitService) {}
+    constructor() {}
 
 
     // It seems that by default, on Android, user has to interact with the map to have it loaded
 
 
     ngOnInit() {
-        if (this.adPosition) {
-            this.map = new maps.Map(document.getElementById('map'), {
-                // ~Center of Switzerland : 46.853906, 8.245431
-                center: {lat: 46.853906, lng: 8.245431},
-                zoom: 10,
-                disableDefaultUI: true,
-            });
-        }
+
     }
 
     ngAfterViewInit(): void {
         if (this.adPosition) {
-            this.markers = [];
 
-            this.addMarker(this.adPosition);
-            // console.log('currentPosition', this.currentPosition);
-            // console.log('adPosition', this.adPosition);
-            if (this.currentPosition !== null) {
-                // const GeoMarker = new GeolocationMarker(this.map);
-                this.addCurrentLocationMarker({lat: this.currentPosition.latitude, lng: this.currentPosition.longitude})
-                this.addMarker({lat: 46.2037506, lng: 6.1615178});
-                this.markers[this.markers.length - 1].setVisible(false);
-                setTimeout(() => {
-                    this.boundToMarkers();
-                }, 1);
-            } else {
-                this.map.setCenter(new maps.LatLng(this.adPosition.lat, this.adPosition.lng));
-                this.map.setZoom(10);
-            }
+            setTimeout(() => {
+                this.map = new maps.Map(document.getElementById('map'), {
+                    // ~Center of Switzerland : 46.853906, 8.245431
+                    center: {lat: 46.853906, lng: 8.245431},
+                    zoom: 10,
+                    disableDefaultUI: true,
+                });
+
+                this.markers = [];
+
+                this.addMarker(this.adPosition);
+                // console.log('currentPosition', this.currentPosition);
+                // console.log('adPosition', this.adPosition);
+                if (this.currentPosition !== null) {
+                    // const GeoMarker = new GeolocationMarker(this.map);
+                    this.addCurrentLocationMarker({lat: this.currentPosition.latitude, lng: this.currentPosition.longitude})
+                    this.addMarker({lat: 46.2037506, lng: 6.1615178});
+                    this.markers[this.markers.length - 1].setVisible(false);
+                    setTimeout(() => {
+                        this.boundToMarkers();
+                    }, 1);
+                } else {
+                    this.map.setCenter(new maps.LatLng(this.adPosition.lat, this.adPosition.lng));
+                    this.map.setZoom(10);
+                }
+
+            }, 10 );
+
+
         }
     }
 
