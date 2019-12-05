@@ -26,7 +26,6 @@ export function debug(reducer: ActionReducer<any>): ActionReducer<any> {
   return function(state, action) {
     console.log('state', state);
     console.log('action', action);
-
     return reducer(state, action);
   };
 }
@@ -42,7 +41,7 @@ export const metaReducers: MetaReducer<any>[] = [debug];
         AppRoutingModule,
         HttpClientModule, // HTTP (web)
         EffectsModule.forRoot([]),
-        StoreModule.forRoot({ router: routerReducer, lists: fromLists.reducer, position: fromPosition.reducer}, {metaReducers}), // ngrx-store {metaReducers}
+        StoreModule.forRoot({ router: routerReducer, lists: fromLists.reducer, position: fromPosition.reducer} ), // ngrx-store {metaReducers}
         StoreRouterConnectingModule.forRoot(),
         EffectsModule.forFeature(effects),
         StoreDevtoolsModule.instrument({
