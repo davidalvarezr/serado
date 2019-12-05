@@ -350,20 +350,6 @@ dans l'ordre:
 Ces actions correspondes à des actions \textit{NgRx} et peuvent être trouvée dans le dossier
 \verb|ngx-store/actions|.
 
-\subsection{Actions}
-Afin de modifier l'état global de l'application, nous allons devoir \textit{dispatcher}
-des actions. Les voici (les parenthèses à côté de l'action indique le \textit{payload}):
-\begin{itemize}
-    \item \verb|LOAD_ADS|
-    \item \verb|LOAD_ADS_SUCCESS|
-    \item \verb|LOAD_ADS_FAILURE|
-    \item \verb|SORT_ADS (sort)|
-    \item \verb|LOAD_INFOS|
-    \item \verb|LOAD_INFOS_SUCCESS|
-    \item \verb|LOAD_INFOS_FAILURE|
-    \item \verb|SET_POSITION (position)|
-\end{itemize}
-
 \section{Paramètres de l'application}
 Il n'y aura qu'un seul paramètre:
 \begin{itemize}
@@ -392,6 +378,78 @@ plateforme où nous nous trouvons.
 Un \textit{HttpInterceptor} sera aussi utilisé pour simuler les requêtes HTTP,
 en attendant de maîtriser la génération (ou quelque chose à voir) d'API depuis
 \textit{WordPress}.
+
+\chapter{Déploiement}
+
+Les déploiement consiste à faire passer les applications de l'état de développement
+à l'état de production.
+
+\section{Informations de connexion \& informations générales}
+\begin{description}
+    \item[Google Maps API] \verb|serado.dev@gmail.com : <mot de passe google>|
+    \item[Android developer] \verb|serado.dev@gmail.com : <mot de passe google>|
+    \item[Apple developer program] \verb|reception@serado.ch : <mot de passe du compte apple>| 
+    \item[D-U-N-S (numéro d'identification de l'entreprise)] 481938681
+\end{description}
+
+Les mots de passes sont connus de l'entreprise.
+
+\section{Sécurisation des Maps API Key}\label{sec:api_key}
+Afin d'éviter une utilisation de la API Key non autorisée, il faut restreindre
+l'utilisation de la clé aux appareils autorisés:
+\begin{enumerate}
+    \item Se rendre sur \url{https://console.cloud.google.com}\label{cloud}
+    \item Sur la gauche, \verb|API et Services|
+    \item Sur la gauche, \verb|Identifiants|
+\end{enumerate}
+Ici sont représentées les clés. Il y en une pour l'application Android ainsi qu'une
+autre pour l'application iOS.
+
+\section{Surveillances des coûts}
+L'utilisation des services Google Maps est gratuite jusqu'à un certain montant.
+Vous pouvez surveiller ce montant à partir de \url{https://console.cloud.google.com}.
+
+\section{Stores}
+Cette section détaille la mise sur les stores (Play Store \& App Store).
+
+\subsection{Android} \label{sec:android}
+Dans un premier temps, il s'agira de créer une APK signée.
+\begin{verbatim}
+    ionic cordova build android --prod --release
+\end{verbatim}
+Cette commande permet de gérer une APK non signée. Voir le contenu du dossier
+\verb|serado_keystore| (\verb|readme.txt|) pour voir comment signer l'APK.
+
+Ce dossier se trouve dans le compte Google Drive du compte
+\url{serado.dev@gmail.com}
+
+\begin{enumerate}
+    \item Création d'un compte Android Developer (25\$)
+    \item Remplissage de tous les champs nécessaires (à gauche)\label{all_fileds}
+    \item Importer l'APK signée
+\end{enumerate}
+
+\textbf{Si l'application doit être mise à jour, il faut que la nouvelle version de
+l'application soit signée avec le contenu du dossier} \verb|serado_keystore|
+
+\subsection{iOS}
+Pour générer l'application:
+\begin{verbatim}
+    ionic cordova prepare ios
+\end{verbatim}
+
+\begin{enumerate}
+    \item Obtention du numéro D-U-N-S
+    \item Création du compte Apple Developer Program
+\end{enumerate}
+
+\section{Aide}
+
+\begin{itemize}
+    \item Changer la description, l'image ou les captures d'écran de l'application
+    $\rightarrow$ pt. \ref{all_fileds} de la section \ref{sec:android}
+    \item Regarder les coûts actuels de l'API Google Maps $\rightarrow$ pt. \ref{cloud} de la section \ref{sec:api_key}
+\end{itemize}
 
 \end{document}
 
