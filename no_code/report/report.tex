@@ -425,7 +425,7 @@ Il semblerait qu'il est difficile, voir presque impossible, de sécuriser une \t
 
 Pour ces raisons les clé ne seront pas sécurisées. En effet, le risque que quelqu'un
 intercepte la clé puis vole du quota est trop faible par rapport au travail nécessaire
-afin de sécuriser la clé. De plus le compte est mode \textbf{gratuit}, donc aucun
+afin de sécuriser la clé. De plus, le compte est mode \textbf{gratuit}, donc il n'y a aucun
 risque financier. 
 
 \section{Surveillances des coûts}
@@ -440,7 +440,7 @@ Dans un premier temps, il s'agira de créer une APK signée.
 \begin{verbatim}
     ionic cordova build android --prod --release
 \end{verbatim}
-Cette commande permet de gérer une APK non signée. Voir le contenu du dossier
+Cette commande permet de gérer une APK en mode production non signée. Voir le contenu du dossier
 \verb|serado_keystore| (\verb|readme.txt|) pour voir comment signer l'APK.
 
 Ce dossier se trouve dans le compte Google Drive du compte
@@ -473,6 +473,34 @@ Pour générer l'application:
     $\rightarrow$ pt. \ref{all_fileds} de la section \ref{sec:android}
     \item Regarder les coûts actuels de l'API Google Maps $\rightarrow$ pt. \ref{cloud} de la section \ref{sec:api_key}
 \end{itemize}
+
+
+\chapter{Améliorations possibles et problèmes rencontrés}
+
+\section{Améliorations possible}
+
+\subsection{Stockage de toutes les données}
+Au départ, il semblait que l'API \textbf{WP Job Manager} avait deux \textit{endpoints},
+qui retournaient chacun des informations différentes. \`A cause de cela, j'effectue:
+\begin{enumerate}
+    \item Une requ\^ete pour récupérer la list des offres d'emploi
+    \item Une autre requ\^ete pour récupérer les détails d'une offre d'emploi
+\end{enumerate}
+Il s'avère que la requ\^ete 1 récupère aussi toutes les informations de toutes les
+offres d'emploi. Si l'on sauvegardait directement toutes ces informations dans le téléphone,
+on n'aurait pas besoin d'utiliser la requ\^ete n\degree2
+
+\section{Problèmes rencontrés}
+
+\subsection{Limitation due à l'API Google}
+L'API Google accepte un maximum de 10 requ\^etes par seconde. Le problème,
+c'est que l'application envoie, lorsqu'elle recherche les coodonnées GPS des lieux 
+des offres d'emploi, le m\^eme nombre de requ\^ete qu'il y a d'offre d'emploi. Ce
+problème fait que seules les 10 premières annonces sont triées selon la position.
+Les annonces suivantes sont triées lorsque l'écran est rafra\^ichit.
+
+Par exemple, s'il y a 20 annonces il faudra effectuer un \textit{Pull to refresh }
+afin de charger les 10 annonces qui n'ont pas pu \^etre triées initialiement.
 
 \end{document}
 
