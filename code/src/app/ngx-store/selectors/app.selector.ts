@@ -41,8 +41,10 @@ export const info = createSelector(
         if (adsState.isFindingCoordinates) {
             return 'Recherche des coordonéées à partir des adresses...';
         }
+
+        // When the message below is not displayed anymore, it means that the selector is sorting the ads.
         if (adsState.isAddingDistances) {
-            return 'Calcul des distances en cours...';
+            return 'Coordonnées trouvées, calcul des distances en cours...';
         }
         return null;
     }

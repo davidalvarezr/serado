@@ -59,14 +59,10 @@ export class PositionService {
             this.storage.get(adId)
                 .then((adGeoloc: any) => {
 
-                    // console.log('STATE OF THE MAPPING THE FIRST TIME', adIdsMapToGeolocs);
 
                     if (adGeoloc === null) {
                         console.log('FETCHING FROM API WITH ID', adId);
-                        // ++this.counter;
-                        // if (this.counter > 9) {
-                        //     setTimeout(() => {
-                                this.getGeolocationFromAddress(address)
+                        this.getGeolocationFromAddress(address)
                                     .subscribe(                          // Get geoloc form API,
                                         latLng => {
                                             this.storage.set(adId, {str: address, val: latLng});              // add it in local storage and
@@ -79,9 +75,6 @@ export class PositionService {
                                             subscriber.complete();
                                         }
                                     );
-                                // this.counter = 0;
-                            // }, 1100);
-                        // }
                     } else {    // Here, the structure exists and the key as well
                         subscriber.next(adGeoloc.val);
                         subscriber.complete();

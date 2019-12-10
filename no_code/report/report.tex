@@ -80,6 +80,11 @@ et consulter les \textbf{informations générales} et leurs détails.
     \label{fig:use_case_diagram}
 \end{figure}
 
+Finalement, la cas d'utilisation \textbf{Insérer/modifier/supprimer une info générale} 
+a été implémentée à partir de \textit{WordPress}. Les informations de cette page sont
+disponibles à l'adresse \url{https://serado.ch/info-appli/} et sont modifiables à
+partir de l'espace administrateur.
+
 \subsection{Analyse de l'existant}
 
 Le cas d'utilisation \textbf{Insérer/modifier/supprimer} existe déjà et il est
@@ -111,11 +116,15 @@ Autrement il faudrait créer un autre sytème entier uniquement pour cela, ce qu
 pas rentable. Cette fonctionnalité pourra être effectuée à partir de la deuxième semaine
 (18.11.2019) du projet, lorsque la personne qui gère \textit{WordPress} sera disponible.
 
+
 Pour résumer, il faudrait utiliser \textit{WordPress} pour le cas d'utilisation
 \textbf{Insérer/modifier/supprimer une info générale} et voir s'il est possible de
 créer une API qui renvoie uniquement les données demandées (et non pas toute la
 page HTML).
 
+\textbf{Finalement, il était impossible de récupérer les informations des offres d'emploi
+au format JSON, il a fallu \textit{parser} le HTML récupéré. En fait l'APi fournit un
+JSON contenant un champs HTML contenant les informations d'une annonce}
 
 \section{Choix des technologies}
 
@@ -156,9 +165,9 @@ Afin d'afficher une \textit{map} (carte), l'API de google sera utilisée:
 pouvoir l'utiliser, il faudra rentrer un numéro de carte de crédit. L'utilisation
 de l'API est gratuite: \url{https://cloud.google.com/maps-platform/pricing/sheet/}. 
 
-ATTENTION: pendant la première année un crédit de 300\$/mois est offert pour
+ATTENTION: pendant la première année un crédit de 300\$ est offert pour
 l'utilisation des services, ce qui devrait être suffisant pour l'entreprise, en
-partant du principe qu'il n'y aura pas énormément d'utilisateur. Il me semble
+partant du principe qu'il n'y aura pas énormément d'utilisateurs. Il me semble
 qu'après cette année, certains services sont restreints, voir: 
 \url{https://cloud.google.com/free/docs/gcp-free-tier}.
 
@@ -175,7 +184,12 @@ appelée une fois par annonce par utilisateur. La \textbf{Maps JavaScript API} q
 à elle est beaucoup utilisée. Elle est appelée à chaque fois qu'un utilisateur
 clique sur une annonce.
 
-Si il s'avère que l'utilisation gratuite est dépassée à cause de cela, je propose
+\textbf{Exemple}\\
+Si 300 utilisateurs utilisent l'application pendant un mois et qu'ils chargent 100
+annonces, 300'000 ($300 \times 100$) requ\^etes seront traitées par l'API \textbf{Geocoding},
+en partant du principe qu'ils ne désinstallent/réinstallent pas l'application
+
+S'il s'avère que l'utilisation gratuite est dépassée à cause de cela, je propose
 deux solutions:
 \begin{enumerate}
     \item Payer pour l'API et regarder les frais sur un mois, et, continuer ainsi selon les frais.
@@ -185,7 +199,7 @@ La dernière option permet seulement d'afficher une map avec un seul marqueur. O
 perdrait alors la fonctionnalité qui permettait à l'utilisateur de voir à la fois
 sa position et celle de l'annonce sur la carte.
 
-Voir ce lien pour les autre soptimisations possibles: \url{https://developers.google.com/maps/optimization-guide}
+Voir ce lien pour les autres optimisations possibles: \url{https://developers.google.com/maps/optimization-guide}
 
 \subsubsection{WP Job Manager}
 
@@ -202,7 +216,7 @@ Les liens ci-dessus ont été trouvés à l'adresse suivante: \url{https://githu
 \subsection{Déploiement}
 
 Le framework \textit{Ionic} permettra de créer les exécutables (\verb|.apk| et
-\verb|.app|). Il faudra ensuite les mettre dans leur store respectif 
+\verb|.ipa|). Il faudra ensuite les mettre dans leur store respectif 
 \textit{Play Store} et \textit{App Store} afin que les futurs utilisateurs puissent
 la télécharger. Pour ce faire, voici la procédure:
 \begin{description}
@@ -297,6 +311,9 @@ Les maquettes sont des fichiers au format \verb|pdf| dans le dossier
 Il est préférable d'ouvrir directement le fichier \verb|pdf| afin de mieux voir
 chacun des écrans.
 
+\textbf{Finalement, la partie \textit{Paramètres} ne sera pas implémentée. L'utilisateur
+peut modifier les autorisations des applications à partir de ses paramètres généraux}
+
 \section{Traitement des listes}
 Vu que le nombre maximal d'objet dans une liste est d'environ 50 (50 annonces).
 Nous pouvons récupérer directement tous les éléments de la liste à partir de la base
@@ -350,14 +367,6 @@ dans l'ordre:
 Ces actions correspondes à des actions \textit{NgRx} et peuvent être trouvée dans le dossier
 \verb|ngx-store/actions|.
 
-\section{Paramètres de l'application}
-Il n'y aura qu'un seul paramètre:
-\begin{itemize}
-    \item Activer/désactiver la localisation
-\end{itemize}
-Ceci permettra à l'utilisateur qui avec refuser l'accès à sa localisation de
-l'autoriser plus tard s'il le souhaite.
-
 \section{Requêtes HTTP}
 Puisque l'application sera disponible à partir d'applications mobiles et du web,
 il va falloir traiter les requêtes HTTP différemment:
@@ -384,11 +393,16 @@ en attendant de maîtriser la génération (ou quelque chose à voir) d'API depu
 Les déploiement consiste à faire passer les applications de l'état de développement
 à l'état de production.
 
+Pour l'application \textit{Android}, c'est simple, il suffit d'utiliser le compte
+\verb|serado.dev@gmail.com|. Pour l'application \textit{iOS}, se rendre sur le compte
+\verb|reception@serado.ch|. Puis ajouter un membre à l'équipe, qui aura le r\^ole de
+développeur.
+
 \section{Informations de connexion \& informations générales}
 \begin{description}
     \item[Google Maps API] \verb|serado.dev@gmail.com : <mot de passe google>|
     \item[Android developer] \verb|serado.dev@gmail.com : <mot de passe google>|
-    \item[Apple developer program] \verb|reception@serado.ch : <mot de passe du compte apple>| 
+    \item[Apple developer program] \verb|reception@serado.ch : <mot de passe google>| 
     \item[D-U-N-S (numéro d'identification de l'entreprise)] 481938681
 \end{description}
 
@@ -403,7 +417,16 @@ l'utilisation de la clé aux appareils autorisés:
     \item Sur la gauche, \verb|Identifiants|
 \end{enumerate}
 Ici sont représentées les clés. Il y en une pour l'application Android ainsi qu'une
-autre pour l'application iOS.
+autre pour l'application \textit{iOS}.
+
+Selon \url{https://forum.ionicframework.com/t/security-concern-cant-restrict-api-access-while-using-googlemaps-browser-api-in-ionic-apps/129577/7},
+Il semblerait qu'il est difficile, voir presque impossible, de sécuriser une \textbf{Maps
+ Javascript API} qui est utilisée à partir d'une application mobile.
+
+Pour ces raisons les clé ne seront pas sécurisées. En effet, le risque que quelqu'un
+intercepte la clé puis vole du quota est trop faible par rapport au travail nécessaire
+afin de sécuriser la clé. De plus le compte est mode \textbf{gratuit}, donc aucun
+risque financier. 
 
 \section{Surveillances des coûts}
 L'utilisation des services Google Maps est gratuite jusqu'à un certain montant.

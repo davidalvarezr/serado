@@ -45,6 +45,8 @@ export class AdListPage implements OnInit, AfterViewInit, OnDestroy {
     errorMsg$: Observable<any>;
     infoMsg$: Observable<string>;
 
+    infoText: string;
+
     constructor(private positionService: PositionService,
                 private storage: Storage,
                 private jobsService: AdService,
@@ -98,6 +100,7 @@ export class AdListPage implements OnInit, AfterViewInit, OnDestroy {
         this.infoMsg$.subscribe(
             infoMsg => {
                 if (infoMsg !== null) {
+                    this.infoText = infoMsg;
                     this.infoToast.presentToast(infoMsg);
                 }
             }
@@ -142,7 +145,7 @@ export class AdListPage implements OnInit, AfterViewInit, OnDestroy {
     }
 
     doRefresh($event: any) {
-        console.log('Calling LOAD_POSITION_FOR_LIST since doRefresh');
+        // console.log('Calling LOAD_POSITION_FOR_LIST since doRefresh');
         this.store.dispatch(PositionActions.LOAD_POSITION_FOR_LIST());
         setTimeout(() => {
             $event.detail.complete();

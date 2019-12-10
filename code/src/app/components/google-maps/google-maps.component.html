@@ -1,1 +1,5 @@
-<div id="map"></div>
+<div *ngIf="adPosition" id="map"></div>
+
+<div *ngIf="!adPosition" id="errorMsg">
+    La position de l'offre d'emploi n'est pas disponible
+</div>
